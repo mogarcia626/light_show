@@ -1,0 +1,19 @@
+@import url(modal.css);
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background-color: #2b2727;
+    width: 100vw;
+    height: 100vh;
+    padding: 0;
+    margin: 0;
+}
+
+canvas {
+    align-self: center;
+    padding: 0;
+    margin: 0;
+}

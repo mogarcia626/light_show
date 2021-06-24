@@ -219,14 +219,14 @@ document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("close-modal").addEventListener('click', function () {
     document.getElementById("welcome-modal").style.display = "none";
     var canvasEl = (0,_scripts_canvas__WEBPACK_IMPORTED_MODULE_1__.default)(this.className);
+  }); // Add event listener for `click` events.
+
+  document.querySelector('canvas').addEventListener('click', function (event) {
+    var context = this.getContext('2d');
+    var x = this.offsetLeft + this.clientLeft;
+    var y = this.offsetTop + this.clientTop;
+    console.log("x:".concat(event.pageX - x, "  y:").concat(event.pageY - y));
   });
-  console.log(document.querySelector('canvas').innerHTML); // document.getElementById('canvas').addEventListener('click', () => {
-  //     console.log(this)
-  //     const rect = this.getBoundingClientRect();
-  //     const x = event.clientX - rect.left
-  //     const y = event.clientY - rect.top
-  //     console.log("x: " + x + " y: " + y)
-  // })
 });
 })();
 

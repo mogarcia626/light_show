@@ -44,9 +44,25 @@ export default class BayCanvas {
 
         // SF hills
         ctx.beginPath();
-        ctx.arc(0.169*w, 2.396*h, 1.24*w, 1.45*Math.PI, 1.52*Math.PI, false);
-        ctx.lineTo(0.3*w, 0.19*h)
-        ctx.lineTo(0.32*w, 0.2*h)
+        ctx.moveTo(0, 0.215*h);
+        ctx.lineTo(0.01*w, 0.215*h)
+        ctx.lineTo(0.02*w, 0.205*h)
+        ctx.lineTo(0.025*w, 0.205*h)
+        ctx.lineTo(0.035*w, 0.216*h)
+        ctx.lineTo(0.12*w, 0.205*h)
+        ctx.lineTo(0.125*w, 0.21*h)
+        ctx.lineTo(0.138*w, 0.205*h)
+        ctx.lineTo(.15*w, 0.19*h)
+        ctx.lineTo(0.168*w, 0.207*h)
+        ctx.lineTo(0.18*w, 0.205*h)
+        ctx.lineTo(0.193*w, 0.191*h)
+        ctx.lineTo(0.205*w, 0.194*h)
+        ctx.lineTo(0.21*w, 0.2*h)
+        ctx.lineTo(0.24*w, 0.205*h)
+        ctx.lineTo(0.254*w, 0.18*h)
+        ctx.lineTo(0.281*w, 0.185*h)
+        ctx.lineTo(0.297*w, 0.17*h)
+        ctx.lineTo(0.328*w, 0.205*h)
         ctx.lineTo(0.335*w, 0.2*h)
         ctx.lineTo(0.398*w, 0.237*h)
         ctx.arc(0.423*w, 0.381*h, .085*w, 1.41*Math.PI, 1.65*Math.PI, false);

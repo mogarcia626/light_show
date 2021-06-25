@@ -62,9 +62,25 @@ var BayCanvas = /*#__PURE__*/function () {
       ctx.fill(); // SF hills
 
       ctx.beginPath();
-      ctx.arc(0.169 * w, 2.396 * h, 1.24 * w, 1.45 * Math.PI, 1.52 * Math.PI, false);
-      ctx.lineTo(0.3 * w, 0.19 * h);
-      ctx.lineTo(0.32 * w, 0.2 * h);
+      ctx.moveTo(0, 0.215 * h);
+      ctx.lineTo(0.01 * w, 0.215 * h);
+      ctx.lineTo(0.02 * w, 0.205 * h);
+      ctx.lineTo(0.025 * w, 0.205 * h);
+      ctx.lineTo(0.035 * w, 0.216 * h);
+      ctx.lineTo(0.12 * w, 0.205 * h);
+      ctx.lineTo(0.125 * w, 0.21 * h);
+      ctx.lineTo(0.138 * w, 0.205 * h);
+      ctx.lineTo(.15 * w, 0.19 * h);
+      ctx.lineTo(0.168 * w, 0.207 * h);
+      ctx.lineTo(0.18 * w, 0.205 * h);
+      ctx.lineTo(0.193 * w, 0.191 * h);
+      ctx.lineTo(0.205 * w, 0.194 * h);
+      ctx.lineTo(0.21 * w, 0.2 * h);
+      ctx.lineTo(0.24 * w, 0.205 * h);
+      ctx.lineTo(0.254 * w, 0.18 * h);
+      ctx.lineTo(0.281 * w, 0.185 * h);
+      ctx.lineTo(0.297 * w, 0.17 * h);
+      ctx.lineTo(0.328 * w, 0.205 * h);
       ctx.lineTo(0.335 * w, 0.2 * h);
       ctx.lineTo(0.398 * w, 0.237 * h);
       ctx.arc(0.423 * w, 0.381 * h, .085 * w, 1.41 * Math.PI, 1.65 * Math.PI, false);
@@ -110,7 +126,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_canvas */ "./src/scripts/bay_canvas.js");
+/* harmony import */ var _projectile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectile */ "./src/scripts/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
+
+
+var COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold'];
 
 function CanvasDisplay(background) {
   var canvas = document.querySelector('canvas');
@@ -127,11 +148,164 @@ function CanvasDisplay(background) {
       bg = new _bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
   }
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
   bg.drawOnCanvas(ctx);
+  var objects = [];
+  setInterval(function () {
+    objects.push(new _projectile__WEBPACK_IMPORTED_MODULE_1__.default({
+      pos: [canvas.width * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), canvas.height * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.3) + 0.4)],
+      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
+      acc: -0.01,
+      color: COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(COLORS.length)]
+    }));
+  }, 100);
+  setInterval(function () {
+    var removeObjects = [];
+    bg.drawOnCanvas(ctx);
+    objects.forEach(function (firework, i) {
+      firework.draw(ctx);
+      firework.move();
+
+      if (firework.vel[1] > 0.25) {
+        removeObjects.push(i);
+      }
+    });
+    removeObjects.forEach(function (idx) {
+      delete objects[idx];
+    });
+  }, 1000 / 60);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
+
+/***/ }),
+
+/***/ "./src/scripts/projectile.js":
+/*!***********************************!*\
+  !*** ./src/scripts/projectile.js ***!
+  \***********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Projectile = /*#__PURE__*/function () {
+  function Projectile(props) {
+    _classCallCheck(this, Projectile);
+
+    this.pos = props.pos;
+    this.vel = props.vel;
+    this.acc = props.acc;
+    this.color = props.color;
+    this.gravity = 0.098;
+    this.radius = 0.5;
+    this.prevPos = [];
+    this.trailLength = 20;
+  }
+
+  _createClass(Projectile, [{
+    key: "draw",
+    value: function draw(ctx) {
+      var _this = this;
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
+      ctx.fill();
+      this.prevPos.forEach(function (trail, i) {
+        ctx.beginPath();
+        ctx.arc(trail[0], trail[1], _this.radius * i / _this.trailLength, 0, 2 * Math.PI);
+        ctx.fill();
+      });
+    }
+  }, {
+    key: "move",
+    value: function move() {
+      this.prevPos.push(this.pos);
+      if (this.prevPos.length > this.trailLength) this.prevPos.shift();
+      this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
+      this.vel[1] = this.vel[1] + this.acc;
+      this.acc = Math.min(this.acc + 0.0005, this.gravity);
+    }
+  }]);
+
+  return Projectile;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Projectile);
+
+/***/ }),
+
+/***/ "./src/scripts/utils.js":
+/*!******************************!*\
+  !*** ./src/scripts/utils.js ***!
+  \******************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "randInt": () => (/* binding */ randInt),
+/* harmony export */   "rand": () => (/* binding */ rand),
+/* harmony export */   "dir": () => (/* binding */ dir),
+/* harmony export */   "dist": () => (/* binding */ dist),
+/* harmony export */   "norm": () => (/* binding */ norm),
+/* harmony export */   "randomVec": () => (/* binding */ randomVec),
+/* harmony export */   "scale": () => (/* binding */ scale),
+/* harmony export */   "inherits": () => (/* binding */ inherits)
+/* harmony export */ });
+function randInt(num) {
+  return Math.floor(Math.random() * num);
+}
+function rand() {
+  var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
+  return Math.random() * num;
+} // Normalize the length of the vector to 1, maintaining direction.
+
+function dir(vec) {
+  var norm = norm(vec);
+  return Util.scale(vec, 1 / norm);
+}
+; // Find distance between two points.
+
+function dist(pos1, pos2) {
+  return Math.sqrt(Math.pow(pos1[0] - pos2[0], 2) + Math.pow(pos1[1] - pos2[1], 2));
+}
+; // Find the length of the vector.
+
+function norm(vec) {
+  return dist([0, 0], vec);
+}
+; // Return a randomly oriented vector with the given length.
+
+function randomVec(length) {
+  var deg = 2 * Math.PI * Math.random();
+  return scale([Math.sin(deg), Math.cos(deg)], length);
+}
+; // Scale the length of a vector by the given amount.
+
+function scale(vec, m) {
+  return [vec[0] * m, vec[1] * m];
+}
+;
+function inherits(ChildClass, BaseClass) {
+  ChildClass.prototype = Object.create(BaseClass.prototype);
+  ChildClass.prototype.constructor = ChildClass;
+}
+; // export function wrap(coord, max) {
+//     if (coord < 0) {
+//         return max - (coord % max);
+//     } else if (coord > max) {
+//         return coord % max;
+//     } else {
+//         return coord;
+//     }
+// }
 
 /***/ }),
 
@@ -216,16 +390,17 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   //Close Welcome Modal and fill out Canvas with background of choice
-  document.getElementById("close-modal").addEventListener('click', function () {
-    document.getElementById("welcome-modal").style.display = "none";
-    var canvasEl = (0,_scripts_canvas__WEBPACK_IMPORTED_MODULE_1__.default)(this.className);
-  }); // Add event listener for `click` events.
+  // document.getElementById("close-modal").addEventListener('click', function() {        
+  //     document.getElementById("welcome-modal").style.display="none";
+  var canvasEl = (0,_scripts_canvas__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas'); // })    
+  // Add event listener for `click` events.
 
-  document.querySelector('canvas').addEventListener('click', function (event) {
+  var cv = document.querySelector('canvas');
+  cv.addEventListener('click', function (event) {
     var context = this.getContext('2d');
     var x = this.offsetLeft + this.clientLeft;
     var y = this.offsetTop + this.clientTop;
-    console.log("x:".concat(event.pageX - x, "  y:").concat(event.pageY - y));
+    console.log("x:".concat((event.pageX - x) / this.width, "  y:").concat((event.pageY - y) / this.height));
   });
 });
 })();

@@ -1,5 +1,8 @@
- import BayCanvas from './bay_canvas'
+ import BayCanvas from './bay_canvas';
+ import Projectile from './projectile';
+ import {randInt, rand} from './utils';
  
+ const COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold']
  function CanvasDisplay(background) {
 
     const canvas = document.querySelector('canvas');
@@ -13,8 +16,40 @@
             bg = new BayCanvas();
         default: bg = new BayCanvas();
     } 
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
     bg.drawOnCanvas(ctx)
+    const objects = []
+
+    setInterval( () => {
+        objects.push(new Projectile( {
+            pos: [canvas.width*rand(), canvas.height*(rand(0.3)+0.4)],
+            vel: [rand(0.5)-0.25, -0.5],
+            acc: -0.01,
+            color: COLORS[randInt(COLORS.length)]
+
+        }))
+
+    }, 100)  
+    
+    setInterval( () => {
+        const removeObjects = []
+        bg.drawOnCanvas(ctx)
+        
+        objects.forEach((firework, i) => {
+            firework.draw(ctx)
+            firework.move()
+
+           if (firework.vel[1] > 0.25) {
+               removeObjects.push(i)
+           }           
+        });
+        
+        removeObjects.forEach((idx) => {
+            delete objects[idx]
+        })
+    }, 1000/60)
+
+
 }
 
 export default CanvasDisplay

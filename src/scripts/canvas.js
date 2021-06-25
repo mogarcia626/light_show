@@ -39,9 +39,16 @@
             firework.draw(ctx)
             firework.move()
 
-           if (firework.vel[1] > 0.25) {
-               removeObjects.push(i)
-           }           
+            switch (firework.getName()) {
+                case 'Projectile':
+                    if (firework.vel[1] > 0.25) {
+                        removeObjects.push(i)
+                    } 
+            
+                default:
+                    break;
+            }
+                     
         });
         
         removeObjects.forEach((idx) => {

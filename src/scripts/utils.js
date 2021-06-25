@@ -6,7 +6,11 @@ export function rand(num = 1) {
     return Math.random() * num
 }
 
-
+Object.prototype.getName = function() { 
+   var funcNameRegex = /function (.{1,})\(/;
+   var results = (funcNameRegex).exec((this).constructor.toString());
+   return (results && results.length > 1) ? results[1] : "";
+};
 // Normalize the length of the vector to 1, maintaining direction.
 export function dir(vec) {
     const norm = norm(vec);

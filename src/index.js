@@ -1,5 +1,6 @@
 import "./styles/index.scss";
 import CanvasDisplay from './scripts/canvas'
+import Peony from './scripts/peony'
 
 
 document.addEventListener("DOMContentLoaded", function() {      
@@ -18,7 +19,15 @@ document.addEventListener("DOMContentLoaded", function() {
         console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
     })
 
-    
+    peny = new Peony({
+            pos: [cv.width/2, cv.height*.8],
+            vel: [0, -2],
+            acc: -0.01,
+            color: 'gold'
+        });
+    peny.test()
+
+
 
 
 

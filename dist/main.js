@@ -2,10 +2,10 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
-/***/ "./src/scripts/bay_canvas.js":
-/*!***********************************!*\
-  !*** ./src/scripts/bay_canvas.js ***!
-  \***********************************/
+/***/ "./src/scripts/bay_area/bay_canvas.js":
+/*!********************************************!*\
+  !*** ./src/scripts/bay_area/bay_canvas.js ***!
+  \********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -115,23 +115,106 @@ var BayCanvas = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/scripts/canvas.js":
-/*!*******************************!*\
-  !*** ./src/scripts/canvas.js ***!
-  \*******************************/
+/***/ "./src/scripts/bay_area/bay_canvas_launch.js":
+/*!***************************************************!*\
+  !*** ./src/scripts/bay_area/bay_canvas_launch.js ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ launchBayCanvas)
+/* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../projectiles/peony */ "./src/scripts/projectiles/peony.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+
+
+
+function launchBayCanvas(bg, ctx, w, h) {
+  var objects = [];
+  var removeObjects = [];
+  var newFireworks = [];
+  var fac3d;
+  setInterval(function () {
+    objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.3) + 0.35)],
+      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
+      acc: -0.01,
+      color: _utils__WEBPACK_IMPORTED_MODULE_2__.COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(_utils__WEBPACK_IMPORTED_MODULE_2__.COLORS.length)]
+    }));
+  }, 1500);
+  setInterval(function () {
+    objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.06) + 0.25)],
+      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
+      acc: -0.008,
+      color: _utils__WEBPACK_IMPORTED_MODULE_2__.COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(_utils__WEBPACK_IMPORTED_MODULE_2__.COLORS.length)]
+    }));
+  }, 2500);
+  setInterval(function () {
+    newFireworks = [];
+    bg.drawOnCanvas(ctx);
+    objects.forEach(function (firework, i) {
+      firework.draw(ctx);
+      firework.move();
+
+      switch (firework.getName()) {
+        case 'Projectile':
+          if (firework.vel[1] > 0) {
+            if (firework.pos[1] < 0.4 * h) {
+              fac3d = 6;
+            } else {
+              fac3d = 1;
+            }
+
+            objects[i] = new _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__.default({
+              pos: firework.pos,
+              vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)() * 0.1 + 0.2) / fac3d,
+              color: firework.color,
+              radius: firework.radius,
+              trailLength: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(20) + 10
+            });
+          }
+
+          break;
+
+        case 'Peony':
+          if (firework.time > 500) {
+            removeObjects.push(i);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    });
+    removeObjects.forEach(function (idx) {
+      delete objects[idx];
+    });
+    removeObjects = [];
+    objects = objects.cleanArray();
+    objects.concat(newFireworks);
+  }, _utils__WEBPACK_IMPORTED_MODULE_2__.FPS);
+}
+
+/***/ }),
+
+/***/ "./src/scripts/canvas_display.js":
+/*!***************************************!*\
+  !*** ./src/scripts/canvas_display.js ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_canvas */ "./src/scripts/bay_canvas.js");
-/* harmony import */ var _projectile__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectile */ "./src/scripts/projectile.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
+/* harmony import */ var _bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bay_area/bay_canvas_launch */ "./src/scripts/bay_area/bay_canvas_launch.js");
 
 
-
-var COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold'];
 
 function CanvasDisplay(background) {
   var canvas = document.querySelector('canvas');
@@ -142,113 +225,119 @@ function CanvasDisplay(background) {
 
   switch (background) {
     case 'bay-area-canvas':
-      bg = new _bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+      bg.drawOnCanvas(ctx);
+      (0,_bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__.default)(bg, ctx, canvas.width, canvas.height);
 
     default:
-      bg = new _bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
   }
-
-  bg.drawOnCanvas(ctx);
-  var objects = [];
-  setInterval(function () {
-    objects.push(new _projectile__WEBPACK_IMPORTED_MODULE_1__.default({
-      pos: [canvas.width * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), canvas.height * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.3) + 0.4)],
-      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
-      acc: -0.01,
-      color: COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(COLORS.length)]
-    }));
-  }, 100);
-  setInterval(function () {
-    var removeObjects = [];
-    bg.drawOnCanvas(ctx);
-    objects.forEach(function (firework, i) {
-      firework.draw(ctx);
-      firework.move();
-
-      switch (firework.getName()) {
-        case 'Projectile':
-          if (firework.vel[1] > 0.25) {
-            removeObjects.push(i);
-          }
-
-        default:
-          break;
-      }
-    });
-    removeObjects.forEach(function (idx) {
-      delete objects[idx];
-    });
-  }, 1000 / 60);
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
 
 /***/ }),
 
-/***/ "./src/scripts/peony.js":
-/*!******************************!*\
-  !*** ./src/scripts/peony.js ***!
-  \******************************/
+/***/ "./src/scripts/projectiles/peony.js":
+/*!******************************************!*\
+  !*** ./src/scripts/projectiles/peony.js ***!
+  \******************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectile */ "./src/scripts/projectile.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
-var Peony = /*#__PURE__*/function (_Projectile) {
-  _inherits(Peony, _Projectile);
+var Peony = /*#__PURE__*/function () {
+  function Peony(props) {
+    var _this = this;
 
-  var _super = _createSuper(Peony);
-
-  function Peony() {
     _classCallCheck(this, Peony);
 
-    return _super.call(this);
+    this.pos = props.pos;
+    this.vel = props.vel;
+    this.color = props.color;
+    this.radius = props.radius || 0.5;
+    this.trailLength = props.trailLength || 15;
+    this.smokeLength = props.smokeLength || 10;
+    this.time = 0;
+    var particleVectors = [];
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.circleVectorArray)(props.vel * 1.25, 3).forEach(function (vel) {
+      particleVectors.push({
+        vel: vel,
+        pos: _this.pos,
+        prevPos: [],
+        smokePos: []
+      });
+    });
+    this.particleVectors = particleVectors;
   }
 
   _createClass(Peony, [{
-    key: "test",
-    value: function test() {
-      console.log(this.props);
+    key: "draw",
+    value: function draw(ctx) {
+      var _this2 = this;
+
+      this.particleVectors.forEach(function (particle) {
+        //Spearhead of projectile
+        ctx.fillStyle = _this2.color;
+        ctx.beginPath();
+        ctx.arc(particle.pos[0], particle.pos[1], _this2.radius, 0, 2 * Math.PI);
+        ctx.fill(); //Trail
+
+        particle.prevPos.forEach(function (trail, i) {
+          ctx.beginPath();
+          ctx.arc(trail[0], trail[1], _this2.radius * i / _this2.trailLength, 0, 2 * Math.PI);
+          ctx.fill();
+        }); //Smoke trail
+        // particle.smokePos.forEach((smoke, i) => {
+        //     ctx.fillStyle = 'grey'
+        //     ctx.beginPath();
+        //     ctx.arc(smoke[0], smoke[1], this.radius*i/this.smokeLength, 0, 2 * Math.PI);
+        //     ctx.fill(); 
+        // });
+      });
+    }
+  }, {
+    key: "move",
+    value: function move() {
+      var _this3 = this;
+
+      this.particleVectors.forEach(function (particle) {
+        particle.prevPos.push(particle.pos);
+
+        if (particle.prevPos.length > _this3.trailLength) {
+          particle.smokePos.push(particle.prevPos.shift());
+          if (particle.smokePos.length > _this3.smokeLength) particle.smokePos.shift();
+        }
+
+        particle.pos = [particle.pos[0] + particle.vel[0], particle.pos[1] + particle.vel[1]];
+      });
+      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
   return Peony;
-}(_projectile__WEBPACK_IMPORTED_MODULE_0__.default);
+}();
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Peony);
 
 /***/ }),
 
-/***/ "./src/scripts/projectile.js":
-/*!***********************************!*\
-  !*** ./src/scripts/projectile.js ***!
-  \***********************************/
+/***/ "./src/scripts/projectiles/projectile.js":
+/*!***********************************************!*\
+  !*** ./src/scripts/projectiles/projectile.js ***!
+  \***********************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
@@ -270,23 +359,38 @@ var Projectile = /*#__PURE__*/function () {
     this.acc = props.acc;
     this.color = props.color;
     this.gravity = 0.098;
-    this.radius = 0.5;
+    this.radius = props.radius || 0.5;
     this.prevPos = [];
-    this.trailLength = 20;
+    this.smokePos = [];
+    this.trailLength = props.trailLength || 10;
+    this.smokeLength = props.smokeLength || 50;
+    this.time = 0;
   }
 
   _createClass(Projectile, [{
+    key: "particleVectors",
+    value: function particleVectors() {}
+  }, {
     key: "draw",
     value: function draw(ctx) {
       var _this = this;
 
+      //Spearhead of projectile
       ctx.fillStyle = this.color;
       ctx.beginPath();
       ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
-      ctx.fill();
+      ctx.fill(); //Trail
+
       this.prevPos.forEach(function (trail, i) {
         ctx.beginPath();
         ctx.arc(trail[0], trail[1], _this.radius * i / _this.trailLength, 0, 2 * Math.PI);
+        ctx.fill();
+      }); //Smoke trail
+
+      this.smokePos.forEach(function (smoke, i) {
+        ctx.fillStyle = 'grey';
+        ctx.beginPath();
+        ctx.arc(smoke[0], smoke[1], _this.radius * i / _this.smokeLength, 0, 2 * Math.PI);
         ctx.fill();
       });
     }
@@ -294,10 +398,15 @@ var Projectile = /*#__PURE__*/function () {
     key: "move",
     value: function move() {
       this.prevPos.push(this.pos);
-      if (this.prevPos.length > this.trailLength) this.prevPos.shift();
+
+      if (this.prevPos.length > this.trailLength) {
+        this.smokePos.push(this.prevPos.shift());
+        if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
+      }
+
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
       this.vel[1] = this.vel[1] + this.acc;
-      this.acc = Math.min(this.acc + 0.0005, this.gravity);
+      this.acc = Math.min(this.acc + .0005, this.gravity);
     }
   }]);
 
@@ -318,13 +427,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "randInt": () => (/* binding */ randInt),
 /* harmony export */   "rand": () => (/* binding */ rand),
-/* harmony export */   "dir": () => (/* binding */ dir),
-/* harmony export */   "dist": () => (/* binding */ dist),
-/* harmony export */   "norm": () => (/* binding */ norm),
-/* harmony export */   "randomVec": () => (/* binding */ randomVec),
+/* harmony export */   "subVectors": () => (/* binding */ subVectors),
+/* harmony export */   "circleVectorArray": () => (/* binding */ circleVectorArray),
+/* harmony export */   "COLORS": () => (/* binding */ COLORS),
+/* harmony export */   "FPS": () => (/* binding */ FPS),
 /* harmony export */   "scale": () => (/* binding */ scale),
 /* harmony export */   "inherits": () => (/* binding */ inherits)
 /* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+
 function randInt(num) {
   return Math.floor(Math.random() * num);
 }
@@ -332,35 +443,58 @@ function rand() {
   var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return Math.random() * num;
 }
+function subVectors(num, initialVecArr) {
+  //initialVecArray is an array of 2 vectors with an equal velocity 
+  var vecs = [];
+  var velSquare = Math.pow(initialVecArr[0][0], 2) + Math.pow(initialVecArr[0][1], 2);
+  var nums = [];
+  var newVec = ['', ''];
+  var xMult = 1;
+  var yMult = 1;
+  if (initialVecArr[0][0] < 0 || initialVecArr[1][0] < 0) xMult = -1;
+  if (initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1;
+  var pairs = num / 2;
+
+  if (num % 2 === 1) {
+    pairs = (num - 1) / 2;
+    var v = Math.sqrt(velSquare / 2);
+    vecs.push([xMult * v, yMult * v]);
+  }
+
+  for (var i = 0; i < pairs; i++) {
+    nums.push(i);
+  }
+
+  nums.forEach(function (n) {
+    newVec[0] = n / num * (initialVecArr[1][0] - initialVecArr[0][0]);
+    newVec[1] = Math.sqrt(velSquare - Math.pow(newVec[0], 2));
+    vecs.push([xMult * newVec[0], yMult * newVec[1]]);
+    vecs.push([xMult * newVec[1], yMult * newVec[0]]);
+  });
+  return vecs;
+}
+function circleVectorArray(vel, numPerQuadrant) {
+  var ne = subVectors(numPerQuadrant, [[0, -vel], [vel, 0]]);
+  var se = subVectors(numPerQuadrant, [[vel, 0], [0, vel]]);
+  var sw = subVectors(numPerQuadrant, [[0, vel], [-vel, 0]]);
+  var nw = subVectors(numPerQuadrant, [[-vel, 0], [0, -vel]]);
+  return ne.concat(se).concat(sw).concat(nw);
+} //Classname.getName() wil return 'class name'
 
 Object.prototype.getName = function () {
   var funcNameRegex = /function (.{1,})\(/;
   var results = funcNameRegex.exec(this.constructor.toString());
   return results && results.length > 1 ? results[1] : "";
-}; // Normalize the length of the vector to 1, maintaining direction.
+};
 
+Array.prototype.cleanArray = function () {
+  return this.filter(function (el) {
+    return el;
+  });
+};
 
-function dir(vec) {
-  var norm = norm(vec);
-  return Util.scale(vec, 1 / norm);
-}
-; // Find distance between two points.
-
-function dist(pos1, pos2) {
-  return Math.sqrt(Math.pow(pos1[0] - pos2[0], 2) + Math.pow(pos1[1] - pos2[1], 2));
-}
-; // Find the length of the vector.
-
-function norm(vec) {
-  return dist([0, 0], vec);
-}
-; // Return a randomly oriented vector with the given length.
-
-function randomVec(length) {
-  var deg = 2 * Math.PI * Math.random();
-  return scale([Math.sin(deg), Math.cos(deg)], length);
-}
-; // Scale the length of a vector by the given amount.
+var COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold'];
+var FPS = 1000 / 120; // Scale the length of a vector by the given amount.
 
 function scale(vec, m) {
   return [vec[0] * m, vec[1] * m];
@@ -370,15 +504,7 @@ function inherits(ChildClass, BaseClass) {
   ChildClass.prototype = Object.create(BaseClass.prototype);
   ChildClass.prototype.constructor = ChildClass;
 }
-; // export function wrap(coord, max) {
-//     if (coord < 0) {
-//         return max - (coord % max);
-//     } else if (coord > max) {
-//         return coord % max;
-//     } else {
-//         return coord;
-//     }
-// }
+;
 
 /***/ }),
 
@@ -458,16 +584,14 @@ var __webpack_exports__ = {};
   \**********************/
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.scss */ "./src/styles/index.scss");
-/* harmony import */ var _scripts_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/canvas */ "./src/scripts/canvas.js");
-/* harmony import */ var _scripts_peony__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/peony */ "./src/scripts/peony.js");
-
+/* harmony import */ var _scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/canvas_display */ "./src/scripts/canvas_display.js");
 
 
 document.addEventListener("DOMContentLoaded", function () {
   //Close Welcome Modal and fill out Canvas with background of choice
   // document.getElementById("close-modal").addEventListener('click', function() {        
   //     document.getElementById("welcome-modal").style.display="none";
-  var canvasEl = (0,_scripts_canvas__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas'); // })    
+  var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas'); // })    
   // Add event listener for `click` events.
 
   var cv = document.querySelector('canvas');
@@ -477,13 +601,6 @@ document.addEventListener("DOMContentLoaded", function () {
     var y = this.offsetTop + this.clientTop;
     console.log("x:".concat((event.pageX - x) / this.width, "  y:").concat((event.pageY - y) / this.height));
   });
-  peny = new _scripts_peony__WEBPACK_IMPORTED_MODULE_2__.default({
-    pos: [cv.width / 2, cv.height * .8],
-    vel: [0, -2],
-    acc: -0.01,
-    color: 'gold'
-  });
-  peny.test();
 });
 })();
 

@@ -12,7 +12,6 @@ export function subVectors(num, initialVecArr) {
     //initialVecArray is an array of 2 vectors with an equal velocity 
     const vecs = [];
     const velSquare = Math.pow(initialVecArr[0][0], 2) + Math.pow(initialVecArr[0][1], 2);
-    const nums = [];
     let newVec = ['', ''];
 
     let xMult = 1;
@@ -20,13 +19,14 @@ export function subVectors(num, initialVecArr) {
     if( initialVecArr[0][0] < 0 || initialVecArr[1][0] < 0) xMult = -1
     if( initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1
     
-    let pairs = num/2
-    if (num%2===1) {
-        pairs = (num-1)/2
-        let v = Math.sqrt(velSquare/2)
-        vecs.push([xMult*v, yMult*v])
-    }
-    for (let i = 0; i < pairs; i++) {
+    // if (num%2===1) {
+    //     pairs = (num-1)/2
+    //     let v = Math.sqrt(velSquare/2)
+    //     vecs.push([xMult*v, yMult*v])
+    // }
+
+    const nums = [];
+    for (let i = 0; i <= num; i++) {
         nums.push(i)
     }
 

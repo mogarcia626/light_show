@@ -4,7 +4,7 @@ class Projectile {
         this.vel = props.vel;
         this.acc = props.acc;
         this.color = props.color;
-        this.gravity = 0.098;
+        this.gravity = 0.12;
         this.radius = props.radius || 0.5;
         this.prevPos = [];
         this.smokePos = []
@@ -14,7 +14,7 @@ class Projectile {
     }    
 
     particleVectors() {
-        
+
     }
     
     draw(ctx) {

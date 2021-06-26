@@ -138,20 +138,20 @@ function launchBayCanvas(bg, ctx, w, h) {
   var fac3d;
   setInterval(function () {
     objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.3) + 0.35)],
-      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
+      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.35) + 0.4)],
+      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.75],
       acc: -0.01,
       color: _utils__WEBPACK_IMPORTED_MODULE_2__.COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(_utils__WEBPACK_IMPORTED_MODULE_2__.COLORS.length)]
     }));
-  }, 1500);
-  setInterval(function () {
-    objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.06) + 0.25)],
-      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.5],
-      acc: -0.008,
-      color: _utils__WEBPACK_IMPORTED_MODULE_2__.COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(_utils__WEBPACK_IMPORTED_MODULE_2__.COLORS.length)]
-    }));
-  }, 2500);
+  }, 2000); // setInterval( () => {
+  //     objects.push(new Projectile( {
+  //         pos: [ w*rand(), h*(rand(0.12)+0.23)],
+  //         vel: [rand(0.5)-0.25, -0.5],
+  //         acc: -0.008,
+  //         color: COLORS[randInt(COLORS.length)]
+  //     }))
+  // }, 900)  
+
   setInterval(function () {
     newFireworks = [];
     bg.drawOnCanvas(ctx);
@@ -162,25 +162,25 @@ function launchBayCanvas(bg, ctx, w, h) {
       switch (firework.getName()) {
         case 'Projectile':
           if (firework.vel[1] > 0) {
-            if (firework.pos[1] < 0.4 * h) {
-              fac3d = 6;
+            if (firework.pos[1] < 0.39 * h) {
+              fac3d = 8;
             } else {
               fac3d = 1;
             }
 
             objects[i] = new _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__.default({
               pos: firework.pos,
-              vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)() * 0.1 + 0.2) / fac3d,
+              vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.15) + 0.5) / fac3d,
               color: firework.color,
-              radius: firework.radius,
-              trailLength: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(20) + 10
+              radius: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(firework.radius) + 1,
+              trailLength: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(10) + 10
             });
           }
 
           break;
 
         case 'Peony':
-          if (firework.time > 500) {
+          if (firework.time > 400) {
             removeObjects.push(i);
           }
 
@@ -272,7 +272,7 @@ var Peony = /*#__PURE__*/function () {
     this.smokeLength = props.smokeLength || 10;
     this.time = 0;
     var particleVectors = [];
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.circleVectorArray)(props.vel * 1.25, 3).forEach(function (vel) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.circleVectorArray)(props.vel * 1.25, 8).forEach(function (vel) {
       particleVectors.push({
         vel: vel,
         pos: _this.pos,
@@ -358,7 +358,7 @@ var Projectile = /*#__PURE__*/function () {
     this.vel = props.vel;
     this.acc = props.acc;
     this.color = props.color;
-    this.gravity = 0.098;
+    this.gravity = 0.12;
     this.radius = props.radius || 0.5;
     this.prevPos = [];
     this.smokePos = [];
@@ -447,21 +447,19 @@ function subVectors(num, initialVecArr) {
   //initialVecArray is an array of 2 vectors with an equal velocity 
   var vecs = [];
   var velSquare = Math.pow(initialVecArr[0][0], 2) + Math.pow(initialVecArr[0][1], 2);
-  var nums = [];
   var newVec = ['', ''];
   var xMult = 1;
   var yMult = 1;
   if (initialVecArr[0][0] < 0 || initialVecArr[1][0] < 0) xMult = -1;
-  if (initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1;
-  var pairs = num / 2;
+  if (initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1; // if (num%2===1) {
+  //     pairs = (num-1)/2
+  //     let v = Math.sqrt(velSquare/2)
+  //     vecs.push([xMult*v, yMult*v])
+  // }
 
-  if (num % 2 === 1) {
-    pairs = (num - 1) / 2;
-    var v = Math.sqrt(velSquare / 2);
-    vecs.push([xMult * v, yMult * v]);
-  }
+  var nums = [];
 
-  for (var i = 0; i < pairs; i++) {
+  for (var i = 0; i <= num; i++) {
     nums.push(i);
   }
 
@@ -589,10 +587,10 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   //Close Welcome Modal and fill out Canvas with background of choice
-  // document.getElementById("close-modal").addEventListener('click', function() {        
-  //     document.getElementById("welcome-modal").style.display="none";
-  var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas'); // })    
-  // Add event listener for `click` events.
+  document.getElementById("close-modal").addEventListener('click', function () {
+    document.getElementById("welcome-modal").style.display = "none";
+    var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas');
+  }); // Add event listener for `click` events.
 
   var cv = document.querySelector('canvas');
   cv.addEventListener('click', function (event) {

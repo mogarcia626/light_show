@@ -3,10 +3,10 @@ import CanvasDisplay from './scripts/canvas_display'
 
 document.addEventListener("DOMContentLoaded", function() {      
     //Close Welcome Modal and fill out Canvas with background of choice
-    // document.getElementById("close-modal").addEventListener('click', function() {        
-    //     document.getElementById("welcome-modal").style.display="none";
+    document.getElementById("close-modal").addEventListener('click', function() {        
+        document.getElementById("welcome-modal").style.display="none";
         let canvasEl = CanvasDisplay('bay-area-canvas')          
-    // })    
+    })    
 
     // Add event listener for `click` events.
     let cv = document.querySelector('canvas')

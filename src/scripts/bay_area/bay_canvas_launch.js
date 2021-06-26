@@ -10,22 +10,22 @@ export default function launchBayCanvas(bg, ctx, w, h) {
 
     setInterval( () => {
         objects.push(new Projectile( {
-            pos: [w*rand(), h*(rand(0.3)+0.35)],
-            vel: [rand(0.5)-0.25, -0.5],
+            pos: [w*rand(), h*(rand(0.35)+0.4)],
+            vel: [rand(0.5)-0.25, -0.75],
             acc: -0.01,
             color: COLORS[randInt(COLORS.length)]
         }))
-    }, 1500)  
+    }, 2000)  
 
-    
-    setInterval( () => {
-        objects.push(new Projectile( {
-            pos: [w*rand(), h*(rand(0.06)+0.25)],
-            vel: [rand(0.5)-0.25, -0.5],
-            acc: -0.008,
-            color: COLORS[randInt(COLORS.length)]
-        }))
-    }, 2500)  
+        
+    // setInterval( () => {
+    //     objects.push(new Projectile( {
+    //         pos: [ w*rand(), h*(rand(0.12)+0.23)],
+    //         vel: [rand(0.5)-0.25, -0.5],
+    //         acc: -0.008,
+    //         color: COLORS[randInt(COLORS.length)]
+    //     }))
+    // }, 900)  
     
 
     setInterval( () => {
@@ -43,21 +43,21 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                 case 'Projectile':
                     if (firework.vel[1] > 0) {
 
-                        if (firework.pos[1] < 0.4*h) {
-                            fac3d = 6
+                        if (firework.pos[1] < 0.39*h) {
+                            fac3d = 8
                         } else {fac3d = 1}
 
                         objects[i] = new Peony({
                             pos: firework.pos,
-                            vel: ((rand()*0.1)+0.2)/fac3d,
+                            vel: ((rand(0.15))+0.5)/fac3d,
                             color: firework.color,
-                            radius: firework.radius,
-                            trailLength: randInt(20)+10
+                            radius: rand(firework.radius)+1,
+                            trailLength: randInt(10)+10
                         })
                     } 
                     break;
                 case 'Peony':
-                    if(firework.time > 500) {
+                    if(firework.time > 400) {
                         removeObjects.push(i)
                     }
                     break;

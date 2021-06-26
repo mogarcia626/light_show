@@ -11,7 +11,7 @@ class Peony {
         this.smokeLength = props.smokeLength || 10   
         this.time = 0 
         let particleVectors = []
-        circleVectorArray(props.vel*1.25, 3).forEach(vel => {
+        circleVectorArray(props.vel*1.25, 8 ).forEach(vel => {
             particleVectors.push( {
                 vel: vel,
                 pos: this.pos,
@@ -59,7 +59,8 @@ class Peony {
             particle.pos = [
                 particle.pos[0] + particle.vel[0],
                 particle.pos[1] + particle.vel[1]
-            ];  
+            ];
+            
 
         }); 
         this.time = this.time + FPS;

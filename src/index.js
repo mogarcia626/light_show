@@ -1,5 +1,6 @@
 import "./styles/index.scss";
 import CanvasDisplay from './scripts/canvas_display'
+import { selectRandomColor } from './scripts/utils'
 
 document.addEventListener("DOMContentLoaded", function() {      
     //Close Welcome Modal and fill out Canvas with background of choice
@@ -16,14 +17,6 @@ document.addEventListener("DOMContentLoaded", function() {
         let y = this.offsetTop + this.clientTop
         console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
     })
-
-
-
-    
-
-
-
-
 
 
 });

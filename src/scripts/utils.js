@@ -1,4 +1,5 @@
-import Projectile from './projectiles/projectile';
+import Peony from "./projectiles/peony";
+import Chrysanthemum from './projectiles/chrysanthemum'
 
 export function randInt(num) {
     return Math.floor(Math.random() * num)
@@ -8,45 +9,48 @@ export function rand(num = 1) {
     return Math.random() * num
 }
 
-export function subVectors(num, initialVecArr) {
-    //initialVecArray is an array of 2 vectors with an equal velocity 
-    const vecs = [];
-    const velSquare = Math.pow(initialVecArr[0][0], 2) + Math.pow(initialVecArr[0][1], 2);
-    let newVec = ['', ''];
-
-    let xMult = 1;
-    let yMult = 1;
-    if( initialVecArr[0][0] < 0 || initialVecArr[1][0] < 0) xMult = -1
-    if( initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1
-    
-    // if (num%2===1) {
-    //     pairs = (num-1)/2
-    //     let v = Math.sqrt(velSquare/2)
-    //     vecs.push([xMult*v, yMult*v])
-    // }
-
-    const nums = [];
-    for (let i = 0; i <= num; i++) {
-        nums.push(i)
-    }
-
-    nums.forEach(n => {
-        newVec[0] = n/num * (initialVecArr[1][0] - initialVecArr[0][0])
-        newVec[1] = Math.sqrt( velSquare - Math.pow(newVec[0], 2) )
-        vecs.push([xMult * newVec[0], yMult * newVec[1]])
-        vecs.push([xMult * newVec[1], yMult * newVec[0]])
-    });
-    return vecs; 
+export function addVectors(vec1, vec2) {
+    return [ (vec1[0] + vec2[0]), (vec1[1] + vec2[1]) ]
 }
 
+export function multiplyVector(vec, fac) {
+    return [ (vec[0] * fac), (vec[1] * fac) ]
+}
 
-export function circleVectorArray(vel, numPerQuadrant) {
-    const ne = subVectors(numPerQuadrant, [[0, -vel], [vel, 0]]);
-    const se = subVectors(numPerQuadrant, [[vel, 0], [0, vel]]);
-    const sw = subVectors(numPerQuadrant, [[0, vel], [-vel, 0]]);
-    const nw = subVectors(numPerQuadrant, [[-vel, 0], [0, -vel]]);
+//Will create an array of evenly distrubuted subvectors.  length: num, velocity: v
+export function subVectors(v, num, angle=0) {    
+    const vecs = [];
+    let newVec;
+    for (let i = 0; i < num; i++) {
+        newVec = [0,0]
+            newVec[0] = v * Math.cos((2*Math.PI * i/num) + angle )
+            newVec[1] = v * Math.sin((2*Math.PI * i/num) + angle ) 
+        vecs.push(newVec);
+    }
+    return vecs
+}
 
-    return ne.concat(se).concat(sw).concat(nw);
+export function randomFirework(projectile, fac3d) {
+    let choice = randInt(2);
+    // choice = 0
+    switch (choice) {
+        case 0:
+            return new Peony({
+                pos: projectile.pos,
+                vel: ((rand(0.5))+0.5)*fac3d,
+                color: projectile.color,
+                radius: projectile.radius*0.25*fac3d,
+            })
+        case 1:
+        return new Chrysanthemum({
+            pos: projectile.pos,
+            vel: ((rand(0.5))+0.5)*fac3d,
+            color: projectile.color,
+            radius: projectile.radius*fac3d,
+        })
+        default:
+            break;
+    }
 }
 
 //Classname.getName() wil return 'class name'
@@ -60,8 +64,32 @@ Array.prototype.cleanArray = function() {
     return this.filter(el => el );
 }
 
-export const COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold']
-export const FPS = 1000/120
+export const COLORS = {
+    blue:['#1738B7', '#3340DB', '#504DF4', '#2E42CB', '#539DB3', '#39657E'],
+    pink:['#DE5BF8', '#EFE8FF', '#FC7F81', '#C99C9F', '#B6A09D'],
+    yellow: ['#FAEFC4', '#fade98'],
+    green: ['#6e9b81', '#2b583d', '#a0c0ad', '#60664d'],
+    red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
+    purple: ['#A76BFE', '#792BB2', '#E365E4'],
+    orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']
+}
+
+export function selectRandomColor(excludeArr = []) {
+    let colors = Object.keys(COLORS)
+    if (excludeArr.length > 0) {
+        excludeArr.forEach(exclude => {
+            colors.forEach((color, i) => {
+                if (exclude === color) delete colors[i]
+            });        
+        });
+        colors = colors.cleanArray()        
+    }
+    let colorKey = colors[randInt(colors.length)]
+    return COLORS[colorKey][randInt(COLORS[colorKey].length)]
+}
+
+
+export const FPS = 1000/180
 
 
 

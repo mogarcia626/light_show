@@ -1,68 +1,72 @@
-import {circleVectorArray, FPS} from '../utils';
-import {randInt} from '../utils';
+import {subVectors, FPS, addVectors, randInt, multiplyVector} from '../utils';
 
 class Peony {
     constructor(props) {
         this.pos = props.pos;
         this.vel = props.vel;
+        this.acc = 31/32;
+        this.gravity = .0012
         this.color = props.color;
-        this.radius = props.radius || 0.5;
-        this.trailLength = props.trailLength || 15
-        this.smokeLength = props.smokeLength || 10   
-        this.time = 0 
-        let particleVectors = []
-        circleVectorArray(props.vel*1.25, 8 ).forEach(vel => {
-            particleVectors.push( {
-                vel: vel,
+        this.radius = props.radius || 0.5;  
+        this.time = props.time || 0;
+        this.particles = {}
+        subVectors(props.vel, 28 ).forEach((velVec, i) => {
+            this.particles[i] = {
+                vel: velVec,
                 pos: this.pos,
-                prevPos: [],
-                smokePos:[],
-            })
-        });
-        
-        this.particleVectors = particleVectors;
+            }
+        })  
+        this.outsideLayer = {}
+        subVectors(props.vel, 21, Math.PI/7 ).forEach((velVec, i,) => {
+            this.outsideLayer[i] = {
+                vel: multiplyVector(velVec, 3/4),
+                pos: this.pos,
+            }
+        }) 
+        this.middleLayer = {}
+        subVectors(props.vel, 14, Math.PI*2/7 ).forEach((velVec, i) => {
+            this.middleLayer[i] = {
+                vel: multiplyVector(velVec, 1/2),
+                pos: this.pos,
+            }
+        })
+        this.innerLayer = {}
+        subVectors(props.vel, 7, Math.PI*3/7 ).forEach((velVec, i) => {
+            this.innerLayer[i] = {
+                vel: multiplyVector(velVec, 0.25),
+                pos: this.pos,
+            }
+        })   
     }
 
 
     draw(ctx) {
-        this.particleVectors.forEach(particle => {            
-            //Spearhead of projectile
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(particle.pos[0], particle.pos[1], this.radius, 0, 2 * Math.PI);
-            ctx.fill();
-            //Trail
-            particle.prevPos.forEach((trail, i) => {
+        let particle;
+
+        [this.particles, this.outsideLayer, this.middleLayer, this.innerLayer].forEach(layer => {
+
+            Object.keys(layer).forEach(i => {  
+                particle = layer[`${i}`];
+
+                ctx.fillStyle = this.color;
                 ctx.beginPath();
-                ctx.arc(trail[0], trail[1], this.radius*i/this.trailLength, 0, 2 * Math.PI);
-                ctx.fill(); 
-            });
-            //Smoke trail
-            // particle.smokePos.forEach((smoke, i) => {
-            //     ctx.fillStyle = 'grey'
-            //     ctx.beginPath();
-            //     ctx.arc(smoke[0], smoke[1], this.radius*i/this.smokeLength, 0, 2 * Math.PI);
-            //     ctx.fill(); 
-            // });
-        });
+                ctx.arc(particle.pos[0], particle.pos[1], this.radius, 0, 2 * Math.PI);
+                ctx.fill();
+            });            
+        });        
     }
 
     move() {
-        this.particleVectors.forEach(particle => {
-            particle.prevPos.push(particle.pos)
+        let particle;
 
-            if (particle.prevPos.length > this.trailLength) {
-                particle.smokePos.push(particle.prevPos.shift());
-                if (particle.smokePos.length > this.smokeLength) particle.smokePos.shift()
-            }
-            
-            particle.pos = [
-                particle.pos[0] + particle.vel[0],
-                particle.pos[1] + particle.vel[1]
-            ];
-            
-
-        }); 
+        [this.particles, this.outsideLayer, this.middleLayer, this.innerLayer].forEach(layer => {
+            Object.keys(layer).forEach(i  => {
+                particle = layer[`${i}`];            
+                particle.pos = addVectors(particle.pos, particle.vel);    
+                particle.vel = particle.vel.map(v => v*this.acc)
+                particle.vel[1] = particle.vel[1] + this.gravity
+            }); 
+        })
         this.time = this.time + FPS;
     }
 

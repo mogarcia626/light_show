@@ -1,81 +1,110 @@
 import Projectile from "../projectiles/projectile";
 import Peony from "../projectiles/peony";
-import {COLORS, rand, randInt, FPS} from '../utils';
+import Chrysanthemum from '../projectiles/chrysanthemum'
+import {selectRandomColor, rand, randInt, FPS, randomFirework} from '../utils';
 
 export default function launchBayCanvas(bg, ctx, w, h) {
-    let objects = []
-    let removeObjects = []
-    let newFireworks = []
+    let objects = [];
+    let removeObjects = [];
+    let newFireworks;
     let fac3d;
+    const time = 700;
+    const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
 
     setInterval( () => {
-        objects.push(new Projectile( {
-            pos: [w*rand(), h*(rand(0.35)+0.4)],
-            vel: [rand(0.5)-0.25, -0.75],
-            acc: -0.01,
-            color: COLORS[randInt(COLORS.length)]
-        }))
-    }, 2000)  
 
+        if (objects.length < 25) {
+
+            ///Bottom Left
+            setTimeout(() => { 
+                let [pw, ph] = [w*rand(0.5), h*(rand(0.36)+0.44)];  // 0.4 - 0.8
+                objects.push(new Projectile( {
+                    pos: [pw, ph],
+                    vel: [(rand(0.5*w)/w)-0.25, -ph/400],
+                    acc: -.01,
+                    color: selectRandomColor(excludedColors),
+                    radius: ph/250,
+                }))
+            }, rand(time))
         
-    // setInterval( () => {
-    //     objects.push(new Projectile( {
-    //         pos: [ w*rand(), h*(rand(0.12)+0.23)],
-    //         vel: [rand(0.5)-0.25, -0.5],
-    //         acc: -0.008,
-    //         color: COLORS[randInt(COLORS.length)]
-    //     }))
-    // }, 900)  
-    
+        //Bottom Right
+            setTimeout(() => { 
+                let [pw, ph] = [w*(0.5+rand(0.5)), h*(rand(0.36)+0.4)];  // 0.4 - 0.8
+                objects.push(new Projectile( {
+                    pos: [pw, ph],
+                    vel: [(rand(0.5*w)/w)-0.25, -h/400],
+                    acc: -0.01,
+                    color: selectRandomColor(excludedColors),
+                    radius: ph/250,
+                }))
+            }, rand(time))
+            //Top Left
+            setTimeout(() => { 
+                let [pw, ph] = [w*rand(0.5), h*(rand(0.12)+0.23)]
+                objects.push(new Projectile( {
+                    pos: [pw, ph],
+                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
+                    acc: -0.008,
+                    color: selectRandomColor(excludedColors),
+                    radius: ph/250,
+                }))
+            }, rand(time))
+            //Top Right
+            setTimeout(() => {
+                let [pw, ph] = [ w*(0.5+rand(0.5)), h*(rand(0.075)+0.275)]
+                objects.push(new Projectile( {
+                    pos: [pw, ph],
+                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
+                    acc: -0.008,
+                    color: selectRandomColor(excludedColors),
+                    radius: ph/250,
+                }))
+            }, rand(time))
+        }
+    }, time)  
+        
+                
 
     setInterval( () => {
         newFireworks = []
         bg.drawOnCanvas(ctx)
-
         objects.forEach((firework, i) => {
             firework.draw(ctx)
             firework.move()
 
-            
-
-
             switch (firework.getName()) {
                 case 'Projectile':
-                    if (firework.vel[1] > 0) {
+                    if (firework.vel[1] > 0.15) {
 
                         if (firework.pos[1] < 0.39*h) {
-                            fac3d = 8
-                        } else {fac3d = 1}
-
-                        objects[i] = new Peony({
-                            pos: firework.pos,
-                            vel: ((rand(0.15))+0.5)/fac3d,
-                            color: firework.color,
-                            radius: rand(firework.radius)+1,
-                            trailLength: randInt(10)+10
-                        })
+                            fac3d = firework.pos[1]/200
+                        } else {fac3d = firework.pos[1]/175}
+                        
+                        objects[i] = randomFirework(firework, fac3d);
                     } 
                     break;
                 case 'Peony':
-                    if(firework.time > 400) {
+                    if(firework.time > 500) {
                         removeObjects.push(i)
-                    }
+                    }   
+                case 'Chrysanthemum':
+                    if(firework.time > 600) {
+                        removeObjects.push(i)
+                    }                 
                     break;
                 default:
                     break;
             }
                      
-        });  
-
-    
-
+        });   
 
         removeObjects.forEach(idx => {
             delete objects[idx]
         });
         removeObjects = []
-        objects = objects.cleanArray();
-        objects.concat(newFireworks)
+
+        objects = objects.cleanArray()
+        objects = objects.concat(newFireworks);
     }, FPS)
 
 

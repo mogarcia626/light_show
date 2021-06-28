@@ -1,4 +1,6 @@
-class Projectile {
+import { FPS } from '../utils';
+
+    class Projectile {
     constructor(props) {
         this.pos = props.pos;
         this.vel = props.vel;
@@ -33,16 +35,19 @@ class Projectile {
         this.smokePos.forEach((smoke, i) => {
             ctx.fillStyle = 'grey'
             ctx.beginPath();
-            ctx.arc(smoke[0], smoke[1], this.radius*i/this.smokeLength, 0, 2 * Math.PI);
+            ctx.arc(smoke[0], smoke[1], this.radius/this.trailLength, 0, 2 * Math.PI);
             ctx.fill(); 
         });
     }
 
     move() {
         this.prevPos.push(this.pos)
-        if (this.prevPos.length > this.trailLength) {
-            this.smokePos.push(this.prevPos.shift());
-            if (this.smokePos.length > this.smokeLength) this.smokePos.shift()
+
+        if (this.time % FPS*2) {
+            if (this.prevPos.length > this.trailLength) {
+                this.smokePos.push(this.prevPos.shift());
+                if (this.smokePos.length > this.smokeLength) this.smokePos.shift()
+            }
         }
 
         this.pos = [
@@ -51,6 +56,7 @@ class Projectile {
         ];
         this.vel[1] = this.vel[1] + this.acc        
         this.acc = Math.min(this.acc+.0005, this.gravity)
+        this.time = this.time + FPS
     }
 
 }

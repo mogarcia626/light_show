@@ -127,31 +127,75 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../projectiles/peony */ "./src/scripts/projectiles/peony.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+
 
 
 
 function launchBayCanvas(bg, ctx, w, h) {
   var objects = [];
   var removeObjects = [];
-  var newFireworks = [];
+  var newFireworks;
   var fac3d;
+  var time = 700;
+  var excludedColors = [
+    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
+  ];
   setInterval(function () {
-    objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-      pos: [w * (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(), h * ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.35) + 0.4)],
-      vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) - 0.25, -0.75],
-      acc: -0.01,
-      color: _utils__WEBPACK_IMPORTED_MODULE_2__.COLORS[(0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(_utils__WEBPACK_IMPORTED_MODULE_2__.COLORS.length)]
-    }));
-  }, 2000); // setInterval( () => {
-  //     objects.push(new Projectile( {
-  //         pos: [ w*rand(), h*(rand(0.12)+0.23)],
-  //         vel: [rand(0.5)-0.25, -0.5],
-  //         acc: -0.008,
-  //         color: COLORS[randInt(COLORS.length)]
-  //     }))
-  // }, 900)  
+    if (objects.length < 25) {
+      ///Bottom Left
+      setTimeout(function () {
+        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.36) + 0.44); // 0.4 - 0.8
 
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -ph / 400],
+          acc: -.01,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Bottom Right
+
+      setTimeout(function () {
+        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5)),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.36) + 0.4); // 0.4 - 0.8
+
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 400],
+          acc: -0.01,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Top Left
+
+      setTimeout(function () {
+        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.12) + 0.23);
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          acc: -0.008,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Top Right
+
+      setTimeout(function () {
+        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5)),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.075) + 0.275);
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          acc: -0.008,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time));
+    }
+  }, time);
   setInterval(function () {
     newFireworks = [];
     bg.drawOnCanvas(ctx);
@@ -161,26 +205,25 @@ function launchBayCanvas(bg, ctx, w, h) {
 
       switch (firework.getName()) {
         case 'Projectile':
-          if (firework.vel[1] > 0) {
+          if (firework.vel[1] > 0.15) {
             if (firework.pos[1] < 0.39 * h) {
-              fac3d = 8;
+              fac3d = firework.pos[1] / 200;
             } else {
-              fac3d = 1;
+              fac3d = firework.pos[1] / 175;
             }
 
-            objects[i] = new _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__.default({
-              pos: firework.pos,
-              vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.15) + 0.5) / fac3d,
-              color: firework.color,
-              radius: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(firework.radius) + 1,
-              trailLength: (0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(10) + 10
-            });
+            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.randomFirework)(firework, fac3d);
           }
 
           break;
 
         case 'Peony':
-          if (firework.time > 400) {
+          if (firework.time > 500) {
+            removeObjects.push(i);
+          }
+
+        case 'Chrysanthemum':
+          if (firework.time > 600) {
             removeObjects.push(i);
           }
 
@@ -195,8 +238,8 @@ function launchBayCanvas(bg, ctx, w, h) {
     });
     removeObjects = [];
     objects = objects.cleanArray();
-    objects.concat(newFireworks);
-  }, _utils__WEBPACK_IMPORTED_MODULE_2__.FPS);
+    objects = objects.concat(newFireworks);
+  }, _utils__WEBPACK_IMPORTED_MODULE_3__.FPS);
 }
 
 /***/ }),
@@ -238,6 +281,105 @@ function CanvasDisplay(background) {
 
 /***/ }),
 
+/***/ "./src/scripts/projectiles/chrysanthemum.js":
+/*!**************************************************!*\
+  !*** ./src/scripts/projectiles/chrysanthemum.js ***!
+  \**************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Chrysanthemum = /*#__PURE__*/function () {
+  function Chrysanthemum(props) {
+    var _this = this;
+
+    _classCallCheck(this, Chrysanthemum);
+
+    this.origin = props.pos;
+    this.pos = props.pos;
+    this.acc = 31 / 32;
+    this.gravity = .0012;
+    this.color = props.color;
+    this.radius = props.radius || 0.5;
+    this.time = 0;
+    this.particles = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 24).forEach(function (velVec, i) {
+      _this.particles[i] = {
+        vel: velVec,
+        pos: _this.pos
+      };
+    });
+    this.middleLayer = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 24, Math.PI / 24).forEach(function (velVec, i) {
+      _this.middleLayer[i] = {
+        vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 2 / 3),
+        pos: _this.pos
+      };
+    });
+    this.innerLayer = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 12, Math.PI / 12).forEach(function (velVec, i) {
+      _this.innerLayer[i] = {
+        vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 3),
+        pos: _this.pos
+      };
+    });
+  }
+
+  _createClass(Chrysanthemum, [{
+    key: "draw",
+    value: function draw(ctx) {
+      var _this2 = this;
+
+      var particle;
+      [this.particles, this.middleLayer, this.innerLayer].forEach(function (layer) {
+        Object.keys(layer).forEach(function (i) {
+          particle = layer["".concat(i)];
+          ctx.strokeStyle = _this2.color;
+          ctx.beginPath();
+          ctx.moveTo(_this2.origin[0], _this2.origin[1]);
+          ctx.lineTo(particle.pos[0], particle.pos[1]);
+          ctx.stroke();
+        });
+      });
+    }
+  }, {
+    key: "move",
+    value: function move() {
+      var _this3 = this;
+
+      var particle;
+      [this.particles, this.middleLayer, this.innerLayer].forEach(function (layer) {
+        Object.keys(layer).forEach(function (i) {
+          particle = layer["".concat(i)];
+          particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, particle.vel);
+          particle.vel = particle.vel.map(function (v) {
+            return v * _this3.acc;
+          });
+          particle.vel[1] = particle.vel[1] + _this3.gravity;
+        });
+      });
+      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+    }
+  }]);
+
+  return Chrysanthemum;
+}();
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Chrysanthemum);
+
+/***/ }),
+
 /***/ "./src/scripts/projectiles/peony.js":
 /*!******************************************!*\
   !*** ./src/scripts/projectiles/peony.js ***!
@@ -257,7 +399,6 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
-
 var Peony = /*#__PURE__*/function () {
   function Peony(props) {
     var _this = this;
@@ -266,21 +407,39 @@ var Peony = /*#__PURE__*/function () {
 
     this.pos = props.pos;
     this.vel = props.vel;
+    this.acc = 31 / 32;
+    this.gravity = .0012;
     this.color = props.color;
     this.radius = props.radius || 0.5;
-    this.trailLength = props.trailLength || 15;
-    this.smokeLength = props.smokeLength || 10;
-    this.time = 0;
-    var particleVectors = [];
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.circleVectorArray)(props.vel * 1.25, 8).forEach(function (vel) {
-      particleVectors.push({
-        vel: vel,
-        pos: _this.pos,
-        prevPos: [],
-        smokePos: []
-      });
+    this.time = props.time || 0;
+    this.particles = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 28).forEach(function (velVec, i) {
+      _this.particles[i] = {
+        vel: velVec,
+        pos: _this.pos
+      };
     });
-    this.particleVectors = particleVectors;
+    this.outsideLayer = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 21, Math.PI / 7).forEach(function (velVec, i) {
+      _this.outsideLayer[i] = {
+        vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 3 / 4),
+        pos: _this.pos
+      };
+    });
+    this.middleLayer = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 14, Math.PI * 2 / 7).forEach(function (velVec, i) {
+      _this.middleLayer[i] = {
+        vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 2),
+        pos: _this.pos
+      };
+    });
+    this.innerLayer = {};
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 7, Math.PI * 3 / 7).forEach(function (velVec, i) {
+      _this.innerLayer[i] = {
+        vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 0.25),
+        pos: _this.pos
+      };
+    });
   }
 
   _createClass(Peony, [{
@@ -288,24 +447,15 @@ var Peony = /*#__PURE__*/function () {
     value: function draw(ctx) {
       var _this2 = this;
 
-      this.particleVectors.forEach(function (particle) {
-        //Spearhead of projectile
-        ctx.fillStyle = _this2.color;
-        ctx.beginPath();
-        ctx.arc(particle.pos[0], particle.pos[1], _this2.radius, 0, 2 * Math.PI);
-        ctx.fill(); //Trail
-
-        particle.prevPos.forEach(function (trail, i) {
+      var particle;
+      [this.particles, this.outsideLayer, this.middleLayer, this.innerLayer].forEach(function (layer) {
+        Object.keys(layer).forEach(function (i) {
+          particle = layer["".concat(i)];
+          ctx.fillStyle = _this2.color;
           ctx.beginPath();
-          ctx.arc(trail[0], trail[1], _this2.radius * i / _this2.trailLength, 0, 2 * Math.PI);
+          ctx.arc(particle.pos[0], particle.pos[1], _this2.radius, 0, 2 * Math.PI);
           ctx.fill();
-        }); //Smoke trail
-        // particle.smokePos.forEach((smoke, i) => {
-        //     ctx.fillStyle = 'grey'
-        //     ctx.beginPath();
-        //     ctx.arc(smoke[0], smoke[1], this.radius*i/this.smokeLength, 0, 2 * Math.PI);
-        //     ctx.fill(); 
-        // });
+        });
       });
     }
   }, {
@@ -313,15 +463,16 @@ var Peony = /*#__PURE__*/function () {
     value: function move() {
       var _this3 = this;
 
-      this.particleVectors.forEach(function (particle) {
-        particle.prevPos.push(particle.pos);
-
-        if (particle.prevPos.length > _this3.trailLength) {
-          particle.smokePos.push(particle.prevPos.shift());
-          if (particle.smokePos.length > _this3.smokeLength) particle.smokePos.shift();
-        }
-
-        particle.pos = [particle.pos[0] + particle.vel[0], particle.pos[1] + particle.vel[1]];
+      var particle;
+      [this.particles, this.outsideLayer, this.middleLayer, this.innerLayer].forEach(function (layer) {
+        Object.keys(layer).forEach(function (i) {
+          particle = layer["".concat(i)];
+          particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, particle.vel);
+          particle.vel = particle.vel.map(function (v) {
+            return v * _this3.acc;
+          });
+          particle.vel[1] = particle.vel[1] + _this3.gravity;
+        });
       });
       this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
@@ -344,11 +495,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
 
 var Projectile = /*#__PURE__*/function () {
   function Projectile(props) {
@@ -390,7 +544,7 @@ var Projectile = /*#__PURE__*/function () {
       this.smokePos.forEach(function (smoke, i) {
         ctx.fillStyle = 'grey';
         ctx.beginPath();
-        ctx.arc(smoke[0], smoke[1], _this.radius * i / _this.smokeLength, 0, 2 * Math.PI);
+        ctx.arc(smoke[0], smoke[1], _this.radius / _this.trailLength, 0, 2 * Math.PI);
         ctx.fill();
       });
     }
@@ -399,14 +553,17 @@ var Projectile = /*#__PURE__*/function () {
     value: function move() {
       this.prevPos.push(this.pos);
 
-      if (this.prevPos.length > this.trailLength) {
-        this.smokePos.push(this.prevPos.shift());
-        if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
+      if (this.time % _utils__WEBPACK_IMPORTED_MODULE_0__.FPS * 2) {
+        if (this.prevPos.length > this.trailLength) {
+          this.smokePos.push(this.prevPos.shift());
+          if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
+        }
       }
 
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
       this.vel[1] = this.vel[1] + this.acc;
       this.acc = Math.min(this.acc + .0005, this.gravity);
+      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
@@ -427,14 +584,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "randInt": () => (/* binding */ randInt),
 /* harmony export */   "rand": () => (/* binding */ rand),
+/* harmony export */   "addVectors": () => (/* binding */ addVectors),
+/* harmony export */   "multiplyVector": () => (/* binding */ multiplyVector),
 /* harmony export */   "subVectors": () => (/* binding */ subVectors),
-/* harmony export */   "circleVectorArray": () => (/* binding */ circleVectorArray),
+/* harmony export */   "randomFirework": () => (/* binding */ randomFirework),
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
+/* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
 /* harmony export */   "FPS": () => (/* binding */ FPS),
 /* harmony export */   "scale": () => (/* binding */ scale),
 /* harmony export */   "inherits": () => (/* binding */ inherits)
 /* harmony export */ });
-/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/peony */ "./src/scripts/projectiles/peony.js");
+/* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
+
 
 function randInt(num) {
   return Math.floor(Math.random() * num);
@@ -443,40 +605,50 @@ function rand() {
   var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return Math.random() * num;
 }
-function subVectors(num, initialVecArr) {
-  //initialVecArray is an array of 2 vectors with an equal velocity 
+function addVectors(vec1, vec2) {
+  return [vec1[0] + vec2[0], vec1[1] + vec2[1]];
+}
+function multiplyVector(vec, fac) {
+  return [vec[0] * fac, vec[1] * fac];
+} //Will create an array of evenly distrubuted subvectors.  length: num, velocity: v
+
+function subVectors(v, num) {
+  var angle = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 0;
   var vecs = [];
-  var velSquare = Math.pow(initialVecArr[0][0], 2) + Math.pow(initialVecArr[0][1], 2);
-  var newVec = ['', ''];
-  var xMult = 1;
-  var yMult = 1;
-  if (initialVecArr[0][0] < 0 || initialVecArr[1][0] < 0) xMult = -1;
-  if (initialVecArr[0][1] < 0 || initialVecArr[1][1] < 0) yMult = -1; // if (num%2===1) {
-  //     pairs = (num-1)/2
-  //     let v = Math.sqrt(velSquare/2)
-  //     vecs.push([xMult*v, yMult*v])
-  // }
+  var newVec;
 
-  var nums = [];
-
-  for (var i = 0; i <= num; i++) {
-    nums.push(i);
+  for (var i = 0; i < num; i++) {
+    newVec = [0, 0];
+    newVec[0] = v * Math.cos(2 * Math.PI * i / num + angle);
+    newVec[1] = v * Math.sin(2 * Math.PI * i / num + angle);
+    vecs.push(newVec);
   }
 
-  nums.forEach(function (n) {
-    newVec[0] = n / num * (initialVecArr[1][0] - initialVecArr[0][0]);
-    newVec[1] = Math.sqrt(velSquare - Math.pow(newVec[0], 2));
-    vecs.push([xMult * newVec[0], yMult * newVec[1]]);
-    vecs.push([xMult * newVec[1], yMult * newVec[0]]);
-  });
   return vecs;
 }
-function circleVectorArray(vel, numPerQuadrant) {
-  var ne = subVectors(numPerQuadrant, [[0, -vel], [vel, 0]]);
-  var se = subVectors(numPerQuadrant, [[vel, 0], [0, vel]]);
-  var sw = subVectors(numPerQuadrant, [[0, vel], [-vel, 0]]);
-  var nw = subVectors(numPerQuadrant, [[-vel, 0], [0, -vel]]);
-  return ne.concat(se).concat(sw).concat(nw);
+function randomFirework(projectile, fac3d) {
+  var choice = randInt(2); // choice = 0
+
+  switch (choice) {
+    case 0:
+      return new _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__.default({
+        pos: projectile.pos,
+        vel: (rand(0.5) + 0.5) * fac3d,
+        color: projectile.color,
+        radius: projectile.radius * 0.25 * fac3d
+      });
+
+    case 1:
+      return new _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__.default({
+        pos: projectile.pos,
+        vel: (rand(0.5) + 0.5) * fac3d,
+        color: projectile.color,
+        radius: projectile.radius * fac3d
+      });
+
+    default:
+      break;
+  }
 } //Classname.getName() wil return 'class name'
 
 Object.prototype.getName = function () {
@@ -491,8 +663,32 @@ Array.prototype.cleanArray = function () {
   });
 };
 
-var COLORS = ['red', 'blue', 'green', 'pink', 'yellow', 'gold'];
-var FPS = 1000 / 120; // Scale the length of a vector by the given amount.
+var COLORS = {
+  blue: ['#1738B7', '#3340DB', '#504DF4', '#2E42CB', '#539DB3', '#39657E'],
+  pink: ['#DE5BF8', '#EFE8FF', '#FC7F81', '#C99C9F', '#B6A09D'],
+  yellow: ['#FAEFC4', '#fade98'],
+  green: ['#6e9b81', '#2b583d', '#a0c0ad', '#60664d'],
+  red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
+  purple: ['#A76BFE', '#792BB2', '#E365E4'],
+  orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']
+};
+function selectRandomColor() {
+  var excludeArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var colors = Object.keys(COLORS);
+
+  if (excludeArr.length > 0) {
+    excludeArr.forEach(function (exclude) {
+      colors.forEach(function (color, i) {
+        if (exclude === color) delete colors[i];
+      });
+    });
+    colors = colors.cleanArray();
+  }
+
+  var colorKey = colors[randInt(colors.length)];
+  return COLORS[colorKey][randInt(COLORS[colorKey].length)];
+}
+var FPS = 1000 / 180; // Scale the length of a vector by the given amount.
 
 function scale(vec, m) {
   return [vec[0] * m, vec[1] * m];
@@ -583,6 +779,8 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.scss */ "./src/styles/index.scss");
 /* harmony import */ var _scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/canvas_display */ "./src/scripts/canvas_display.js");
+/* harmony import */ var _scripts_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/utils */ "./src/scripts/utils.js");
+
 
 
 document.addEventListener("DOMContentLoaded", function () {

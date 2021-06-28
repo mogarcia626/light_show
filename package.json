@@ -9,8 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "local-start": "webpack --mode=development --watch",
-    "build": "webpack"
+    "build": "webpack --mode=development --watch",
+    "start": "webpack"
   },
   "repository": {
     "type": "git",

@@ -15,7 +15,7 @@ document.addEventListener("DOMContentLoaded", function() {
         let context = this.getContext('2d')
         let x = this.offsetLeft + this.clientLeft
         let y = this.offsetTop + this.clientTop
-        console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
+        // console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
     })
 
 

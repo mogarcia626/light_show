@@ -3,9 +3,14 @@
   "version": "1.0.0",
   "description": "Interactive fireworks show",
   "main": "webpack.config.js",
+  "engines": {
+    "node": "12.13.0",
+    "npm": "6.12.0"
+  },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "webpack --mode=development --watch"
+    "start": "webpack --mode=development --watch",
+    "build": "webpack"
   },
   "repository": {
     "type": "git",

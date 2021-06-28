@@ -126,11 +126,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (/* binding */ launchBayCanvas)
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
-/* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../projectiles/peony */ "./src/scripts/projectiles/peony.js");
-/* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-
-
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
 
 
 function launchBayCanvas(bg, ctx, w, h) {
@@ -138,7 +134,7 @@ function launchBayCanvas(bg, ctx, w, h) {
   var removeObjects = [];
   var newFireworks;
   var fac3d;
-  var time = 700;
+  var time = 800;
   var excludedColors = [
     /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
   ];
@@ -146,54 +142,54 @@ function launchBayCanvas(bg, ctx, w, h) {
     if (objects.length < 25) {
       ///Bottom Left
       setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.36) + 0.44); // 0.4 - 0.8
+        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.44); // 0.4 - 0.8
 
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -ph / 400],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 400],
           acc: -.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Bottom Right
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
 
       setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.36) + 0.4); // 0.4 - 0.8
+        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.4); // 0.4 - 0.8
 
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 400],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 400],
           acc: -0.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Top Left
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Left
 
       setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.12) + 0.23);
+        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.12) + 0.23);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time)); //Top Right
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Right
 
       setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.075) + 0.275);
+        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.075) + 0.275);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_3__.selectRandomColor)(excludedColors),
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_3__.rand)(time));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
     }
   }, time);
   setInterval(function () {
@@ -212,13 +208,13 @@ function launchBayCanvas(bg, ctx, w, h) {
               fac3d = firework.pos[1] / 175;
             }
 
-            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_3__.randomFirework)(firework, fac3d);
+            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
           }
 
           break;
 
         case 'Peony':
-          if (firework.time > 500) {
+          if (firework.time > 550) {
             removeObjects.push(i);
           }
 
@@ -239,7 +235,7 @@ function launchBayCanvas(bg, ctx, w, h) {
     removeObjects = [];
     objects = objects.cleanArray();
     objects = objects.concat(newFireworks);
-  }, _utils__WEBPACK_IMPORTED_MODULE_3__.FPS);
+  }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
 }
 
 /***/ }),
@@ -308,27 +304,27 @@ var Chrysanthemum = /*#__PURE__*/function () {
 
     this.origin = props.pos;
     this.pos = props.pos;
+    this.grav = props.vel / 10;
     this.acc = 31 / 32;
-    this.gravity = .0012;
     this.color = props.color;
     this.radius = props.radius || 0.5;
     this.time = 0;
     this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 24).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
       _this.particles[i] = {
         vel: velVec,
         pos: _this.pos
       };
     });
     this.middleLayer = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 24, Math.PI / 24).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 14).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 2 / 3),
         pos: _this.pos
       };
     });
     this.innerLayer = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 12, Math.PI / 12).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 8).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 3),
         pos: _this.pos
@@ -366,9 +362,10 @@ var Chrysanthemum = /*#__PURE__*/function () {
           particle.vel = particle.vel.map(function (v) {
             return v * _this3.acc;
           });
-          particle.vel[1] = particle.vel[1] + _this3.gravity;
+          particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, [0, _this3.grav]);
         });
       });
+      this.origin = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(this.origin, [0, this.grav]);
       this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
@@ -407,34 +404,33 @@ var Peony = /*#__PURE__*/function () {
 
     this.pos = props.pos;
     this.vel = props.vel;
-    this.acc = 31 / 32;
-    this.gravity = .0012;
+    this.grav = props.vel / 10;
     this.color = props.color;
     this.radius = props.radius || 0.5;
     this.time = props.time || 0;
     this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 28).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
       _this.particles[i] = {
         vel: velVec,
         pos: _this.pos
       };
     });
     this.outsideLayer = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 21, Math.PI / 7).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 12).forEach(function (velVec, i) {
       _this.outsideLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 3 / 4),
         pos: _this.pos
       };
     });
     this.middleLayer = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 14, Math.PI * 2 / 7).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(3) + 9).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 2),
         pos: _this.pos
       };
     });
     this.innerLayer = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, 7, Math.PI * 3 / 7).forEach(function (velVec, i) {
+    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(2) + 4).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 0.25),
         pos: _this.pos
@@ -469,9 +465,9 @@ var Peony = /*#__PURE__*/function () {
           particle = layer["".concat(i)];
           particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, particle.vel);
           particle.vel = particle.vel.map(function (v) {
-            return v * _this3.acc;
+            return v * 31 / 32;
           });
-          particle.vel[1] = particle.vel[1] + _this3.gravity;
+          particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, [0, _this3.vel / 10]);
         });
       });
       this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
@@ -635,7 +631,7 @@ function randomFirework(projectile, fac3d) {
         pos: projectile.pos,
         vel: (rand(0.5) + 0.5) * fac3d,
         color: projectile.color,
-        radius: projectile.radius * 0.25 * fac3d
+        radius: projectile.radius * 0.4 * fac3d
       });
 
     case 1:

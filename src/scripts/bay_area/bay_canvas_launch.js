@@ -1,14 +1,12 @@
 import Projectile from "../projectiles/projectile";
-import Peony from "../projectiles/peony";
-import Chrysanthemum from '../projectiles/chrysanthemum'
-import {selectRandomColor, rand, randInt, FPS, randomFirework} from '../utils';
+import {selectRandomColor, rand, FPS, randomFirework} from '../utils';
 
 export default function launchBayCanvas(bg, ctx, w, h) {
     let objects = [];
     let removeObjects = [];
     let newFireworks;
     let fac3d;
-    const time = 700;
+    const time = 800;
     const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
 
     setInterval( () => {
@@ -84,7 +82,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                     } 
                     break;
                 case 'Peony':
-                    if(firework.time > 500) {
+                    if(firework.time > 550) {
                         removeObjects.push(i)
                     }   
                 case 'Chrysanthemum':

@@ -39,7 +39,7 @@ export function randomFirework(projectile, fac3d) {
                 pos: projectile.pos,
                 vel: ((rand(0.5))+0.5)*fac3d,
                 color: projectile.color,
-                radius: projectile.radius*0.25*fac3d,
+                radius: projectile.radius*0.4*fac3d,
             })
         case 1:
         return new Chrysanthemum({

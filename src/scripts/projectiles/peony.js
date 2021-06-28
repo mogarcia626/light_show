@@ -4,34 +4,33 @@ class Peony {
     constructor(props) {
         this.pos = props.pos;
         this.vel = props.vel;
-        this.acc = 31/32;
-        this.gravity = .0012
+        this.grav = props.vel/10;
         this.color = props.color;
         this.radius = props.radius || 0.5;  
         this.time = props.time || 0;
         this.particles = {}
-        subVectors(props.vel, 28 ).forEach((velVec, i) => {
+        subVectors(props.vel, randInt(6)+18 ).forEach((velVec, i) => {
             this.particles[i] = {
                 vel: velVec,
                 pos: this.pos,
             }
         })  
         this.outsideLayer = {}
-        subVectors(props.vel, 21, Math.PI/7 ).forEach((velVec, i,) => {
+        subVectors(props.vel, randInt(4)+12 ).forEach((velVec, i,) => {
             this.outsideLayer[i] = {
                 vel: multiplyVector(velVec, 3/4),
                 pos: this.pos,
             }
         }) 
         this.middleLayer = {}
-        subVectors(props.vel, 14, Math.PI*2/7 ).forEach((velVec, i) => {
+        subVectors(props.vel, randInt(3)+9,).forEach((velVec, i) => {
             this.middleLayer[i] = {
                 vel: multiplyVector(velVec, 1/2),
                 pos: this.pos,
             }
         })
         this.innerLayer = {}
-        subVectors(props.vel, 7, Math.PI*3/7 ).forEach((velVec, i) => {
+        subVectors(props.vel, randInt(2)+4 ).forEach((velVec, i) => {
             this.innerLayer[i] = {
                 vel: multiplyVector(velVec, 0.25),
                 pos: this.pos,
@@ -58,13 +57,12 @@ class Peony {
 
     move() {
         let particle;
-
         [this.particles, this.outsideLayer, this.middleLayer, this.innerLayer].forEach(layer => {
             Object.keys(layer).forEach(i  => {
                 particle = layer[`${i}`];            
                 particle.pos = addVectors(particle.pos, particle.vel);    
-                particle.vel = particle.vel.map(v => v*this.acc)
-                particle.vel[1] = particle.vel[1] + this.gravity
+                particle.vel = particle.vel.map(v => v*31/32)
+                    particle.pos = addVectors(particle.pos, [0, this.vel/10])
             }); 
         })
         this.time = this.time + FPS;

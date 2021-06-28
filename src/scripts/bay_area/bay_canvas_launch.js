@@ -6,7 +6,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
     let removeObjects = [];
     let newFireworks;
     let fac3d;
-    const time = 800;
+    const time = 900;
     const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
 
     setInterval( () => {

@@ -134,7 +134,7 @@ function launchBayCanvas(bg, ctx, w, h) {
   var removeObjects = [];
   var newFireworks;
   var fac3d;
-  var time = 800;
+  var time = 900;
   var excludedColors = [
     /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
   ];
@@ -547,9 +547,9 @@ var Projectile = /*#__PURE__*/function () {
   }, {
     key: "move",
     value: function move() {
-      this.prevPos.push(this.pos);
-
       if (this.time % _utils__WEBPACK_IMPORTED_MODULE_0__.FPS * 2) {
+        this.prevPos.push(this.pos);
+
         if (this.prevPos.length > this.trailLength) {
           this.smokePos.push(this.prevPos.shift());
           if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
@@ -790,8 +790,7 @@ document.addEventListener("DOMContentLoaded", function () {
   cv.addEventListener('click', function (event) {
     var context = this.getContext('2d');
     var x = this.offsetLeft + this.clientLeft;
-    var y = this.offsetTop + this.clientTop;
-    console.log("x:".concat((event.pageX - x) / this.width, "  y:").concat((event.pageY - y) / this.height));
+    var y = this.offsetTop + this.clientTop; // console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
   });
 });
 })();

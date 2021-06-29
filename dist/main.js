@@ -100,12 +100,10 @@ var BayCanvas = /*#__PURE__*/function () {
       ctx.closePath();
       ctx.fillStyle = "#0B0917";
       ctx.fill();
-    }
-  }, {
-    key: "drawOnCanvas",
-    value: function drawOnCanvas(ctx) {
-      this.draw(ctx);
-    }
+    } // drawOnCanvas(ctx) {
+    //     this.draw(ctx);
+    // }
+
   }]);
 
   return BayCanvas;
@@ -194,7 +192,8 @@ function launchBayCanvas(bg, ctx, w, h) {
   }, time);
   setInterval(function () {
     newFireworks = [];
-    bg.drawOnCanvas(ctx);
+    console.log(bg);
+    bg.draw(ctx);
     objects.forEach(function (firework, i) {
       firework.draw(ctx);
       firework.move();
@@ -252,6 +251,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
 /* harmony import */ var _bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bay_area/bay_canvas_launch */ "./src/scripts/bay_area/bay_canvas_launch.js");
+/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
+/* harmony import */ var _solid_color_solid_color_launch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./solid_color/solid_color_launch */ "./src/scripts/solid_color/solid_color_launch.js");
+
+
 
 
 
@@ -261,12 +264,18 @@ function CanvasDisplay(background) {
   canvas.width = 0.96 * window.innerWidth;
   canvas.height = Math.min(0.96 * window.innerWidth * 0.5625, 0.96 * window.innerHeight);
   var bg;
+  console.log(background);
 
   switch (background) {
     case 'bay-area-canvas':
       bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-      bg.drawOnCanvas(ctx);
+      bg.draw(ctx);
       (0,_bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__.default)(bg, ctx, canvas.width, canvas.height);
+
+    case 'solid-color-canvas':
+      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_2__.default(document.getElementById('solidBackgroundColor').value);
+      bg.draw(ctx);
+      (0,_solid_color_solid_color_launch__WEBPACK_IMPORTED_MODULE_3__.default)(bg, ctx, canvas.width, canvas.height);
 
     default:
       bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
@@ -570,6 +579,153 @@ var Projectile = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./src/scripts/solid_color/solid_color_canvas.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/solid_color/solid_color_canvas.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ SolidCanvas)
+/* harmony export */ });
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var SolidCanvas = /*#__PURE__*/function () {
+  function SolidCanvas(color) {
+    _classCallCheck(this, SolidCanvas);
+
+    this.width = 0.96 * window.innerWidth;
+    this.height = Math.min(0.96 * window.innerWidth * 0.5625, 0.96 * window.innerHeight);
+    this.color = color;
+  }
+
+  _createClass(SolidCanvas, [{
+    key: "draw",
+    value: function draw(ctx) {
+      var h = this.height;
+      var w = this.width; // fill rectancle
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.rect(0, 0, w, h);
+      ctx.fill();
+    } // drawOnCanvas(ctx) {
+    //     this.draw(ctx);
+    // }
+
+  }]);
+
+  return SolidCanvas;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/scripts/solid_color/solid_color_launch.js":
+/*!*******************************************************!*\
+  !*** ./src/scripts/solid_color/solid_color_launch.js ***!
+  \*******************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ launchSolidCanvas)
+/* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+
+
+function launchSolidCanvas(bg, ctx, w, h) {
+  var objects = [];
+  var removeObjects = [];
+  var newFireworks;
+  var fac3d;
+  var time = 450;
+  var excludedColors = [
+    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
+  ];
+  setInterval(function () {
+    if (objects.length < 25) {
+      ///Bottom Left
+      setTimeout(function () {
+        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.25) + 0.75);
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 400],
+          acc: -.01,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
+
+      setTimeout(function () {
+        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(25) + 0.75);
+        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [pw, ph],
+          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 400],
+          acc: -0.01,
+          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
+          radius: ph / 250
+        }));
+      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
+    }
+  }, time);
+  setInterval(function () {
+    newFireworks = [];
+    bg.draw(ctx);
+    objects.forEach(function (firework, i) {
+      firework.draw(ctx);
+      firework.move();
+
+      switch (firework.getName()) {
+        case 'Projectile':
+          if (firework.vel[1] > 0.15) {
+            if (firework.pos[1] < 0.39 * h) {
+              fac3d = firework.pos[1] / 200;
+            } else {
+              fac3d = firework.pos[1] / 175;
+            }
+
+            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
+          }
+
+          break;
+
+        case 'Peony':
+          if (firework.time > 550) {
+            removeObjects.push(i);
+          }
+
+        case 'Chrysanthemum':
+          if (firework.time > 600) {
+            removeObjects.push(i);
+          }
+
+          break;
+
+        default:
+          break;
+      }
+    });
+    removeObjects.forEach(function (idx) {
+      delete objects[idx];
+    });
+    removeObjects = [];
+    objects = objects.cleanArray();
+    objects = objects.concat(newFireworks);
+  }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+}
+
+/***/ }),
+
 /***/ "./src/scripts/utils.js":
 /*!******************************!*\
   !*** ./src/scripts/utils.js ***!
@@ -660,10 +816,10 @@ Array.prototype.cleanArray = function () {
 };
 
 var COLORS = {
-  blue: ['#1738B7', '#3340DB', '#504DF4', '#2E42CB', '#539DB3', '#39657E'],
-  pink: ['#DE5BF8', '#EFE8FF', '#FC7F81', '#C99C9F', '#B6A09D'],
-  yellow: ['#FAEFC4', '#fade98'],
-  green: ['#6e9b81', '#2b583d', '#a0c0ad', '#60664d'],
+  blue: ['#3340DB', '#504DF4', '#539DB3', '#39657E'],
+  pink: ['#DE5BF8', '#FC7F81', '#ff007f', '#ff1493'],
+  yellow: ['#ffff00', '#e2bb2b', '#b69835'],
+  green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
   red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
   purple: ['#A76BFE', '#792BB2', '#E365E4'],
   orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']
@@ -781,9 +937,12 @@ __webpack_require__.r(__webpack_exports__);
 
 document.addEventListener("DOMContentLoaded", function () {
   //Close Welcome Modal and fill out Canvas with background of choice
-  document.getElementById("close-modal").addEventListener('click', function () {
-    document.getElementById("welcome-modal").style.display = "none";
-    var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)('bay-area-canvas');
+  var canvasButtons = document.getElementsByClassName('close-modal');
+  Object.values(canvasButtons).forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      document.getElementById("welcome-modal").style.display = "none";
+      var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id);
+    });
   }); // Add event listener for `click` events.
 
   var cv = document.querySelector('canvas');

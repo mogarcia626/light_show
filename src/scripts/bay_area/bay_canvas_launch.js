@@ -64,7 +64,6 @@ export default function launchBayCanvas(bg, ctx, w, h) {
 
     setInterval( () => {
         newFireworks = []
-        console.log(bg)
         bg.draw(ctx)
         objects.forEach((firework, i) => {
             firework.draw(ctx)

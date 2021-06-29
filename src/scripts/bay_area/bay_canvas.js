@@ -1,8 +1,7 @@
 export default class BayCanvas {
     constructor() {
         this.width = 0.96*window.innerWidth;
-        this.height = Math.min(0.96*window.innerWidth*0.5625, 0.96*window.innerHeight);
-         
+        this.height = Math.min(0.96*window.innerWidth*0.5625, 0.96*window.innerHeight);         
     }
     
     draw(ctx) {
@@ -84,9 +83,9 @@ export default class BayCanvas {
         ctx.fill();
     }
 
-    drawOnCanvas(ctx) {
-        this.draw(ctx);
-    }
+    // drawOnCanvas(ctx) {
+    //     this.draw(ctx);
+    // }
 
 }
 

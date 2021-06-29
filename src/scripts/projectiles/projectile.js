@@ -41,9 +41,10 @@ import { FPS } from '../utils';
     }
 
     move() {
-        this.prevPos.push(this.pos)
-
+        
         if (this.time % FPS*2) {
+            this.prevPos.push(this.pos)
+
             if (this.prevPos.length > this.trailLength) {
                 this.smokePos.push(this.prevPos.shift());
                 if (this.smokePos.length > this.smokeLength) this.smokePos.shift()

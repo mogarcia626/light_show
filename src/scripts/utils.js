@@ -65,10 +65,10 @@ Array.prototype.cleanArray = function() {
 }
 
 export const COLORS = {
-    blue:['#1738B7', '#3340DB', '#504DF4', '#2E42CB', '#539DB3', '#39657E'],
-    pink:['#DE5BF8', '#EFE8FF', '#FC7F81', '#C99C9F', '#B6A09D'],
-    yellow: ['#FAEFC4', '#fade98'],
-    green: ['#6e9b81', '#2b583d', '#a0c0ad', '#60664d'],
+    blue:['#3340DB', '#504DF4', '#539DB3', '#39657E'],
+    pink:['#DE5BF8', '#FC7F81', '#ff007f', '#ff1493'],
+    yellow: ['#ffff00', '#e2bb2b', '#b69835'],
+    green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
     red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
     purple: ['#A76BFE', '#792BB2', '#E365E4'],
     orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']

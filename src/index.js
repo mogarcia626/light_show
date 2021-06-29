@@ -2,12 +2,19 @@ import "./styles/index.scss";
 import CanvasDisplay from './scripts/canvas_display'
 import { selectRandomColor } from './scripts/utils'
 
-document.addEventListener("DOMContentLoaded", function() {      
+
+document.addEventListener("DOMContentLoaded", function() {     
     //Close Welcome Modal and fill out Canvas with background of choice
-    document.getElementById("close-modal").addEventListener('click', function() {        
-        document.getElementById("welcome-modal").style.display="none";
-        let canvasEl = CanvasDisplay('bay-area-canvas')          
-    })    
+    const canvasButtons = document.getElementsByClassName('close-modal');
+
+    Object.values(canvasButtons).forEach(button => {
+        button.addEventListener('click', function(e) {
+            const color = document.getElementById('solidBackgroundColor').value
+            document.getElementById("welcome-modal").style.display="none";
+                       
+            let canvasEl = CanvasDisplay(e.target.id, color)          
+        })            
+    });
 
     // Add event listener for `click` events.
     let cv = document.querySelector('canvas')

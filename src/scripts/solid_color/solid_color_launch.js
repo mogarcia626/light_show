@@ -1,60 +1,38 @@
 import Projectile from "../projectiles/projectile";
 import {selectRandomColor, rand, FPS, randomFirework} from '../utils';
 
-export default function launchBayCanvas(bg, ctx, w, h) {
+export default function launchSolidCanvas(bg, ctx, w, h) {
     let objects = [];
     let removeObjects = [];
     let newFireworks;
     let fac3d;
-    const time = 900;
+    const time = 450;
     const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
-
+    
     setInterval( () => {
-        if (objects.length < 25) {
+        if (objects.length < 20) {
 
             ///Bottom Left
             setTimeout(() => { 
-                let [pw, ph] = [w*rand(0.5), h*(rand(0.36)+0.44)];  // 0.4 - 0.8
+                let [pw, ph] = [w*rand(0.5), h*(rand(0.45)+0.45)];
                 objects.push(new Projectile( {
-                    pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -ph/400],
-                    acc: -.01,
+                    pos: [pw, ph],                    
+                    vel: [(rand(0.5*w)/w)-0.25, -ph/200],
+                    acc: -.015,
                     color: selectRandomColor(excludedColors),
-                    radius: ph/250,
+                    radius: ph/200,
                 }))
             }, rand(time))
         
-        //Bottom Right
+            //Bottom Right
             setTimeout(() => { 
-                let [pw, ph] = [w*(0.5+rand(0.5)), h*(rand(0.36)+0.4)];  // 0.4 - 0.8
+                let [pw, ph] = [w*(0.5+rand(0.5)), h*(rand(0.25)+0.75)];
                 objects.push(new Projectile( {
                     pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/400],
+                    vel: [(rand(0.5*w)/w)-0.25, -h/200],
                     acc: -0.01,
                     color: selectRandomColor(excludedColors),
-                    radius: ph/250,
-                }))
-            }, rand(time))
-            //Top Left
-            setTimeout(() => { 
-                let [pw, ph] = [w*rand(0.5), h*(rand(0.12)+0.23)]
-                objects.push(new Projectile( {
-                    pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
-                    acc: -0.008,
-                    color: selectRandomColor(excludedColors),
-                    radius: ph/250,
-                }))
-            }, rand(time))
-            //Top Right
-            setTimeout(() => {
-                let [pw, ph] = [ w*(0.5+rand(0.5)), h*(rand(0.075)+0.275)]
-                objects.push(new Projectile( {
-                    pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
-                    acc: -0.008,
-                    color: selectRandomColor(excludedColors),
-                    radius: ph/250,
+                    radius: ph/200,
                 }))
             }, rand(time))
         }
@@ -71,12 +49,8 @@ export default function launchBayCanvas(bg, ctx, w, h) {
 
             switch (firework.getName()) {
                 case 'Projectile':
-                    if (firework.vel[1] > 0.15) {
-
-                        if (firework.pos[1] < 0.39*h) {
-                            fac3d = firework.pos[1]/200
-                        } else {fac3d = firework.pos[1]/175}
-                        
+                    if (firework.vel[1] > 0.15) {  
+                        fac3d = firework.pos[1]/50                     
                         objects[i] = randomFirework(firework, fac3d);
                     } 
                     break;

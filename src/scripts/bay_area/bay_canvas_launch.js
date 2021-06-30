@@ -61,7 +61,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
         }
     }, time)  
         
-    intervals.keys.push(launchFireworks);
+    intervals.push(launchFireworks);
 
     const renderCanvas = setInterval( () => {
         newFireworks = []
@@ -105,7 +105,6 @@ export default function launchBayCanvas(bg, ctx, w, h) {
         objects = objects.concat(newFireworks);
     }, FPS)
 
-    intervals.keys.push(renderCanvas);
-    console.log(intervals)
+    intervals.push(renderCanvas);
     returnToHome(intervals);
 }

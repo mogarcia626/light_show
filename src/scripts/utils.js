@@ -53,14 +53,14 @@ export function randomFirework(projectile, fac3d) {
     }
 }
 
-function returnToHome(intervalArray) {
+export function returnToHome(intervalArray) {
     const homeButton = document.getElementById('back-to-main');
     homeButton.addEventListener('click', function() {  
         intervalArray.forEach(interval => {
             clearInterval(interval)
         });          
         document.getElementById("welcome-modal").style.display="block";
-        homeButton.style.display="none";    
+        document.getElementById('canvas-menu').style.display="none";    
     }) 
 }
 

@@ -83,9 +83,5 @@ export default class BayCanvas {
         ctx.fill();
     }
 
-    // drawOnCanvas(ctx) {
-    //     this.draw(ctx);
-    // }
-
 }
 

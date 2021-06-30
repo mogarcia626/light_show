@@ -11,6 +11,8 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener('click', function(e) {
             const color = document.getElementById('solidBackgroundColor').value
             document.getElementById("welcome-modal").style.display="none";
+
+            document.getElementById("canvas-menu").style.display="flex";
                        
             let canvasEl = CanvasDisplay(e.target.id, color)          
         })            

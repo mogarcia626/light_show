@@ -1,5 +1,5 @@
 import Projectile from "../projectiles/projectile";
-import {selectRandomColor, rand, FPS, randomFirework} from '../utils';
+import {selectRandomColor, rand, FPS, randomFirework, returnToHome} from '../utils';
 
 export default function launchSolidCanvas(bg, ctx, w, h) {
     let objects = [];
@@ -8,8 +8,9 @@ export default function launchSolidCanvas(bg, ctx, w, h) {
     let fac3d;
     const time = 450;
     const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
-    
-    setInterval( () => {
+    const intervals = []
+
+    const launchFireworks = setInterval( () => {
         if (objects.length < 20) {
 
             ///Bottom Left
@@ -38,9 +39,9 @@ export default function launchSolidCanvas(bg, ctx, w, h) {
         }
     }, time)  
         
-                
+    intervals.push(launchFireworks);
 
-    setInterval( () => {
+    const renderCanvas = setInterval( () => {
         newFireworks = []
         bg.draw(ctx)
         objects.forEach((firework, i) => {
@@ -78,5 +79,6 @@ export default function launchSolidCanvas(bg, ctx, w, h) {
         objects = objects.concat(newFireworks);
     }, FPS)
 
-
+    intervals.push(renderCanvas);
+    returnToHome(intervals);
 }

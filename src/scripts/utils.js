@@ -53,6 +53,17 @@ export function randomFirework(projectile, fac3d) {
     }
 }
 
+function returnToHome(intervalArray) {
+    const homeButton = document.getElementById('back-to-main');
+    homeButton.addEventListener('click', function() {  
+        intervalArray.forEach(interval => {
+            clearInterval(interval)
+        });          
+        document.getElementById("welcome-modal").style.display="block";
+        homeButton.style.display="none";    
+    }) 
+}
+
 //Classname.getName() wil return 'class name'
 Object.prototype.getName = function() { 
    var funcNameRegex = /function (.{1,})\(/;

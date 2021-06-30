@@ -6,8 +6,8 @@
  function CanvasDisplay(background, color = null) {
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 0.96*window.innerWidth;
-    canvas.height = Math.min(0.96*window.innerWidth*0.5625, 0.96*window.innerHeight);        
+    canvas.width = 0.9*window.innerWidth;
+    canvas.height = Math.min(0.9*window.innerWidth*0.5625, 0.9*window.innerHeight);        
     
     let bg;
     switch (background) {

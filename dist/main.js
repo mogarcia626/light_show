@@ -22,8 +22,8 @@ var BayCanvas = /*#__PURE__*/function () {
   function BayCanvas() {
     _classCallCheck(this, BayCanvas);
 
-    this.width = 0.96 * window.innerWidth;
-    this.height = Math.min(0.96 * window.innerWidth * 0.5625, 0.96 * window.innerHeight);
+    this.width = 0.9 * window.innerWidth;
+    this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
   }
 
   _createClass(BayCanvas, [{
@@ -100,10 +100,7 @@ var BayCanvas = /*#__PURE__*/function () {
       ctx.closePath();
       ctx.fillStyle = "#0B0917";
       ctx.fill();
-    } // drawOnCanvas(ctx) {
-    //     this.draw(ctx);
-    // }
-
+    }
   }]);
 
   return BayCanvas;
@@ -136,7 +133,8 @@ function launchBayCanvas(bg, ctx, w, h) {
   var excludedColors = [
     /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
   ];
-  setInterval(function () {
+  var intervals = [];
+  var launchFireworks = setInterval(function () {
     if (objects.length < 25) {
       ///Bottom Left
       setTimeout(function () {
@@ -190,7 +188,8 @@ function launchBayCanvas(bg, ctx, w, h) {
       }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
     }
   }, time);
-  setInterval(function () {
+  intervals.push(launchFireworks);
+  var renderCanvas = setInterval(function () {
     newFireworks = [];
     bg.draw(ctx);
     objects.forEach(function (firework, i) {
@@ -234,6 +233,8 @@ function launchBayCanvas(bg, ctx, w, h) {
     objects = objects.cleanArray();
     objects = objects.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+  intervals.push(renderCanvas);
+  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
 }
 
 /***/ }),
@@ -261,8 +262,8 @@ function CanvasDisplay(background) {
   var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
   var canvas = document.querySelector('canvas');
   var ctx = canvas.getContext('2d');
-  canvas.width = 0.96 * window.innerWidth;
-  canvas.height = Math.min(0.96 * window.innerWidth * 0.5625, 0.96 * window.innerHeight);
+  canvas.width = 0.9 * window.innerWidth;
+  canvas.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
   var bg;
 
   switch (background) {
@@ -600,8 +601,8 @@ var SolidCanvas = /*#__PURE__*/function () {
   function SolidCanvas(color) {
     _classCallCheck(this, SolidCanvas);
 
-    this.width = 0.96 * window.innerWidth;
-    this.height = Math.min(0.96 * window.innerWidth * 0.5625, 0.96 * window.innerHeight);
+    this.width = 0.9 * window.innerWidth;
+    this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
     this.color = color;
   }
 
@@ -648,7 +649,8 @@ function launchSolidCanvas(bg, ctx, w, h) {
   var excludedColors = [
     /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
   ];
-  setInterval(function () {
+  var intervals = [];
+  var launchFireworks = setInterval(function () {
     if (objects.length < 20) {
       ///Bottom Left
       setTimeout(function () {
@@ -676,7 +678,8 @@ function launchSolidCanvas(bg, ctx, w, h) {
       }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
     }
   }, time);
-  setInterval(function () {
+  intervals.push(launchFireworks);
+  var renderCanvas = setInterval(function () {
     newFireworks = [];
     bg.draw(ctx);
     objects.forEach(function (firework, i) {
@@ -715,6 +718,8 @@ function launchSolidCanvas(bg, ctx, w, h) {
     objects = objects.cleanArray();
     objects = objects.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+  intervals.push(renderCanvas);
+  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
 }
 
 /***/ }),
@@ -733,6 +738,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "multiplyVector": () => (/* binding */ multiplyVector),
 /* harmony export */   "subVectors": () => (/* binding */ subVectors),
 /* harmony export */   "randomFirework": () => (/* binding */ randomFirework),
+/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
 /* harmony export */   "FPS": () => (/* binding */ FPS),
@@ -794,6 +800,16 @@ function randomFirework(projectile, fac3d) {
     default:
       break;
   }
+}
+function returnToHome(intervalArray) {
+  var homeButton = document.getElementById('back-to-main');
+  homeButton.addEventListener('click', function () {
+    intervalArray.forEach(function (interval) {
+      clearInterval(interval);
+    });
+    document.getElementById("welcome-modal").style.display = "block";
+    document.getElementById('canvas-menu').style.display = "none";
+  });
 } //Classname.getName() wil return 'class name'
 
 Object.prototype.getName = function () {
@@ -935,6 +951,7 @@ document.addEventListener("DOMContentLoaded", function () {
     button.addEventListener('click', function (e) {
       var color = document.getElementById('solidBackgroundColor').value;
       document.getElementById("welcome-modal").style.display = "none";
+      document.getElementById("canvas-menu").style.display = "flex";
       var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
     });
   }); // Add event listener for `click` events.

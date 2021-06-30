@@ -39,22 +39,39 @@
     background-color: navy;
     color: white;
 }
+/* Canvas Menu styling */
+
+#canvas-menu {
+    display: none; /* Off Screen until canvas is rendered */  
+    justify-content: space-between;
+    position: absolute; 
+    bottom: 12%; 
+    z-index: 5;
+    width: 90%
+}
+
+.open-modal {
+
+}
+
+#back-to-main {
+
+}
 body {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   background-color: #2b2727;
   width: 100vw;
   height: 100vh;
-  padding: 0;
-  margin: 0;
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-canvas {
-  align-self: center;
-  padding: 0;
-  margin: 0;
+body canvas {
+  position: absolute;
+  margin: auto;
+  width: 90%;
+  z-index: -1;
 }
 
 /*# sourceMappingURL=main.css.map*/

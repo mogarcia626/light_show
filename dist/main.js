@@ -190,8 +190,8 @@ function launchBayCanvas(bg, ctx, w, h) {
   }, time);
   intervals.push(launchFireworks);
   var renderCanvas = setInterval(function () {
-    newFireworks = [];
-    bg.draw(ctx);
+    newFireworks = []; // bg.draw(ctx)
+
     objects.forEach(function (firework, i) {
       firework.draw(ctx);
       firework.move();
@@ -680,8 +680,8 @@ function launchSolidCanvas(bg, ctx, w, h) {
   }, time);
   intervals.push(launchFireworks);
   var renderCanvas = setInterval(function () {
-    newFireworks = [];
-    bg.draw(ctx);
+    newFireworks = []; // bg.draw(ctx)
+
     objects.forEach(function (firework, i) {
       firework.draw(ctx);
       firework.move();

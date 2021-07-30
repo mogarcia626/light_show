@@ -43,7 +43,7 @@ export default function launchSolidCanvas(bg, ctx, w, h) {
 
     const renderCanvas = setInterval( () => {
         newFireworks = []
-        bg.draw(ctx)
+        // bg.draw(ctx)
         objects.forEach((firework, i) => {
             firework.draw(ctx)
             firework.move()

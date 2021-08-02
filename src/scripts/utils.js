@@ -82,10 +82,11 @@ export const COLORS = {
     green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
     red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
     purple: ['#A76BFE', '#792BB2', '#E365E4'],
-    orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']
+    orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'], 
+    white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 }
 
-export function selectRandomColor(excludeArr = []) {
+export function establishColorList(excludeArr = []) {
     let colors = Object.keys(COLORS)
     if (excludeArr.length > 0) {
         excludeArr.forEach(exclude => {
@@ -93,9 +94,13 @@ export function selectRandomColor(excludeArr = []) {
                 if (exclude === color) delete colors[i]
             });        
         });
-        colors = colors.cleanArray()        
+       colors = colors.cleanArray()        
     }
-    let colorKey = colors[randInt(colors.length)]
+    return colors
+}
+
+export function selectRandomColor(colors) {
+    const colorKey = colors[randInt(colors.length)]
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 

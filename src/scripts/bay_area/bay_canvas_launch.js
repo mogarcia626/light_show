@@ -1,5 +1,5 @@
 import Projectile from "../projectiles/projectile";
-import {selectRandomColor, rand, FPS, randomFirework, returnToHome} from '../utils';
+import {establishColorList, selectRandomColor, rand, FPS, randomFirework, returnToHome} from '../utils';
 
 export default function launchBayCanvas(bg, ctx, w, h) {
     let objects = [];
@@ -7,7 +7,8 @@ export default function launchBayCanvas(bg, ctx, w, h) {
     let newFireworks;
     let fac3d;
     const time = 900;
-    const excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
+    let excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
+    let colorList = establishColorList(excludedColors)
     const intervals = []
 
     const launchFireworks = setInterval( () => {
@@ -20,7 +21,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                     pos: [pw, ph],
                     vel: [(rand(0.5*w)/w)-0.25, -ph/400],
                     acc: -.01,
-                    color: selectRandomColor(excludedColors),
+                    color: selectRandomColor(colorList),
                     radius: ph/250,
                 }))
             }, rand(time))
@@ -32,7 +33,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                     pos: [pw, ph],
                     vel: [(rand(0.5*w)/w)-0.25, -h/400],
                     acc: -0.01,
-                    color: selectRandomColor(excludedColors),
+                    color: selectRandomColor(colorList),
                     radius: ph/250,
                 }))
             }, rand(time))
@@ -43,7 +44,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                     pos: [pw, ph],
                     vel: [(rand(0.5*w)/w)-0.25, -h/800],
                     acc: -0.008,
-                    color: selectRandomColor(excludedColors),
+                    color: selectRandomColor(colorList),
                     radius: ph/250,
                 }))
             }, rand(time))
@@ -54,7 +55,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                     pos: [pw, ph],
                     vel: [(rand(0.5*w)/w)-0.25, -h/800],
                     acc: -0.008,
-                    color: selectRandomColor(excludedColors),
+                    color: selectRandomColor(colorList),
                     radius: ph/250,
                 }))
             }, rand(time))

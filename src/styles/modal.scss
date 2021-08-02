@@ -39,3 +39,18 @@
     background-color: navy;
     color: white;
 }
+
+#colors-modal {
+    display: none; /* On Screen by default */    
+}
+
+#colors-modal-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 60%;
+    border-radius: 5px;
+    border: solid white 5px;
+    background-color: navy;
+    color: white;
+}

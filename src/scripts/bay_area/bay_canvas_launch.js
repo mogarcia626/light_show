@@ -1,14 +1,14 @@
 import Projectile from "../projectiles/projectile";
-import {establishColorList, selectRandomColor, rand, FPS, randomFirework, returnToHome} from '../utils';
+import * as Util from '../utils';
+import { returnToHome, openColorMenu } from "../nav_util";
 
-export default function launchBayCanvas(bg, ctx, w, h) {
+export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set()) {
     let objects = [];
     let removeObjects = [];
     let newFireworks;
     let fac3d;
     const time = 900;
-    let excludedColors = [blue/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
-    let colorList = establishColorList(excludedColors)
+    const colorList = Util.establishColorList(excludedColors)
     const intervals = []
 
     const launchFireworks = setInterval( () => {
@@ -16,49 +16,49 @@ export default function launchBayCanvas(bg, ctx, w, h) {
 
             ///Bottom Left
             setTimeout(() => { 
-                let [pw, ph] = [w*rand(0.5), h*(rand(0.36)+0.44)];  // 0.4 - 0.8
+                let [pw, ph] = [w*Util.rand(0.5), h*(Util.rand(0.36)+0.44)];  // 0.4 - 0.8
                 objects.push(new Projectile( {
                     pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -ph/400],
+                    vel: [(Util.rand(0.5*w)/w)-0.25, -ph/400],
                     acc: -.01,
-                    color: selectRandomColor(colorList),
+                    color: Util.selectRandomColor(colorList),
                     radius: ph/250,
                 }))
-            }, rand(time))
+            }, Util.rand(time))
         
         //Bottom Right
             setTimeout(() => { 
-                let [pw, ph] = [w*(0.5+rand(0.5)), h*(rand(0.36)+0.4)];  // 0.4 - 0.8
+                let [pw, ph] = [w*(0.5+Util.rand(0.5)), h*(Util.rand(0.36)+0.4)];  // 0.4 - 0.8
                 objects.push(new Projectile( {
                     pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/400],
+                    vel: [(Util.rand(0.5*w)/w)-0.25, -h/400],
                     acc: -0.01,
-                    color: selectRandomColor(colorList),
+                    color: Util.selectRandomColor(colorList),
                     radius: ph/250,
                 }))
-            }, rand(time))
+            }, Util.rand(time))
             //Top Left
             setTimeout(() => { 
-                let [pw, ph] = [w*rand(0.5), h*(rand(0.12)+0.23)]
+                let [pw, ph] = [w*Util.rand(0.5), h*(Util.rand(0.12)+0.23)]
                 objects.push(new Projectile( {
                     pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
+                    vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                     acc: -0.008,
-                    color: selectRandomColor(colorList),
+                    color: Util.selectRandomColor(colorList),
                     radius: ph/250,
                 }))
-            }, rand(time))
+            }, Util.rand(time))
             //Top Right
             setTimeout(() => {
-                let [pw, ph] = [ w*(0.5+rand(0.5)), h*(rand(0.075)+0.275)]
+                let [pw, ph] = [ w*(0.5+Util.rand(0.5)), h*(Util.rand(0.075)+0.275)]
                 objects.push(new Projectile( {
                     pos: [pw, ph],
-                    vel: [(rand(0.5*w)/w)-0.25, -h/800],
+                    vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                     acc: -0.008,
-                    color: selectRandomColor(colorList),
+                    color: Util.selectRandomColor(colorList),
                     radius: ph/250,
                 }))
-            }, rand(time))
+            }, Util.rand(time))
         }
     }, time)  
         
@@ -79,7 +79,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
                             fac3d = firework.pos[1]/200
                         } else {fac3d = firework.pos[1]/175}
                         
-                        objects[i] = randomFirework(firework, fac3d);
+                        objects[i] = Util.randomFirework(firework, fac3d);
                     } 
                     break;
                 case 'Peony':
@@ -104,8 +104,9 @@ export default function launchBayCanvas(bg, ctx, w, h) {
 
         objects = objects.cleanArray()
         objects = objects.concat(newFireworks);
-    }, FPS)
+    }, Util.FPS)
 
     intervals.push(renderCanvas);
     returnToHome(intervals);
+    openColorMenu(launchBayCanvas, bg, ctx, w, h, intervals, excludedColors)
 }

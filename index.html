@@ -33,6 +33,41 @@
 
     <div id='canvas-menu'>.
         <button class='open-modal' id='back-to-main'>HOME</button>
+        <button class='open-modal' id='select-colors'>COLOR</button>
+    </div>
+
+    <div id="colors-modal" class="modal">
+        <div id="colors-modal-content" class="modal-content">
+            <p>The colors selected will appear in your light show.</p>
+    
+            <form>
+                <label>Select Colors:</label>
+                    <input type="checkbox" class='color-check' id="yellow" value="yellow" checked>
+                    <label for="yellow">Yellow</label>
+                <input type="checkbox" class='color-check' id="blue" value="blue" checked>
+                <label for="blue">Blue</label><br>
+                    <input type="checkbox" class='color-check' id="pink" value="pink" checked>
+                    <label for="pink">Pink</label><br>
+                <input type="checkbox" class='color-check' id="green" value="green" checked>
+                <label for="green">Green</label>
+                    <input type="checkbox" class='color-check' id="red" value="red" checked>
+                    <label for="red">Red</label>
+                <input type="checkbox" class='color-check' id="purple" value="purple" checked>
+                <label for="purple">Purple</label>
+                    <input type="checkbox" class='color-check' id="orange" value="orange" checked>
+                    <label for="orange">Orange</label>
+                <input type="checkbox" class='color-check' id="white" value="white" checked>
+                <label for="white">White</label>
+                    <input type="checkbox" id="all" value="all" checked>
+                    <label for="white">Select All</label>
+                <input type="checkbox" id="none" value="none" >
+                <label for="white">Deselect All</label>
+            </form>
+            <br>
+
+            <button class='close-modal' id='close-color-modal'>CONTINUE</button>
+        
+        </div>
     </div>
     
 </body>

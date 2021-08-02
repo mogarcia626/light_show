@@ -122,71 +122,71 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+
 
 
 function launchBayCanvas(bg, ctx, w, h) {
+  var excludedColors = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : new Set();
   var objects = [];
   var removeObjects = [];
   var newFireworks;
   var fac3d;
   var time = 900;
-  var excludedColors = [blue
-  /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
-  ];
-  var colorList = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList)(excludedColors);
+  var colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excludedColors);
   var intervals = [];
   var launchFireworks = setInterval(function () {
     if (objects.length < 25) {
       ///Bottom Left
       setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.44); // 0.4 - 0.8
+        var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
 
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 400],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
           acc: -.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time)); //Bottom Right
 
       setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.4); // 0.4 - 0.8
+        var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
 
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 400],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
           acc: -0.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Left
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time)); //Top Left
 
       setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.12) + 0.23);
+        var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Right
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time)); //Top Right
 
       setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.075) + 0.275);
+        var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 250
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time));
     }
   }, time);
   intervals.push(launchFireworks);
@@ -206,7 +206,7 @@ function launchBayCanvas(bg, ctx, w, h) {
               fac3d = firework.pos[1] / 175;
             }
 
-            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
+            objects[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, fac3d);
           }
 
           break;
@@ -235,7 +235,8 @@ function launchBayCanvas(bg, ctx, w, h) {
     objects = objects.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
   intervals.push(renderCanvas);
-  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
+  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(intervals);
+  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(launchBayCanvas, bg, ctx, w, h, intervals, excludedColors);
 }
 
 /***/ }),
@@ -286,6 +287,62 @@ function CanvasDisplay(background) {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
+
+/***/ }),
+
+/***/ "./src/scripts/nav_util.js":
+/*!*********************************!*\
+  !*** ./src/scripts/nav_util.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
+/* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+
+function returnToHome(intervalArray) {
+  var homeButton = document.getElementById('back-to-main');
+  homeButton.addEventListener('click', function () {
+    intervalArray.forEach(function (interval) {
+      clearInterval(interval);
+    });
+    document.getElementById("welcome-modal").style.display = "block";
+    document.getElementById('canvas-menu').style.display = "none";
+  });
+}
+function openColorMenu(launch, bg, ctx, w, h, intervalArray) {
+  var excludedColors = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : new Set();
+  var colorButton = document.getElementById('select-colors');
+  colorButton.addEventListener('click', function () {
+    intervalArray.forEach(function (interval) {
+      clearInterval(interval);
+    });
+    document.getElementById("colors-modal").style.display = "block";
+    document.getElementById('canvas-menu').style.display = "none";
+    var colorCheckBoxes = document.getElementsByClassName("color-check");
+
+    for (var i = 0; i < colorCheckBoxes.length; i++) {
+      colorCheckBoxes[i].addEventListener('change', function () {
+        if (this.checked) {
+          excludedColors["delete"](this.value);
+          console.log(excludedColors);
+        } else {
+          excludedColors.add(this.value);
+          console.log(excludedColors);
+        }
+      });
+    }
+
+    document.getElementById('close-color-modal').addEventListener('click', function () {
+      document.getElementById("colors-modal").style.display = "none";
+      document.getElementById("canvas-menu").style.display = "flex";
+      launch(bg, ctx, w, h, excludedColors);
+    });
+  });
+}
 
 /***/ }),
 
@@ -639,6 +696,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+
 
 
 function launchSolidCanvas(bg, ctx, w, h) {
@@ -647,36 +706,37 @@ function launchSolidCanvas(bg, ctx, w, h) {
   var newFireworks;
   var fac3d;
   var time = 450;
-  var excludedColors = [
-    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
-  ];
+  var excludedColors = new Set();
+  /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
+
+  var colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excludedColors);
   var intervals = [];
   var launchFireworks = setInterval(function () {
     if (objects.length < 20) {
       ///Bottom Left
       setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.45) + 0.45);
+        var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 200],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 200],
           acc: -.015,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 200
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time)); //Bottom Right
 
       setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.25) + 0.75);
+        var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+            ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
         objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 200],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 200],
           acc: -0.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(colorList),
           radius: ph / 200
         }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time));
     }
   }, time);
   intervals.push(launchFireworks);
@@ -691,7 +751,7 @@ function launchSolidCanvas(bg, ctx, w, h) {
         case 'Projectile':
           if (firework.vel[1] > 0.15) {
             fac3d = firework.pos[1] / 50;
-            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
+            objects[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, fac3d);
           }
 
           break;
@@ -720,7 +780,7 @@ function launchSolidCanvas(bg, ctx, w, h) {
     objects = objects.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
   intervals.push(renderCanvas);
-  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
+  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(intervals);
 }
 
 /***/ }),
@@ -837,15 +897,20 @@ var COLORS = {
   white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 };
 function establishColorList() {
-  var excludeArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
+  var excludeArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Set();
   var colors = Object.keys(COLORS);
 
-  if (excludeArr.length > 0) {
-    excludeArr.forEach(function (exclude) {
-      colors.forEach(function (color, i) {
-        if (exclude === color) delete colors[i];
+  if (excludeArr.size > 0) {
+    var _loop = function _loop(i) {
+      colors.forEach(function (color, j) {
+        if (excludeArr[i] === color) delete colors[j];
       });
-    });
+    };
+
+    for (var i = 0; i < excludeArr.size; i++) {
+      _loop(i);
+    }
+
     colors = colors.cleanArray();
   }
 

@@ -86,15 +86,15 @@ export const COLORS = {
     white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 }
 
-export function establishColorList(excludeArr = []) {
+export function establishColorList(excludeArr = new Set()) {
     let colors = Object.keys(COLORS)
-    if (excludeArr.length > 0) {
-        excludeArr.forEach(exclude => {
-            colors.forEach((color, i) => {
-                if (exclude === color) delete colors[i]
-            });        
-        });
-       colors = colors.cleanArray()        
+    if (excludeArr.size > 0) {
+        for (let i = 0; i < excludeArr.size; i++) {
+            colors.forEach((color, j) => {
+                if (excludeArr[i] === color) delete colors[j]
+            });                            
+        }
+        colors = colors.cleanArray()        
     }
     return colors
 }

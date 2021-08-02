@@ -7,7 +7,7 @@ export default function launchBayCanvas(bg, ctx, w, h) {
     let newFireworks;
     let fac3d;
     const time = 900;
-    let excludedColors = [/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
+    let excludedColors = [blue/*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/]
     let colorList = establishColorList(excludedColors)
     const intervals = []
 

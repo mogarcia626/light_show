@@ -130,8 +130,8 @@ function launchBayCanvas(bg, ctx, w, h) {
   var newFireworks;
   var fac3d;
   var time = 900;
-  var excludedColors = [
-    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
+  var excludedColors = [blue
+  /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
   ];
   var colorList = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList)(excludedColors);
   var intervals = [];

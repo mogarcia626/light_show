@@ -132,10 +132,12 @@ function launchBayCanvas(bg, ctx, w, h) {
   var removeObjects = [];
   var newFireworks;
   var fac3d;
-  var time = 900;
-  var colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excludedColors);
-  var intervals = [];
+  var time = 1000;
+  var colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excludedColors); // const intervals = []
+
   var launchFireworks = setInterval(function () {
+    console.log('check');
+
     if (objects.length < 25) {
       ///Bottom Left
       setTimeout(function () {
@@ -188,8 +190,8 @@ function launchBayCanvas(bg, ctx, w, h) {
         }));
       }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(time));
     }
-  }, time);
-  intervals.push(launchFireworks);
+  }, time); // intervals.push(launchFireworks);
+
   var renderCanvas = setInterval(function () {
     newFireworks = [];
     bg.draw(ctx);
@@ -212,15 +214,11 @@ function launchBayCanvas(bg, ctx, w, h) {
           break;
 
         case 'Peony':
-          if (firework.time > 550) {
-            removeObjects.push(i);
-          }
+          if (firework.time > 550) removeObjects.push(i);
+          break;
 
         case 'Chrysanthemum':
-          if (firework.time > 600) {
-            removeObjects.push(i);
-          }
-
+          if (firework.time > 600) removeObjects.push(i);
           break;
 
         default:
@@ -234,9 +232,16 @@ function launchBayCanvas(bg, ctx, w, h) {
     objects = objects.cleanArray();
     objects = objects.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-  intervals.push(renderCanvas);
-  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(intervals);
-  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(launchBayCanvas, bg, ctx, w, h, intervals, excludedColors);
+  var settingsButtons = document.getElementsByClassName('open-modal');
+  Object.values(settingsButtons).forEach(function (button) {
+    button.addEventListener('click', function (e) {
+      clearInterval(launchFireworks);
+      clearInterval(renderCanvas);
+    });
+  }); // intervals.push(renderCanvas);
+
+  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)();
+  (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(launchBayCanvas, bg, ctx, w, h, excludedColors);
 }
 
 /***/ }),
@@ -303,23 +308,17 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
-function returnToHome(intervalArray) {
+function returnToHome() {
   var homeButton = document.getElementById('back-to-main');
   homeButton.addEventListener('click', function () {
-    intervalArray.forEach(function (interval) {
-      clearInterval(interval);
-    });
     document.getElementById("welcome-modal").style.display = "block";
     document.getElementById('canvas-menu').style.display = "none";
   });
 }
-function openColorMenu(launch, bg, ctx, w, h, intervalArray) {
-  var excludedColors = arguments.length > 6 && arguments[6] !== undefined ? arguments[6] : new Set();
+function openColorMenu(launch, bg, ctx, w, h) {
+  var excludedColors = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : new Set();
   var colorButton = document.getElementById('select-colors');
   colorButton.addEventListener('click', function () {
-    intervalArray.forEach(function (interval) {
-      clearInterval(interval);
-    });
     document.getElementById("colors-modal").style.display = "block";
     document.getElementById('canvas-menu').style.display = "none";
     var colorCheckBoxes = document.getElementsByClassName("color-check");
@@ -331,7 +330,6 @@ function openColorMenu(launch, bg, ctx, w, h, intervalArray) {
           console.log(excludedColors);
         } else {
           excludedColors.add(this.value);
-          console.log(excludedColors);
         }
       });
     }
@@ -799,7 +797,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "multiplyVector": () => (/* binding */ multiplyVector),
 /* harmony export */   "subVectors": () => (/* binding */ subVectors),
 /* harmony export */   "randomFirework": () => (/* binding */ randomFirework),
-/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
@@ -862,16 +859,6 @@ function randomFirework(projectile, fac3d) {
     default:
       break;
   }
-}
-function returnToHome(intervalArray) {
-  var homeButton = document.getElementById('back-to-main');
-  homeButton.addEventListener('click', function () {
-    intervalArray.forEach(function (interval) {
-      clearInterval(interval);
-    });
-    document.getElementById("welcome-modal").style.display = "block";
-    document.getElementById('canvas-menu').style.display = "none";
-  });
 } //Classname.getName() wil return 'class name'
 
 Object.prototype.getName = function () {
@@ -898,23 +885,15 @@ var COLORS = {
 };
 function establishColorList() {
   var excludeArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : new Set();
-  var colors = Object.keys(COLORS);
+  var colors = new Set(Object.keys(COLORS));
 
   if (excludeArr.size > 0) {
-    var _loop = function _loop(i) {
-      colors.forEach(function (color, j) {
-        if (excludeArr[i] === color) delete colors[j];
-      });
-    };
-
     for (var i = 0; i < excludeArr.size; i++) {
-      _loop(i);
+      colors["delete"](excludeArr[i]);
     }
-
-    colors = colors.cleanArray();
   }
 
-  return colors;
+  return Array.from(colors);
 }
 function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
@@ -1025,7 +1004,14 @@ document.addEventListener("DOMContentLoaded", function () {
       document.getElementById("canvas-menu").style.display = "flex";
       var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
     });
-  }); // Add event listener for `click` events.
+  }); // const settingsButtons = document.getElementsByClassName('open-modal')
+  // Object.values(settingsButtons).forEach(button => {
+  //     button.addEventListener('click', function(e) {
+  //         clearInterval(launchFireworks)
+  //         clearInterval(renderCanvas)
+  //     })
+  // });
+  // Add event listener for `click` events.
 
   var cv = document.querySelector('canvas');
   cv.addEventListener('click', function (event) {

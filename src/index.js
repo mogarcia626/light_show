@@ -6,7 +6,6 @@ import { selectRandomColor } from './scripts/utils'
 document.addEventListener("DOMContentLoaded", function() {     
     //Close Welcome Modal and fill out Canvas with background of choice
     const canvasButtons = document.getElementsByClassName('close-modal');
-
     Object.values(canvasButtons).forEach(button => {
         button.addEventListener('click', function(e) {
             const color = document.getElementById('solidBackgroundColor').value
@@ -17,6 +16,14 @@ document.addEventListener("DOMContentLoaded", function() {
             let canvasEl = CanvasDisplay(e.target.id, color)          
         })            
     });
+
+    // const settingsButtons = document.getElementsByClassName('open-modal')
+    // Object.values(settingsButtons).forEach(button => {
+    //     button.addEventListener('click', function(e) {
+    //         clearInterval(launchFireworks)
+    //         clearInterval(renderCanvas)
+    //     })
+    // });
 
     // Add event listener for `click` events.
     let cv = document.querySelector('canvas')

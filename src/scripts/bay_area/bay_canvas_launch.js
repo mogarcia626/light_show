@@ -7,13 +7,13 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
     let removeObjects = [];
     let newFireworks;
     let fac3d;
-    const time = 900;
-    const colorList = Util.establishColorList(excludedColors)
-    const intervals = []
+    const time = 1000;
+    let colorList = Util.establishColorList(excludedColors)
+    // const intervals = []
 
     const launchFireworks = setInterval( () => {
+        console.log('check')
         if (objects.length < 25) {
-
             ///Bottom Left
             setTimeout(() => { 
                 let [pw, ph] = [w*Util.rand(0.5), h*(Util.rand(0.36)+0.44)];  // 0.4 - 0.8
@@ -24,9 +24,8 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
                     color: Util.selectRandomColor(colorList),
                     radius: ph/250,
                 }))
-            }, Util.rand(time))
-        
-        //Bottom Right
+            }, Util.rand(time))        
+            //Bottom Right
             setTimeout(() => { 
                 let [pw, ph] = [w*(0.5+Util.rand(0.5)), h*(Util.rand(0.36)+0.4)];  // 0.4 - 0.8
                 objects.push(new Projectile( {
@@ -62,7 +61,7 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
         }
     }, time)  
         
-    intervals.push(launchFireworks);
+    // intervals.push(launchFireworks);
 
     const renderCanvas = setInterval( () => {
         newFireworks = []
@@ -74,7 +73,6 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
             switch (firework.getName()) {
                 case 'Projectile':
                     if (firework.vel[1] > 0.15) {
-
                         if (firework.pos[1] < 0.39*h) {
                             fac3d = firework.pos[1]/200
                         } else {fac3d = firework.pos[1]/175}
@@ -83,13 +81,10 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
                     } 
                     break;
                 case 'Peony':
-                    if(firework.time > 550) {
-                        removeObjects.push(i)
-                    }   
+                    if(firework.time > 550) removeObjects.push(i)
+                    break;  
                 case 'Chrysanthemum':
-                    if(firework.time > 600) {
-                        removeObjects.push(i)
-                    }                 
+                    if(firework.time > 600) removeObjects.push(i)               
                     break;
                 default:
                     break;
@@ -105,8 +100,17 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
         objects = objects.cleanArray()
         objects = objects.concat(newFireworks);
     }, Util.FPS)
-
-    intervals.push(renderCanvas);
-    returnToHome(intervals);
-    openColorMenu(launchBayCanvas, bg, ctx, w, h, intervals, excludedColors)
+    
+    const settingsButtons = document.getElementsByClassName('open-modal')
+    Object.values(settingsButtons).forEach(button => {
+        button.addEventListener('click', e => {
+            clearInterval(launchFireworks)
+            clearInterval(renderCanvas)
+        })
+    });
+    // intervals.push(renderCanvas);
+    returnToHome();
+    openColorMenu(
+        launchBayCanvas, bg, ctx, w, h, excludedColors
+    )
 }

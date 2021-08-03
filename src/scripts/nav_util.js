@@ -1,23 +1,17 @@
 import { COLORS } from './utils'
 
-export function returnToHome(intervalArray) {
+export function returnToHome() {
     const homeButton = document.getElementById('back-to-main');
-    homeButton.addEventListener('click', function() {  
-        intervalArray.forEach(interval => {
-            clearInterval(interval)
-        });          
+    homeButton.addEventListener('click', function() {       
         document.getElementById("welcome-modal").style.display="block";
         document.getElementById('canvas-menu').style.display="none";    
     }) 
 }
 
-export function openColorMenu(launch, bg, ctx, w, h, intervalArray, excludedColors = new Set()) {
+export function openColorMenu(launch, bg, ctx, w, h, excludedColors = new Set()) {
     
     const colorButton = document.getElementById('select-colors');
-    colorButton.addEventListener('click', function() {  
-        intervalArray.forEach(interval => {
-            clearInterval(interval)
-        });     
+    colorButton.addEventListener('click', function() {
         document.getElementById("colors-modal").style.display="block";
         document.getElementById('canvas-menu').style.display="none"; 
         
@@ -30,7 +24,6 @@ export function openColorMenu(launch, bg, ctx, w, h, intervalArray, excludedColo
                     console.log(excludedColors)
                 } else {
                     excludedColors.add(this.value);
-                    console.log(excludedColors)
                 }
             }); 
         }

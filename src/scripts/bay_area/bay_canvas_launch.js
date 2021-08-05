@@ -10,7 +10,7 @@ export default function launchBayCanvas(bg, ctx, w, h, excludedColors = new Set(
     const time = 1000;
     let colorList = Util.establishColorList(excludedColors)
     // const intervals = []
-
+    // use requestAnimationFrame at some point here
     const launchFireworks = setInterval( () => {
         console.log('check')
         if (objects.length < 25) {

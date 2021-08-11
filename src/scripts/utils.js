@@ -75,14 +75,8 @@ export const COLORS = {
     white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 }
 
-export function establishColorList(excludeArr = new Set()) {
-    let colors = new Set(Object.keys(COLORS))
-    if (excludeArr.size > 0) {
-        for (let i = 0; i < excludeArr.size; i++) {
-            colors.delete(excludeArr[i])                           
-        }     
-    }
-    return Array.from(colors)
+export function establishColorList() {
+    return Object.keys(COLORS)
 }
 
 export function selectRandomColor(colors) {
@@ -104,5 +98,7 @@ export function inherits(ChildClass, BaseClass) {
     ChildClass.prototype.constructor = ChildClass;
 };
 
-
+export function freeze(interval) {
+    clearInterval(interval)
+}
 

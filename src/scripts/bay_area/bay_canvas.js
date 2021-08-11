@@ -4,7 +4,7 @@ import { returnToHome, openColorMenu } from "../nav_util";
 import { drawBayAreaBackground } from "./bay_background";
 
 export default class BayCanvas {
-    constructor(excluded) {
+    constructor() {
         this.background = 'bay-area-canvas'
         this.width = 0.9*window.innerWidth;
         this.height = Math.min(0.9*window.innerWidth*0.5625, 0.9*window.innerHeight);
@@ -13,8 +13,7 @@ export default class BayCanvas {
         this.newfireworks = []
         this.fac3d = 1
         this.time = 1000
-        // this.excludedColors = excluded ? excluded : new Set()
-        this.colorList = Util.establishColorList(excluded)
+        this.colorList = Util.establishColorList()
         this.active = true
         this.closed = false
     }
@@ -30,22 +29,16 @@ export default class BayCanvas {
         drawBayAreaBackground(ctx, this.width, this.height)
     }
     
-    freeze(interval) {
-        clearInterval(interval)
-    }
-
     addEventListeners(ctx) {
-        console.log('add listeners')
         returnToHome(this)
         openColorMenu(this, ctx)
     }
     
     launchFireworks() {
-        console.log('launch fireworks')
         const [w, h] = [this.width, this.height]
         let launching = setInterval( () => {
-
-            if (this.activeFireworks.length < 25 && this.active) {
+            
+            if (this.activeFireworks.length < 30 && this.active && this.colorList.length > 0) {
                 ///Bottom Left
                 setTimeout(() => { 
                     let [pw, ph] = [w*Util.rand(0.5), h*(Util.rand(0.36)+0.44)];  // 0.4 - 0.8
@@ -91,13 +84,11 @@ export default class BayCanvas {
                     }))
                 }, Util.rand(this.time))
             };
-            if (this.closed) this.freeze(launching);
-            console.log(this.colorList)
+            if (this.closed) Util.freeze(launching);            
         }, this.time)
     };
 
     renderCanvas(ctx) {
-        console.log('render canvas')
         let renderFireworks = setInterval( () => {
             if (this.active) {
                 this.drawBackground(ctx)
@@ -134,12 +125,7 @@ export default class BayCanvas {
             this.removeFireworks = []
 
             this.activeFireworks = this.activeFireworks.cleanArray()
-            //     .concat(this.newFireworks);
-            // this.newFireworks = []
-            if (this.closed) this.freeze(renderFireworks);
-            // if (!this.active) this.freeze(renderFireworks);
-
-            
+            if (this.closed) Util.freeze(renderFireworks);            
         }, Util.FPS)
 
         const settingsButtons = document.getElementsByClassName('open-modal')

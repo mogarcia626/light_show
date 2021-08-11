@@ -2,6 +2,90 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/bay_area/bay_background.js":
+/*!************************************************!*\
+  !*** ./src/scripts/bay_area/bay_background.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "drawBayAreaBackground": () => (/* binding */ drawBayAreaBackground)
+/* harmony export */ });
+function drawBayAreaBackground(ctx, w, h) {
+  // fill rectancle
+  ctx.fillStyle = '#210F1F';
+  ctx.beginPath();
+  ctx.rect(0, 0, w, h);
+  ctx.rect(0, 0, w, h);
+  ctx.fill(); // sky gradient
+
+  var skyGrd = ctx.createLinearGradient(0, 0.316 * h, 0, 0.05 * h);
+  skyGrd.addColorStop(0, '#775575');
+  skyGrd.addColorStop(0.5, '#362E57');
+  skyGrd.addColorStop(1, '#210F1F');
+  ctx.fillStyle = skyGrd;
+  ctx.fillRect(0, 0, w, 0.316 * h); // ground gradient
+
+  var groundGrd = ctx.createLinearGradient(0, 0.5 * h, 0, h);
+  groundGrd.addColorStop(0, '#210F1F');
+  groundGrd.addColorStop(0.6, '#222222');
+  groundGrd.addColorStop(0.9, 'black');
+  ctx.fillStyle = groundGrd;
+  ctx.fillRect(0, 0.5 * h, w, h); // bay
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0.33 * h);
+  ctx.lineTo(w, 0.35 * h);
+  ctx.lineTo(w, 0.4 * h);
+  ctx.lineTo(0, 0.45 * h);
+  ctx.closePath();
+  ctx.fillStyle = "#2B2348";
+  ctx.fill(); // SF hills
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0.215 * h);
+  ctx.lineTo(0.01 * w, 0.215 * h);
+  ctx.lineTo(0.02 * w, 0.205 * h);
+  ctx.lineTo(0.025 * w, 0.205 * h);
+  ctx.lineTo(0.035 * w, 0.216 * h);
+  ctx.lineTo(0.12 * w, 0.205 * h);
+  ctx.lineTo(0.125 * w, 0.21 * h);
+  ctx.lineTo(0.138 * w, 0.205 * h);
+  ctx.lineTo(.15 * w, 0.19 * h);
+  ctx.lineTo(0.168 * w, 0.207 * h);
+  ctx.lineTo(0.18 * w, 0.205 * h);
+  ctx.lineTo(0.193 * w, 0.191 * h);
+  ctx.lineTo(0.205 * w, 0.194 * h);
+  ctx.lineTo(0.21 * w, 0.2 * h);
+  ctx.lineTo(0.24 * w, 0.205 * h);
+  ctx.lineTo(0.254 * w, 0.18 * h);
+  ctx.lineTo(0.281 * w, 0.185 * h);
+  ctx.lineTo(0.297 * w, 0.17 * h);
+  ctx.lineTo(0.328 * w, 0.205 * h);
+  ctx.lineTo(0.335 * w, 0.2 * h);
+  ctx.lineTo(0.398 * w, 0.237 * h);
+  ctx.arc(0.423 * w, 0.381 * h, .085 * w, 1.41 * Math.PI, 1.65 * Math.PI, false);
+  ctx.lineTo(0.519 * w, 0.237 * h);
+  ctx.lineTo(0.55 * w, 0.22 * h);
+  ctx.lineTo(0.56 * w, 0.22 * h);
+  ctx.lineTo(0.581 * w, 0.237 * h);
+  ctx.lineTo(0.69 * w, 0.26 * h);
+  ctx.lineTo(0.75 * w, 0.24 * h);
+  ctx.lineTo(0.8 * w, 0.27 * h);
+  ctx.lineTo(0.85 * w, 0.27 * h);
+  ctx.lineTo(0.9 * w, 0.237 * h);
+  ctx.lineTo(0.95 * w, 0.26 * h);
+  ctx.lineTo(w, 0.3 * h);
+  ctx.lineTo(w, 0.35 * h);
+  ctx.lineTo(0, 0.33 * h);
+  ctx.closePath();
+  ctx.fillStyle = "#0B0917";
+  ctx.fill();
+}
+
+/***/ }),
+
 /***/ "./src/scripts/bay_area/bay_canvas.js":
 /*!********************************************!*\
   !*** ./src/scripts/bay_area/bay_canvas.js ***!
@@ -12,94 +96,180 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BayCanvas)
 /* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+/* harmony import */ var _bay_background__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bay_background */ "./src/scripts/bay_area/bay_background.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+
+
+
+
+
 var BayCanvas = /*#__PURE__*/function () {
   function BayCanvas() {
     _classCallCheck(this, BayCanvas);
 
+    this.background = 'bay-area-canvas';
     this.width = 0.9 * window.innerWidth;
     this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
+    this.activeFireworks = [];
+    this.removeFireworks = [];
+    this.newfireworks = [];
+    this.fac3d = 1;
+    this.time = 1000;
+    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
+    this.active = true;
+    this.closed = false;
   }
 
   _createClass(BayCanvas, [{
-    key: "draw",
-    value: function draw(ctx) {
-      var h = this.height;
-      var w = this.width; // fill rectancle
+    key: "activate",
+    value: function activate(ctx) {
+      this.active = true;
+      this.renderCanvas(ctx);
+      this.launchFireworks(ctx);
+      this.addEventListeners(ctx);
+    }
+  }, {
+    key: "drawBackground",
+    value: function drawBackground(ctx) {
+      (0,_bay_background__WEBPACK_IMPORTED_MODULE_3__.drawBayAreaBackground)(ctx, this.width, this.height);
+    }
+  }, {
+    key: "addEventListeners",
+    value: function addEventListeners(ctx) {
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
+    }
+  }, {
+    key: "launchFireworks",
+    value: function launchFireworks() {
+      var _this = this;
 
-      ctx.fillStyle = '#210F1F';
-      ctx.beginPath();
-      ctx.rect(0, 0, w, h);
-      ctx.rect(0, 0, w, h);
-      ctx.fill(); // sky gradient
+      var _ref = [this.width, this.height],
+          w = _ref[0],
+          h = _ref[1];
+      var launching = setInterval(function () {
+        if (_this.activeFireworks.length < 30 && _this.active && _this.colorList.length > 0) {
+          ///Bottom Left
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
 
-      var skyGrd = ctx.createLinearGradient(0, 0.316 * h, 0, 0.05 * h);
-      skyGrd.addColorStop(0, '#775575');
-      skyGrd.addColorStop(0.5, '#362E57');
-      skyGrd.addColorStop(1, '#210F1F');
-      ctx.fillStyle = skyGrd;
-      ctx.fillRect(0, 0, w, 0.316 * h); // ground gradient
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
+              acc: -.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
 
-      var groundGrd = ctx.createLinearGradient(0, 0.5 * h, 0, h);
-      groundGrd.addColorStop(0, '#210F1F');
-      groundGrd.addColorStop(0.6, '#222222');
-      groundGrd.addColorStop(0.9, 'black');
-      ctx.fillStyle = groundGrd;
-      ctx.fillRect(0, 0.5 * h, w, h); // bay
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0.33 * h);
-      ctx.lineTo(w, 0.35 * h);
-      ctx.lineTo(w, 0.4 * h);
-      ctx.lineTo(0, 0.45 * h);
-      ctx.closePath();
-      ctx.fillStyle = "#2B2348";
-      ctx.fill(); // SF hills
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
+              acc: -0.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Left
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0.215 * h);
-      ctx.lineTo(0.01 * w, 0.215 * h);
-      ctx.lineTo(0.02 * w, 0.205 * h);
-      ctx.lineTo(0.025 * w, 0.205 * h);
-      ctx.lineTo(0.035 * w, 0.216 * h);
-      ctx.lineTo(0.12 * w, 0.205 * h);
-      ctx.lineTo(0.125 * w, 0.21 * h);
-      ctx.lineTo(0.138 * w, 0.205 * h);
-      ctx.lineTo(.15 * w, 0.19 * h);
-      ctx.lineTo(0.168 * w, 0.207 * h);
-      ctx.lineTo(0.18 * w, 0.205 * h);
-      ctx.lineTo(0.193 * w, 0.191 * h);
-      ctx.lineTo(0.205 * w, 0.194 * h);
-      ctx.lineTo(0.21 * w, 0.2 * h);
-      ctx.lineTo(0.24 * w, 0.205 * h);
-      ctx.lineTo(0.254 * w, 0.18 * h);
-      ctx.lineTo(0.281 * w, 0.185 * h);
-      ctx.lineTo(0.297 * w, 0.17 * h);
-      ctx.lineTo(0.328 * w, 0.205 * h);
-      ctx.lineTo(0.335 * w, 0.2 * h);
-      ctx.lineTo(0.398 * w, 0.237 * h);
-      ctx.arc(0.423 * w, 0.381 * h, .085 * w, 1.41 * Math.PI, 1.65 * Math.PI, false);
-      ctx.lineTo(0.519 * w, 0.237 * h);
-      ctx.lineTo(0.55 * w, 0.22 * h);
-      ctx.lineTo(0.56 * w, 0.22 * h);
-      ctx.lineTo(0.581 * w, 0.237 * h);
-      ctx.lineTo(0.69 * w, 0.26 * h);
-      ctx.lineTo(0.75 * w, 0.24 * h);
-      ctx.lineTo(0.8 * w, 0.27 * h);
-      ctx.lineTo(0.85 * w, 0.27 * h);
-      ctx.lineTo(0.9 * w, 0.237 * h);
-      ctx.lineTo(0.95 * w, 0.26 * h);
-      ctx.lineTo(w, 0.3 * h);
-      ctx.lineTo(w, 0.35 * h);
-      ctx.lineTo(0, 0.33 * h);
-      ctx.closePath();
-      ctx.fillStyle = "#0B0917";
-      ctx.fill();
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
+        }
+
+        ;
+        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+      }, this.time);
+    }
+  }, {
+    key: "renderCanvas",
+    value: function renderCanvas(ctx) {
+      var _this2 = this;
+
+      var renderFireworks = setInterval(function () {
+        if (_this2.active) {
+          _this2.drawBackground(ctx);
+
+          _this2.activeFireworks.forEach(function (firework, i) {
+            firework.draw(ctx);
+            firework.move();
+
+            switch (firework.getName()) {
+              case 'Projectile':
+                if (firework.vel[1] > 0.15) {
+                  if (firework.pos[1] < 0.39 * _this2.height) {
+                    _this2.fac3d = firework.pos[1] / 200;
+                  } else {
+                    _this2.fac3d = firework.pos[1] / 175;
+                  }
+
+                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d);
+                }
+
+                break;
+
+              case 'Peony':
+                if (firework.time > 550) _this2.removeFireworks.push(i);
+                break;
+
+              case 'Chrysanthemum':
+                if (firework.time > 600) _this2.removeFireworks.push(i);
+                break;
+
+              default:
+                break;
+            }
+          });
+        }
+
+        _this2.removeFireworks.forEach(function (idx) {
+          delete _this2.activeFireworks[idx];
+        });
+
+        _this2.removeFireworks = [];
+        _this2.activeFireworks = _this2.activeFireworks.cleanArray();
+        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+      var settingsButtons = document.getElementsByClassName('open-modal');
+      Object.values(settingsButtons).forEach(function (button) {
+        button.addEventListener('click', function (e) {
+          _this2.active = false;
+        });
+      });
     }
   }]);
 
@@ -107,136 +277,6 @@ var BayCanvas = /*#__PURE__*/function () {
 }();
 
 
-
-/***/ }),
-
-/***/ "./src/scripts/bay_area/bay_canvas_launch.js":
-/*!***************************************************!*\
-  !*** ./src/scripts/bay_area/bay_canvas_launch.js ***!
-  \***************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ launchBayCanvas)
-/* harmony export */ });
-/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-
-
-function launchBayCanvas(bg, ctx, w, h) {
-  var objects = [];
-  var removeObjects = [];
-  var newFireworks;
-  var fac3d;
-  var time = 900;
-  var excludedColors = [
-    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
-  ];
-  var colorList = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList)(excludedColors);
-  var intervals = [];
-  var launchFireworks = setInterval(function () {
-    if (objects.length < 25) {
-      ///Bottom Left
-      setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.44); // 0.4 - 0.8
-
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 400],
-          acc: -.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
-          radius: ph / 250
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
-
-      setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.4); // 0.4 - 0.8
-
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 400],
-          acc: -0.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
-          radius: ph / 250
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Left
-
-      setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.12) + 0.23);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
-          acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
-          radius: ph / 250
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Top Right
-
-      setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.075) + 0.275);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 800],
-          acc: -0.008,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(colorList),
-          radius: ph / 250
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
-    }
-  }, time);
-  intervals.push(launchFireworks);
-  var renderCanvas = setInterval(function () {
-    newFireworks = [];
-    bg.draw(ctx);
-    objects.forEach(function (firework, i) {
-      firework.draw(ctx);
-      firework.move();
-
-      switch (firework.getName()) {
-        case 'Projectile':
-          if (firework.vel[1] > 0.15) {
-            if (firework.pos[1] < 0.39 * h) {
-              fac3d = firework.pos[1] / 200;
-            } else {
-              fac3d = firework.pos[1] / 175;
-            }
-
-            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
-          }
-
-          break;
-
-        case 'Peony':
-          if (firework.time > 550) {
-            removeObjects.push(i);
-          }
-
-        case 'Chrysanthemum':
-          if (firework.time > 600) {
-            removeObjects.push(i);
-          }
-
-          break;
-
-        default:
-          break;
-      }
-    });
-    removeObjects.forEach(function (idx) {
-      delete objects[idx];
-    });
-    removeObjects = [];
-    objects = objects.cleanArray();
-    objects = objects.concat(newFireworks);
-  }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-  intervals.push(renderCanvas);
-  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
-}
 
 /***/ }),
 
@@ -251,11 +291,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
-/* harmony import */ var _bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bay_area/bay_canvas_launch */ "./src/scripts/bay_area/bay_canvas_launch.js");
-/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
-/* harmony import */ var _solid_color_solid_color_launch__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./solid_color/solid_color_launch */ "./src/scripts/solid_color/solid_color_launch.js");
-
-
+/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
 
 
 
@@ -270,14 +306,12 @@ function CanvasDisplay(background) {
   switch (background) {
     case 'bay-area-canvas':
       bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-      bg.draw(ctx);
-      (0,_bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__.default)(bg, ctx, canvas.width, canvas.height);
+      bg.activate(ctx);
       break;
 
     case 'solid-color-canvas':
-      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_2__.default(color);
-      bg.draw(ctx);
-      (0,_solid_color_solid_color_launch__WEBPACK_IMPORTED_MODULE_3__.default)(bg, ctx, canvas.width, canvas.height);
+      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__.default(color);
+      bg.activate(ctx);
       break;
 
     default:
@@ -286,6 +320,84 @@ function CanvasDisplay(background) {
 }
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
+
+/***/ }),
+
+/***/ "./src/scripts/nav_util.js":
+/*!*********************************!*\
+  !*** ./src/scripts/nav_util.js ***!
+  \*********************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
+/* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+
+function returnToHome(bg) {
+  var homeButton = document.getElementById('back-to-main');
+  homeButton.addEventListener('click', function () {
+    bg.closed = true;
+    document.getElementById("welcome-modal").style.display = "block";
+    document.getElementById('canvas-menu').style.display = "none";
+  });
+}
+function openColorMenu(bg) {
+  var colorButton = document.getElementById('select-colors');
+  colorButton.addEventListener('click', function () {
+    bg.active = false;
+    document.getElementById("colors-modal").style.display = "block";
+    document.getElementById('canvas-menu').style.display = "none";
+    var colorSet = new Set(bg.colorList);
+    var colorCheckBoxes = document.getElementsByClassName("color-check");
+    var allButton = document.getElementById('all');
+    allButton.addEventListener('change', function () {
+      if (allButton.checked) {
+        colorSet = new Set(Object.keys(_utils__WEBPACK_IMPORTED_MODULE_0__.COLORS));
+        bg.colorList = Object.keys(_utils__WEBPACK_IMPORTED_MODULE_0__.COLORS);
+        noneButton.checked = false;
+
+        for (var i = 0; i < colorCheckBoxes.length; i++) {
+          colorCheckBoxes[i].checked = true;
+        }
+      }
+    });
+    var noneButton = document.getElementById('none');
+    noneButton.addEventListener('change', function () {
+      if (noneButton.checked) {
+        colorSet.clear();
+        bg.colorList = [];
+        allButton.checked = false;
+
+        for (var i = 0; i < colorCheckBoxes.length; i++) {
+          colorCheckBoxes[i].checked = false;
+        }
+      }
+    });
+
+    for (var i = 0; i < colorCheckBoxes.length; i++) {
+      colorCheckBoxes[i].addEventListener('change', function () {
+        if (this.checked) {
+          noneButton.checked = false;
+          colorSet.add(this.value);
+          bg.colorList = Array.from(colorSet);
+        } else {
+          allButton.checked = false;
+          colorSet["delete"](this.value);
+          bg.colorList = Array.from(colorSet);
+        }
+      });
+    }
+
+    document.getElementById('close-color-modal').addEventListener('click', function () {
+      document.getElementById("colors-modal").style.display = "none";
+      document.getElementById("canvas-menu").style.display = "flex";
+      bg.active = true;
+    });
+  });
+}
 
 /***/ }),
 
@@ -592,31 +704,155 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ SolidCanvas)
 /* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+
+
+
+
 var SolidCanvas = /*#__PURE__*/function () {
   function SolidCanvas(color) {
     _classCallCheck(this, SolidCanvas);
 
+    this.background = 'solid-color-canvas';
+    this.color = color;
     this.width = 0.9 * window.innerWidth;
     this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
-    this.color = color;
+    this.activeFireworks = [];
+    this.removeFireworks = [];
+    this.newfireworks = [];
+    this.fac3d = 1;
+    this.time = 600;
+    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
+    this.active = true;
+    this.closed = false;
   }
 
   _createClass(SolidCanvas, [{
-    key: "draw",
-    value: function draw(ctx) {
-      var h = this.height;
-      var w = this.width; // fill rectangle
-
+    key: "activate",
+    value: function activate(ctx) {
+      this.active = true;
+      this.renderCanvas(ctx);
+      this.launchFireworks(ctx);
+      this.addEventListeners(ctx);
+    }
+  }, {
+    key: "drawBackground",
+    value: function drawBackground(ctx) {
       ctx.fillStyle = this.color;
       ctx.beginPath();
-      ctx.rect(0, 0, w, h);
+      ctx.rect(0, 0, this.width, this.height);
       ctx.fill();
+    }
+  }, {
+    key: "addEventListeners",
+    value: function addEventListeners(ctx) {
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
+    }
+  }, {
+    key: "launchFireworks",
+    value: function launchFireworks() {
+      var _this = this;
+
+      var _ref = [this.width, this.height],
+          w = _ref[0],
+          h = _ref[1];
+      var launching = setInterval(function () {
+        if (_this.activeFireworks.length < 25 && _this.active && _this.colorList.length > 0) {
+          ///Bottom Left
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
+              acc: -.015,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 200
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 200],
+              acc: -0.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 200
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
+        }
+
+        ;
+        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+      }, this.time);
+    }
+  }, {
+    key: "renderCanvas",
+    value: function renderCanvas(ctx) {
+      var _this2 = this;
+
+      var renderFireworks = setInterval(function () {
+        if (_this2.active) {
+          _this2.drawBackground(ctx);
+
+          _this2.activeFireworks.forEach(function (firework, i) {
+            firework.draw(ctx);
+            firework.move();
+
+            switch (firework.getName()) {
+              case 'Projectile':
+                if (firework.vel[1] > 0.15) {
+                  _this2.fac3d = firework.pos[1] / 50;
+                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d);
+                }
+
+                break;
+
+              case 'Peony':
+                if (firework.time > 550) {
+                  _this2.removeFireworks.push(i);
+                }
+
+              case 'Chrysanthemum':
+                if (firework.time > 600) {
+                  _this2.removeFireworks.push(i);
+                }
+
+                break;
+
+              default:
+                break;
+            }
+          });
+        }
+
+        _this2.removeFireworks.forEach(function (idx) {
+          delete _this2.activeFireworks[idx];
+        });
+
+        _this2.removeFireworks = [];
+        _this2.activeFireworks = _this2.activeFireworks.cleanArray();
+        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+      var settingsButtons = document.getElementsByClassName('open-modal');
+      Object.values(settingsButtons).forEach(function (button) {
+        button.addEventListener('click', function (e) {
+          _this2.active = false;
+        });
+      });
     }
   }]);
 
@@ -624,104 +860,6 @@ var SolidCanvas = /*#__PURE__*/function () {
 }();
 
 
-
-/***/ }),
-
-/***/ "./src/scripts/solid_color/solid_color_launch.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/solid_color/solid_color_launch.js ***!
-  \*******************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ launchSolidCanvas)
-/* harmony export */ });
-/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-
-
-function launchSolidCanvas(bg, ctx, w, h) {
-  var objects = [];
-  var removeObjects = [];
-  var newFireworks;
-  var fac3d;
-  var time = 450;
-  var excludedColors = [
-    /*'blue', 'pink', 'yellow', 'green', 'red', 'purple', 'orange'*/
-  ];
-  var intervals = [];
-  var launchFireworks = setInterval(function () {
-    if (objects.length < 20) {
-      ///Bottom Left
-      setTimeout(function () {
-        var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.45) + 0.45);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -ph / 200],
-          acc: -.015,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
-          radius: ph / 200
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time)); //Bottom Right
-
-      setTimeout(function () {
-        var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
-            ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.25) + 0.75);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [pw, ph],
-          vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5 * w) / w - 0.25, -h / 200],
-          acc: -0.01,
-          color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(excludedColors),
-          radius: ph / 200
-        }));
-      }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(time));
-    }
-  }, time);
-  intervals.push(launchFireworks);
-  var renderCanvas = setInterval(function () {
-    newFireworks = [];
-    bg.draw(ctx);
-    objects.forEach(function (firework, i) {
-      firework.draw(ctx);
-      firework.move();
-
-      switch (firework.getName()) {
-        case 'Projectile':
-          if (firework.vel[1] > 0.15) {
-            fac3d = firework.pos[1] / 50;
-            objects[i] = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework)(firework, fac3d);
-          }
-
-          break;
-
-        case 'Peony':
-          if (firework.time > 550) {
-            removeObjects.push(i);
-          }
-
-        case 'Chrysanthemum':
-          if (firework.time > 600) {
-            removeObjects.push(i);
-          }
-
-          break;
-
-        default:
-          break;
-      }
-    });
-    removeObjects.forEach(function (idx) {
-      delete objects[idx];
-    });
-    removeObjects = [];
-    objects = objects.cleanArray();
-    objects = objects.concat(newFireworks);
-  }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-  intervals.push(renderCanvas);
-  (0,_utils__WEBPACK_IMPORTED_MODULE_1__.returnToHome)(intervals);
-}
 
 /***/ }),
 
@@ -739,13 +877,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "multiplyVector": () => (/* binding */ multiplyVector),
 /* harmony export */   "subVectors": () => (/* binding */ subVectors),
 /* harmony export */   "randomFirework": () => (/* binding */ randomFirework),
-/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
 /* harmony export */   "FPS": () => (/* binding */ FPS),
 /* harmony export */   "scale": () => (/* binding */ scale),
-/* harmony export */   "inherits": () => (/* binding */ inherits)
+/* harmony export */   "inherits": () => (/* binding */ inherits),
+/* harmony export */   "freeze": () => (/* binding */ freeze)
 /* harmony export */ });
 /* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/peony */ "./src/scripts/projectiles/peony.js");
 /* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
@@ -802,16 +940,6 @@ function randomFirework(projectile, fac3d) {
     default:
       break;
   }
-}
-function returnToHome(intervalArray) {
-  var homeButton = document.getElementById('back-to-main');
-  homeButton.addEventListener('click', function () {
-    intervalArray.forEach(function (interval) {
-      clearInterval(interval);
-    });
-    document.getElementById("welcome-modal").style.display = "block";
-    document.getElementById('canvas-menu').style.display = "none";
-  });
 } //Classname.getName() wil return 'class name'
 
 Object.prototype.getName = function () {
@@ -837,19 +965,7 @@ var COLORS = {
   white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 };
 function establishColorList() {
-  var excludeArr = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-  var colors = Object.keys(COLORS);
-
-  if (excludeArr.length > 0) {
-    excludeArr.forEach(function (exclude) {
-      colors.forEach(function (color, i) {
-        if (exclude === color) delete colors[i];
-      });
-    });
-    colors = colors.cleanArray();
-  }
-
-  return colors;
+  return Object.keys(COLORS);
 }
 function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
@@ -866,6 +982,9 @@ function inherits(ChildClass, BaseClass) {
   ChildClass.prototype.constructor = ChildClass;
 }
 ;
+function freeze(interval) {
+  clearInterval(interval);
+}
 
 /***/ }),
 
@@ -958,7 +1077,7 @@ document.addEventListener("DOMContentLoaded", function () {
       var color = document.getElementById('solidBackgroundColor').value;
       document.getElementById("welcome-modal").style.display = "none";
       document.getElementById("canvas-menu").style.display = "flex";
-      var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
+      (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
     });
   }); // Add event listener for `click` events.
 

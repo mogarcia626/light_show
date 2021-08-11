@@ -53,17 +53,6 @@ export function randomFirework(projectile, fac3d) {
     }
 }
 
-export function returnToHome(intervalArray) {
-    const homeButton = document.getElementById('back-to-main');
-    homeButton.addEventListener('click', function() {  
-        intervalArray.forEach(interval => {
-            clearInterval(interval)
-        });          
-        document.getElementById("welcome-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none";    
-    }) 
-}
-
 //Classname.getName() wil return 'class name'
 Object.prototype.getName = function() { 
    var funcNameRegex = /function (.{1,})\(/;
@@ -86,17 +75,8 @@ export const COLORS = {
     white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 }
 
-export function establishColorList(excludeArr = []) {
-    let colors = Object.keys(COLORS)
-    if (excludeArr.length > 0) {
-        excludeArr.forEach(exclude => {
-            colors.forEach((color, i) => {
-                if (exclude === color) delete colors[i]
-            });        
-        });
-       colors = colors.cleanArray()        
-    }
-    return colors
+export function establishColorList() {
+    return Object.keys(COLORS)
 }
 
 export function selectRandomColor(colors) {
@@ -118,5 +98,7 @@ export function inherits(ChildClass, BaseClass) {
     ChildClass.prototype.constructor = ChildClass;
 };
 
-
+export function freeze(interval) {
+    clearInterval(interval)
+}
 

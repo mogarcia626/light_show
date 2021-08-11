@@ -13,8 +13,7 @@
     switch (background) {
         case 'bay-area-canvas':
             bg = new BayCanvas();
-            bg.draw(ctx)
-            launchBayCanvas(bg, ctx, canvas.width, canvas.height);
+            bg.activate(ctx)
             break;
         case 'solid-color-canvas':   
             bg = new SolidCanvas(color);

@@ -1,29 +1,33 @@
 import { COLORS } from './utils'
-
-export function returnToHome() {
+    
+export function returnToHome(bg) {
     const homeButton = document.getElementById('back-to-main');
-    homeButton.addEventListener('click', function() {       
+    homeButton.addEventListener('click', function() { 
+        bg.closed = true    
         document.getElementById("welcome-modal").style.display="block";
         document.getElementById('canvas-menu').style.display="none";    
     }) 
 }
 
-export function openColorMenu(launch, bg, ctx, w, h, excludedColors = new Set()) {
+export function openColorMenu(bg) {
     
     const colorButton = document.getElementById('select-colors');
-    colorButton.addEventListener('click', function() {
+    colorButton.addEventListener('click', function() {        
+        bg.active = false      
         document.getElementById("colors-modal").style.display="block";
         document.getElementById('canvas-menu').style.display="none"; 
         
         const colorCheckBoxes = document.getElementsByClassName(`color-check`);
+        const colorSet = new Set(bg.colorList)
 
         for (let i = 0; i < colorCheckBoxes.length; i++) {
             colorCheckBoxes[i].addEventListener('change', function() {
                 if (this.checked) {
-                    excludedColors.delete(this.value);
-                    console.log(excludedColors)
+                    colorSet.add(this.value);
+                    bg.colorList = Array.from(colorSet)
                 } else {
-                    excludedColors.add(this.value);
+                    colorSet.delete(this.value);
+                    bg.colorList = Array.from(colorSet)
                 }
             }); 
         }
@@ -31,7 +35,7 @@ export function openColorMenu(launch, bg, ctx, w, h, excludedColors = new Set())
         document.getElementById('close-color-modal').addEventListener('click', () =>{
             document.getElementById("colors-modal").style.display="none";
             document.getElementById("canvas-menu").style.display="flex";
-            launch(bg, ctx, w, h, excludedColors);
+            bg.active = true;
         })
     }) 
 }

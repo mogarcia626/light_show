@@ -10,20 +10,10 @@ document.addEventListener("DOMContentLoaded", function() {
         button.addEventListener('click', function(e) {
             const color = document.getElementById('solidBackgroundColor').value
             document.getElementById("welcome-modal").style.display="none";
-
-            document.getElementById("canvas-menu").style.display="flex";
-                       
-            let canvasEl = CanvasDisplay(e.target.id, color)          
+            document.getElementById("canvas-menu").style.display="flex";                       
+            CanvasDisplay(e.target.id, color)          
         })            
     });
-
-    // const settingsButtons = document.getElementsByClassName('open-modal')
-    // Object.values(settingsButtons).forEach(button => {
-    //     button.addEventListener('click', function(e) {
-    //         clearInterval(launchFireworks)
-    //         clearInterval(renderCanvas)
-    //     })
-    // });
 
     // Add event listener for `click` events.
     let cv = document.querySelector('canvas')

@@ -2,6 +2,90 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/bay_area/bay_background.js":
+/*!************************************************!*\
+  !*** ./src/scripts/bay_area/bay_background.js ***!
+  \************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "drawBayAreaBackground": () => (/* binding */ drawBayAreaBackground)
+/* harmony export */ });
+function drawBayAreaBackground(ctx, w, h) {
+  // fill rectancle
+  ctx.fillStyle = '#210F1F';
+  ctx.beginPath();
+  ctx.rect(0, 0, w, h);
+  ctx.rect(0, 0, w, h);
+  ctx.fill(); // sky gradient
+
+  var skyGrd = ctx.createLinearGradient(0, 0.316 * h, 0, 0.05 * h);
+  skyGrd.addColorStop(0, '#775575');
+  skyGrd.addColorStop(0.5, '#362E57');
+  skyGrd.addColorStop(1, '#210F1F');
+  ctx.fillStyle = skyGrd;
+  ctx.fillRect(0, 0, w, 0.316 * h); // ground gradient
+
+  var groundGrd = ctx.createLinearGradient(0, 0.5 * h, 0, h);
+  groundGrd.addColorStop(0, '#210F1F');
+  groundGrd.addColorStop(0.6, '#222222');
+  groundGrd.addColorStop(0.9, 'black');
+  ctx.fillStyle = groundGrd;
+  ctx.fillRect(0, 0.5 * h, w, h); // bay
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0.33 * h);
+  ctx.lineTo(w, 0.35 * h);
+  ctx.lineTo(w, 0.4 * h);
+  ctx.lineTo(0, 0.45 * h);
+  ctx.closePath();
+  ctx.fillStyle = "#2B2348";
+  ctx.fill(); // SF hills
+
+  ctx.beginPath();
+  ctx.moveTo(0, 0.215 * h);
+  ctx.lineTo(0.01 * w, 0.215 * h);
+  ctx.lineTo(0.02 * w, 0.205 * h);
+  ctx.lineTo(0.025 * w, 0.205 * h);
+  ctx.lineTo(0.035 * w, 0.216 * h);
+  ctx.lineTo(0.12 * w, 0.205 * h);
+  ctx.lineTo(0.125 * w, 0.21 * h);
+  ctx.lineTo(0.138 * w, 0.205 * h);
+  ctx.lineTo(.15 * w, 0.19 * h);
+  ctx.lineTo(0.168 * w, 0.207 * h);
+  ctx.lineTo(0.18 * w, 0.205 * h);
+  ctx.lineTo(0.193 * w, 0.191 * h);
+  ctx.lineTo(0.205 * w, 0.194 * h);
+  ctx.lineTo(0.21 * w, 0.2 * h);
+  ctx.lineTo(0.24 * w, 0.205 * h);
+  ctx.lineTo(0.254 * w, 0.18 * h);
+  ctx.lineTo(0.281 * w, 0.185 * h);
+  ctx.lineTo(0.297 * w, 0.17 * h);
+  ctx.lineTo(0.328 * w, 0.205 * h);
+  ctx.lineTo(0.335 * w, 0.2 * h);
+  ctx.lineTo(0.398 * w, 0.237 * h);
+  ctx.arc(0.423 * w, 0.381 * h, .085 * w, 1.41 * Math.PI, 1.65 * Math.PI, false);
+  ctx.lineTo(0.519 * w, 0.237 * h);
+  ctx.lineTo(0.55 * w, 0.22 * h);
+  ctx.lineTo(0.56 * w, 0.22 * h);
+  ctx.lineTo(0.581 * w, 0.237 * h);
+  ctx.lineTo(0.69 * w, 0.26 * h);
+  ctx.lineTo(0.75 * w, 0.24 * h);
+  ctx.lineTo(0.8 * w, 0.27 * h);
+  ctx.lineTo(0.85 * w, 0.27 * h);
+  ctx.lineTo(0.9 * w, 0.237 * h);
+  ctx.lineTo(0.95 * w, 0.26 * h);
+  ctx.lineTo(w, 0.3 * h);
+  ctx.lineTo(w, 0.35 * h);
+  ctx.lineTo(0, 0.33 * h);
+  ctx.closePath();
+  ctx.fillStyle = "#0B0917";
+  ctx.fill();
+}
+
+/***/ }),
+
 /***/ "./src/scripts/bay_area/bay_canvas.js":
 /*!********************************************!*\
   !*** ./src/scripts/bay_area/bay_canvas.js ***!
@@ -12,94 +96,192 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (/* binding */ BayCanvas)
 /* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+/* harmony import */ var _bay_background__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bay_background */ "./src/scripts/bay_area/bay_background.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+
+
+
+
+
 var BayCanvas = /*#__PURE__*/function () {
-  function BayCanvas() {
+  function BayCanvas(excluded) {
     _classCallCheck(this, BayCanvas);
 
+    this.background = 'bay-area-canvas';
     this.width = 0.9 * window.innerWidth;
     this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
+    this.activeFireworks = [];
+    this.removeFireworks = [];
+    this.newfireworks = [];
+    this.fac3d = 1;
+    this.time = 1000; // this.excludedColors = excluded ? excluded : new Set()
+
+    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excluded);
+    this.active = true;
+    this.closed = false;
   }
 
   _createClass(BayCanvas, [{
-    key: "draw",
-    value: function draw(ctx) {
-      var h = this.height;
-      var w = this.width; // fill rectancle
+    key: "activate",
+    value: function activate(ctx) {
+      this.active = true;
+      this.renderCanvas(ctx);
+      this.launchFireworks(ctx);
+      this.addEventListeners(ctx);
+    }
+  }, {
+    key: "drawBackground",
+    value: function drawBackground(ctx) {
+      (0,_bay_background__WEBPACK_IMPORTED_MODULE_3__.drawBayAreaBackground)(ctx, this.width, this.height);
+    }
+  }, {
+    key: "freeze",
+    value: function freeze(interval) {
+      clearInterval(interval);
+    }
+  }, {
+    key: "addEventListeners",
+    value: function addEventListeners(ctx) {
+      console.log('add listeners');
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
+    }
+  }, {
+    key: "launchFireworks",
+    value: function launchFireworks() {
+      var _this = this;
 
-      ctx.fillStyle = '#210F1F';
-      ctx.beginPath();
-      ctx.rect(0, 0, w, h);
-      ctx.rect(0, 0, w, h);
-      ctx.fill(); // sky gradient
+      console.log('launch fireworks');
+      var _ref = [this.width, this.height],
+          w = _ref[0],
+          h = _ref[1];
+      var launching = setInterval(function () {
+        if (_this.activeFireworks.length < 25 && _this.active) {
+          ///Bottom Left
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
 
-      var skyGrd = ctx.createLinearGradient(0, 0.316 * h, 0, 0.05 * h);
-      skyGrd.addColorStop(0, '#775575');
-      skyGrd.addColorStop(0.5, '#362E57');
-      skyGrd.addColorStop(1, '#210F1F');
-      ctx.fillStyle = skyGrd;
-      ctx.fillRect(0, 0, w, 0.316 * h); // ground gradient
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
+              acc: -.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
 
-      var groundGrd = ctx.createLinearGradient(0, 0.5 * h, 0, h);
-      groundGrd.addColorStop(0, '#210F1F');
-      groundGrd.addColorStop(0.6, '#222222');
-      groundGrd.addColorStop(0.9, 'black');
-      ctx.fillStyle = groundGrd;
-      ctx.fillRect(0, 0.5 * h, w, h); // bay
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0.33 * h);
-      ctx.lineTo(w, 0.35 * h);
-      ctx.lineTo(w, 0.4 * h);
-      ctx.lineTo(0, 0.45 * h);
-      ctx.closePath();
-      ctx.fillStyle = "#2B2348";
-      ctx.fill(); // SF hills
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
+              acc: -0.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Left
 
-      ctx.beginPath();
-      ctx.moveTo(0, 0.215 * h);
-      ctx.lineTo(0.01 * w, 0.215 * h);
-      ctx.lineTo(0.02 * w, 0.205 * h);
-      ctx.lineTo(0.025 * w, 0.205 * h);
-      ctx.lineTo(0.035 * w, 0.216 * h);
-      ctx.lineTo(0.12 * w, 0.205 * h);
-      ctx.lineTo(0.125 * w, 0.21 * h);
-      ctx.lineTo(0.138 * w, 0.205 * h);
-      ctx.lineTo(.15 * w, 0.19 * h);
-      ctx.lineTo(0.168 * w, 0.207 * h);
-      ctx.lineTo(0.18 * w, 0.205 * h);
-      ctx.lineTo(0.193 * w, 0.191 * h);
-      ctx.lineTo(0.205 * w, 0.194 * h);
-      ctx.lineTo(0.21 * w, 0.2 * h);
-      ctx.lineTo(0.24 * w, 0.205 * h);
-      ctx.lineTo(0.254 * w, 0.18 * h);
-      ctx.lineTo(0.281 * w, 0.185 * h);
-      ctx.lineTo(0.297 * w, 0.17 * h);
-      ctx.lineTo(0.328 * w, 0.205 * h);
-      ctx.lineTo(0.335 * w, 0.2 * h);
-      ctx.lineTo(0.398 * w, 0.237 * h);
-      ctx.arc(0.423 * w, 0.381 * h, .085 * w, 1.41 * Math.PI, 1.65 * Math.PI, false);
-      ctx.lineTo(0.519 * w, 0.237 * h);
-      ctx.lineTo(0.55 * w, 0.22 * h);
-      ctx.lineTo(0.56 * w, 0.22 * h);
-      ctx.lineTo(0.581 * w, 0.237 * h);
-      ctx.lineTo(0.69 * w, 0.26 * h);
-      ctx.lineTo(0.75 * w, 0.24 * h);
-      ctx.lineTo(0.8 * w, 0.27 * h);
-      ctx.lineTo(0.85 * w, 0.27 * h);
-      ctx.lineTo(0.9 * w, 0.237 * h);
-      ctx.lineTo(0.95 * w, 0.26 * h);
-      ctx.lineTo(w, 0.3 * h);
-      ctx.lineTo(w, 0.35 * h);
-      ctx.lineTo(0, 0.33 * h);
-      ctx.closePath();
-      ctx.fillStyle = "#0B0917";
-      ctx.fill();
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
+
+            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
+              radius: ph / 250
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
+        }
+
+        ;
+        if (_this.closed) _this.freeze(launching);
+        console.log(_this.colorList);
+      }, this.time);
+    }
+  }, {
+    key: "renderCanvas",
+    value: function renderCanvas(ctx) {
+      var _this2 = this;
+
+      console.log('render canvas');
+      var renderFireworks = setInterval(function () {
+        if (_this2.active) {
+          _this2.drawBackground(ctx);
+
+          _this2.activeFireworks.forEach(function (firework, i) {
+            firework.draw(ctx);
+            firework.move();
+
+            switch (firework.getName()) {
+              case 'Projectile':
+                if (firework.vel[1] > 0.15) {
+                  if (firework.pos[1] < 0.39 * _this2.height) {
+                    _this2.fac3d = firework.pos[1] / 200;
+                  } else {
+                    _this2.fac3d = firework.pos[1] / 175;
+                  }
+
+                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d);
+                }
+
+                break;
+
+              case 'Peony':
+                if (firework.time > 550) _this2.removeFireworks.push(i);
+                break;
+
+              case 'Chrysanthemum':
+                if (firework.time > 600) _this2.removeFireworks.push(i);
+                break;
+
+              default:
+                break;
+            }
+          });
+        }
+
+        _this2.removeFireworks.forEach(function (idx) {
+          delete _this2.activeFireworks[idx];
+        });
+
+        _this2.removeFireworks = [];
+        _this2.activeFireworks = _this2.activeFireworks.cleanArray(); //     .concat(this.newFireworks);
+        // this.newFireworks = []
+
+        if (_this2.closed) _this2.freeze(renderFireworks); // if (!this.active) this.freeze(renderFireworks);
+      }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
+      var settingsButtons = document.getElementsByClassName('open-modal');
+      Object.values(settingsButtons).forEach(function (button) {
+        button.addEventListener('click', function (e) {
+          _this2.active = false;
+        });
+      });
     }
   }]);
 
@@ -128,23 +310,24 @@ __webpack_require__.r(__webpack_exports__);
 
 function launchBayCanvas(bg, ctx, w, h) {
   var excludedColors = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : new Set();
-  var objects = [];
-  var removeObjects = [];
+  var activeFireworks = [];
+  var removeFireworks = [];
   var newFireworks;
   var fac3d;
   var time = 1000;
   var colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList(excludedColors); // const intervals = []
+  // use requestAnimationFrame at some point here
 
   var launchFireworks = setInterval(function () {
     console.log('check');
 
-    if (objects.length < 25) {
+    if (activeFireworks.length < 25) {
       ///Bottom Left
       setTimeout(function () {
         var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
             ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
 
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+        activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
           acc: -.01,
@@ -157,7 +340,7 @@ function launchBayCanvas(bg, ctx, w, h) {
         var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
             ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
 
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+        activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
           acc: -0.01,
@@ -169,7 +352,7 @@ function launchBayCanvas(bg, ctx, w, h) {
       setTimeout(function () {
         var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
             ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+        activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
@@ -181,7 +364,7 @@ function launchBayCanvas(bg, ctx, w, h) {
       setTimeout(function () {
         var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
             ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
-        objects.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+        activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [pw, ph],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
@@ -195,7 +378,7 @@ function launchBayCanvas(bg, ctx, w, h) {
   var renderCanvas = setInterval(function () {
     newFireworks = [];
     bg.draw(ctx);
-    objects.forEach(function (firework, i) {
+    activeFireworks.forEach(function (firework, i) {
       firework.draw(ctx);
       firework.move();
 
@@ -208,29 +391,29 @@ function launchBayCanvas(bg, ctx, w, h) {
               fac3d = firework.pos[1] / 175;
             }
 
-            objects[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, fac3d);
+            activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, fac3d);
           }
 
           break;
 
         case 'Peony':
-          if (firework.time > 550) removeObjects.push(i);
+          if (firework.time > 550) removeFireworks.push(i);
           break;
 
         case 'Chrysanthemum':
-          if (firework.time > 600) removeObjects.push(i);
+          if (firework.time > 600) removeFireworks.push(i);
           break;
 
         default:
           break;
       }
     });
-    removeObjects.forEach(function (idx) {
-      delete objects[idx];
+    removeFireworks.forEach(function (idx) {
+      delete activeFireworks[idx];
     });
-    removeObjects = [];
-    objects = objects.cleanArray();
-    objects = objects.concat(newFireworks);
+    removeFireworks = [];
+    activeFireworks = activeFireworks.cleanArray();
+    activeFireworks = activeFireworks.concat(newFireworks);
   }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
   var settingsButtons = document.getElementsByClassName('open-modal');
   Object.values(settingsButtons).forEach(function (button) {
@@ -276,8 +459,7 @@ function CanvasDisplay(background) {
   switch (background) {
     case 'bay-area-canvas':
       bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-      bg.draw(ctx);
-      (0,_bay_area_bay_canvas_launch__WEBPACK_IMPORTED_MODULE_1__.default)(bg, ctx, canvas.width, canvas.height);
+      bg.activate(ctx);
       break;
 
     case 'solid-color-canvas':
@@ -308,28 +490,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
-function returnToHome() {
+function returnToHome(bg) {
   var homeButton = document.getElementById('back-to-main');
   homeButton.addEventListener('click', function () {
+    bg.closed = true;
     document.getElementById("welcome-modal").style.display = "block";
     document.getElementById('canvas-menu').style.display = "none";
   });
 }
-function openColorMenu(launch, bg, ctx, w, h) {
-  var excludedColors = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : new Set();
+function openColorMenu(bg) {
   var colorButton = document.getElementById('select-colors');
   colorButton.addEventListener('click', function () {
+    bg.active = false;
     document.getElementById("colors-modal").style.display = "block";
     document.getElementById('canvas-menu').style.display = "none";
     var colorCheckBoxes = document.getElementsByClassName("color-check");
+    var colorSet = new Set(bg.colorList);
 
     for (var i = 0; i < colorCheckBoxes.length; i++) {
       colorCheckBoxes[i].addEventListener('change', function () {
         if (this.checked) {
-          excludedColors["delete"](this.value);
-          console.log(excludedColors);
+          colorSet.add(this.value);
+          bg.colorList = Array.from(colorSet);
         } else {
-          excludedColors.add(this.value);
+          colorSet["delete"](this.value);
+          bg.colorList = Array.from(colorSet);
         }
       });
     }
@@ -337,7 +522,7 @@ function openColorMenu(launch, bg, ctx, w, h) {
     document.getElementById('close-color-modal').addEventListener('click', function () {
       document.getElementById("colors-modal").style.display = "none";
       document.getElementById("canvas-menu").style.display = "flex";
-      launch(bg, ctx, w, h, excludedColors);
+      bg.active = true;
     });
   });
 }
@@ -1002,16 +1187,9 @@ document.addEventListener("DOMContentLoaded", function () {
       var color = document.getElementById('solidBackgroundColor').value;
       document.getElementById("welcome-modal").style.display = "none";
       document.getElementById("canvas-menu").style.display = "flex";
-      var canvasEl = (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
+      (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
     });
-  }); // const settingsButtons = document.getElementsByClassName('open-modal')
-  // Object.values(settingsButtons).forEach(button => {
-  //     button.addEventListener('click', function(e) {
-  //         clearInterval(launchFireworks)
-  //         clearInterval(renderCanvas)
-  //     })
-  // });
-  // Add event listener for `click` events.
+  }); // Add event listener for `click` events.
 
   var cv = document.querySelector('canvas');
   cv.addEventListener('click', function (event) {

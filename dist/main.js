@@ -146,15 +146,37 @@ var BayCanvas = /*#__PURE__*/function () {
     value: function addEventListeners(ctx) {
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
+      this.fireworkOnClick();
+    }
+  }, {
+    key: "fireworkOnClick",
+    value: function fireworkOnClick() {
+      var that = this;
+      var canvas = document.querySelector('canvas');
+      canvas.addEventListener('click', function (e) {
+        // console.log(e.pageX)
+        var _ref = [that.width, that.height],
+            w = _ref[0],
+            h = _ref[1];
+        that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [e.pageX - this.offsetLeft - 6, e.pageY - this.offsetTop - 6],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+          acc: -0.008,
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
+          radius: h / 250
+        })); // console.log(this.offsetX)
+        // console.log(this.offsetLeft)
+        // console.log(this.clientLeft)
+      });
     }
   }, {
     key: "launchFireworks",
     value: function launchFireworks() {
       var _this = this;
 
-      var _ref = [this.width, this.height],
-          w = _ref[0],
-          h = _ref[1];
+      var _ref2 = [this.width, this.height],
+          w = _ref2[0],
+          h = _ref2[1];
       var launching = setInterval(function () {
         if (_this.activeFireworks.length < 30 && _this.active && _this.colorList.length > 0) {
           ///Bottom Left
@@ -1083,9 +1105,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var cv = document.querySelector('canvas');
   cv.addEventListener('click', function (event) {
-    var context = this.getContext('2d');
-    var x = this.offsetLeft + this.clientLeft;
-    var y = this.offsetTop + this.clientTop; // console.log(`x:${(event.pageX-x)/this.width}  y:${(event.pageY-y)/this.height}`)
+    var x = this.offsetLeft;
+    var y = this.offsetTop;
+    console.log("x:".concat(event.pageX, "  y:").concat(event.pageY));
   });
 });
 })();

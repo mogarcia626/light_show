@@ -53,17 +53,6 @@ export function randomFirework(projectile, fac3d) {
     }
 }
 
-export function returnToHome(intervalArray) {
-    const homeButton = document.getElementById('back-to-main');
-    homeButton.addEventListener('click', function() {  
-        intervalArray.forEach(interval => {
-            clearInterval(interval)
-        });          
-        document.getElementById("welcome-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none";    
-    }) 
-}
-
 //Classname.getName() wil return 'class name'
 Object.prototype.getName = function() { 
    var funcNameRegex = /function (.{1,})\(/;
@@ -82,20 +71,16 @@ export const COLORS = {
     green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
     red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
     purple: ['#A76BFE', '#792BB2', '#E365E4'],
-    orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548']
+    orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'], 
+    white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
 }
 
-export function selectRandomColor(excludeArr = []) {
-    let colors = Object.keys(COLORS)
-    if (excludeArr.length > 0) {
-        excludeArr.forEach(exclude => {
-            colors.forEach((color, i) => {
-                if (exclude === color) delete colors[i]
-            });        
-        });
-        colors = colors.cleanArray()        
-    }
-    let colorKey = colors[randInt(colors.length)]
+export function establishColorList() {
+    return Object.keys(COLORS)
+}
+
+export function selectRandomColor(colors) {
+    const colorKey = colors[randInt(colors.length)]
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 
@@ -113,5 +98,7 @@ export function inherits(ChildClass, BaseClass) {
     ChildClass.prototype.constructor = ChildClass;
 };
 
-
+export function freeze(interval) {
+    clearInterval(interval)
+}
 

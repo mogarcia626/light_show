@@ -6,15 +6,12 @@ import { selectRandomColor } from './scripts/utils'
 document.addEventListener("DOMContentLoaded", function() {     
     //Close Welcome Modal and fill out Canvas with background of choice
     const canvasButtons = document.getElementsByClassName('close-modal');
-
     Object.values(canvasButtons).forEach(button => {
         button.addEventListener('click', function(e) {
             const color = document.getElementById('solidBackgroundColor').value
             document.getElementById("welcome-modal").style.display="none";
-
-            document.getElementById("canvas-menu").style.display="flex";
-                       
-            let canvasEl = CanvasDisplay(e.target.id, color)          
+            document.getElementById("canvas-menu").style.display="flex";                       
+            CanvasDisplay(e.target.id, color)          
         })            
     });
 

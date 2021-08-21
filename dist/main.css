@@ -1,7 +1,7 @@
 /* General modal styling */
 .modal {
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 10; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -39,6 +39,21 @@
     background-color: navy;
     color: white;
 }
+
+#colors-modal {
+    display: none; /* On Screen by default */    
+}
+
+#colors-modal-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 60%;
+    border-radius: 5px;
+    border: solid white 5px;
+    background-color: navy;
+    color: white;
+}
 /* Canvas Menu styling */
 
 #canvas-menu {
@@ -46,7 +61,7 @@
     justify-content: space-between;
     position: absolute; 
     bottom: 12%; 
-    z-index: 5;
+    z-index: 10;
     width: 90%
 }
 
@@ -71,7 +86,8 @@ body canvas {
   position: absolute;
   margin: auto;
   width: 90%;
-  z-index: -1;
+  z-index: 5;
+  cursor: crosshair;
 }
 
 /*# sourceMappingURL=main.css.map*/

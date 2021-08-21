@@ -7,6 +7,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./dist/main.css" />
     <script src="./dist/main.js"></script>
+
+    <meta property="og:title" content="Light Show">
+    <meta name="image" property="og:image" content="https://i.imgur.com/eyvVg9l.gif">
+    <meta property="og:description"
+        content="A digital interactive fireworks show">
+    <meta property="og:url" content="http://mogarcia626.github.io/light_show/">
+
     <title>Light Show</title>
 </head>
 <body>
@@ -33,6 +40,52 @@
 
     <div id='canvas-menu'>.
         <button class='open-modal' id='back-to-main'>HOME</button>
+        <button class='open-modal' id='select-colors'>COLOR</button>
+    </div>
+
+    <div id="colors-modal" class="modal">
+        <div id="colors-modal-content" class="modal-content">
+            <p>Select the colors of your fireworks below.</p>
+    
+            <form>
+                <div class='color-item'>
+                    <input type="checkbox" id="all" value="all" checked>
+                    <label for="white">All</label>
+                
+                    <input type="checkbox" id="none" value="none">
+                    <label for="white">None</label>
+                </div>
+                <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="yellow" value="yellow" checked>
+                    <label for="yellow">Yellow</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="blue" value="blue" checked>
+                    <label for="blue">Blue</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="pink" value="pink" checked>
+                    <label for="pink">Pink</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="green" value="green" checked>
+                    <label for="green">Green</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="red" value="red" checked>
+                    <label for="red">Red</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="purple" value="purple" checked>
+                    <label for="purple">Purple</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="orange" value="orange" checked>
+                    <label for="orange">Orange</label>
+                </div>  <div class='color-item'>
+                    <input type="checkbox" class='color-check' id="white" value="white" checked>
+                    <label for="white">White</label>
+                </div>
+            </form>
+            <br>
+
+            <button class='close-modal' id='close-color-modal'>CONTINUE</button>
+        
+        </div>
     </div>
     
 </body>

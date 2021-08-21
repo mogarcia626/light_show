@@ -1,7 +1,7 @@
 /* General modal styling */
 .modal {
     position: fixed; /* Stay in place */
-    z-index: 1; /* Sit on top */
+    z-index: 10; /* Sit on top */
     padding-top: 100px; /* Location of the box */
     left: 0;
     top: 0;
@@ -30,6 +30,21 @@
 }
 
 #welcome-modal-content {
+    display: flex;
+    flex-direction: column;
+    max-width: 400px;
+    width: 60%;
+    border-radius: 5px;
+    border: solid white 5px;
+    background-color: navy;
+    color: white;
+}
+
+#colors-modal {
+    display: none; /* On Screen by default */    
+}
+
+#colors-modal-content {
     display: flex;
     flex-direction: column;
     max-width: 400px;

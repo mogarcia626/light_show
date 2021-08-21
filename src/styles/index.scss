@@ -16,5 +16,6 @@ body canvas {
     position: absolute;
     margin: auto;
     width: 90%;
-    z-index: -1;
+    z-index: 5;
+    cursor: crosshair;
 }

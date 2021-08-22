@@ -32,6 +32,26 @@ export default class BayCanvas {
     addEventListeners(ctx) {
         returnToHome(this)
         openColorMenu(this, ctx)
+        this.fireworkOnClick()
+    }
+
+    fireworkOnClick() {
+        const that = this
+        const canvas = document.querySelector('canvas')
+        canvas.addEventListener('click', function(e) {
+            // console.log(e.pageX)
+            const [w, h] = [that.width, that.height]
+            that.activeFireworks.push(new Projectile( {
+                pos: [e.pageX-this.offsetLeft-6, e.pageY-this.offsetTop-6],
+                vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
+                acc: -0.008,
+                color: Util.selectRandomColor(that.colorList),
+                radius: h/250,
+            }))
+            // console.log(this.offsetX)
+            // console.log(this.offsetLeft)
+            // console.log(this.clientLeft)
+        })
     }
     
     launchFireworks() {

@@ -84,10 +84,7 @@ export function selectRandomColor(colors) {
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 
-
 export const FPS = 1000/180
-
-
 
 // Scale the length of a vector by the given amount.
 export function scale(vec, m) {

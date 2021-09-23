@@ -1,6 +1,5 @@
 import "./styles/index.scss";
 import CanvasDisplay from './scripts/canvas_display'
-import { selectRandomColor } from './scripts/utils'
 
 
 document.addEventListener("DOMContentLoaded", function() {     
@@ -11,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function() {
             const color = document.getElementById('solidBackgroundColor').value
             document.getElementById("welcome-modal").style.display="none";
             document.getElementById("canvas-menu").style.display="flex";                       
-            CanvasDisplay(e.target.id, color)          
+            CanvasDisplay(e.target.id, color)  
         })            
     });
 
@@ -20,7 +19,7 @@ document.addEventListener("DOMContentLoaded", function() {
     cv.addEventListener('click', function(event) {
         let x = this.offsetLeft
         let y = this.offsetTop
-        console.log(`x:${(event.pageX)}  y:${event.pageY}`)
+        // console.log(`x:${(event.pageX)}  y:${event.pageY}`)
     })
 
 

@@ -1,21 +1,11 @@
 import {subVectors, FPS, addVectors, randInt, multiplyVector} from '../utils';
+import Firework from './firework';
 
-class Chrysanthemum {
+class Chrysanthemum extends Firework {
     constructor(props) {
+        super(props)        
+        this.radius = props.radius || 0.5;
         this.origin = props.pos
-        this.pos = props.pos;
-        this.grav = props.vel/10
-        this.acc = 31/32;
-        this.color = props.color;
-        this.radius = props.radius || 0.5;  
-        this.time = 0;
-        this.particles = {}
-        subVectors(props.vel, randInt(6)+18 ).forEach((velVec, i) => {
-            this.particles[i] = {
-                vel: velVec,
-                pos: this.pos,
-            }
-        })
         this.middleLayer = {}
         subVectors(props.vel, randInt(4)+14  ).forEach((velVec, i) => {
             this.middleLayer[i] = {
@@ -60,11 +50,8 @@ class Chrysanthemum {
                 }); 
             })
         this.origin = addVectors(this.origin, [0, this.grav])
-        this.time = this.time + FPS;
+        this.time += FPS;
     }
-
-    
-
 }
 
 export default Chrysanthemum

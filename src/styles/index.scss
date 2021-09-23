@@ -9,13 +9,12 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-
+    margin: 0;
 }
 
 body canvas {
     position: absolute;
-    margin: auto;
-    width: 90%;
+    margin: 0;
     z-index: 5;
     cursor: crosshair;
 }

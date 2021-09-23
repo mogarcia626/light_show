@@ -58,11 +58,11 @@
 
 #canvas-menu {
     display: none; /* Off Screen until canvas is rendered */  
-    justify-content: space-between;
+    justify-content: space-around;
     position: absolute; 
     bottom: 12%; 
     z-index: 10;
-    width: 90%
+    width: 80%
 }
 
 .open-modal {
@@ -80,12 +80,12 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  margin: 0;
 }
 
 body canvas {
   position: absolute;
-  margin: auto;
-  width: 90%;
+  margin: 0;
   z-index: 5;
   cursor: crosshair;
 }

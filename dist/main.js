@@ -98,8 +98,190 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+/* harmony import */ var _canvas_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas_template */ "./src/scripts/canvas_template.js");
 /* harmony import */ var _bay_background__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bay_background */ "./src/scripts/bay_area/bay_background.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+
+var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
+  _inherits(BayCanvas, _CanvasTemplate);
+
+  var _super = _createSuper(BayCanvas);
+
+  function BayCanvas() {
+    var _this;
+
+    _classCallCheck(this, BayCanvas);
+
+    _this = _super.call(this);
+    _this.background = 'bay-area-canvas';
+    _this.time = 1000;
+    _this.fac3d = 1 / 400;
+    return _this;
+  }
+
+  _createClass(BayCanvas, [{
+    key: "drawBackground",
+    value: function drawBackground(ctx) {
+      (0,_bay_background__WEBPACK_IMPORTED_MODULE_3__.drawBayAreaBackground)(ctx, this.width, this.height);
+    }
+  }, {
+    key: "launchFireworks",
+    value: function launchFireworks() {
+      var _this2 = this;
+
+      var _ref = [this.width, this.height],
+          w = _ref[0],
+          h = _ref[1];
+      var launching = setInterval(function () {
+        if (_this2.activeFireworks.length < 30 && _this2.active && _this2.colorList.length > 0) {
+          ///Bottom Left
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
+
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
+              acc: -.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
+
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
+              acc: -0.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
+
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
+
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
+
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            }));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
+        }
+
+        ;
+        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+      }, this.time);
+    }
+  }]);
+
+  return BayCanvas;
+}(_canvas_template__WEBPACK_IMPORTED_MODULE_2__.default);
+
+
+
+/***/ }),
+
+/***/ "./src/scripts/canvas_display.js":
+/*!***************************************!*\
+  !*** ./src/scripts/canvas_display.js ***!
+  \***************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
+/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
+
+
+
+function CanvasDisplay(background) {
+  var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
+  var canvas = document.querySelector('canvas');
+  var ctx = canvas.getContext('2d');
+  canvas.width = 0.8 * window.innerWidth;
+  canvas.height = Math.min(0.8 * window.innerWidth * 0.5625, 0.8 * window.innerHeight);
+  var bg;
+
+  switch (background) {
+    case 'bay-area-canvas':
+      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+      bg.activate(ctx);
+      break;
+
+    case 'solid-color-canvas':
+      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__.default(color);
+      bg.activate(ctx);
+      break;
+
+    default:
+      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+  }
+}
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
+
+/***/ }),
+
+/***/ "./src/scripts/canvas_template.js":
+/*!****************************************!*\
+  !*** ./src/scripts/canvas_template.js ***!
+  \****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ CanvasTemplate)
+/* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nav_util */ "./src/scripts/nav_util.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -110,25 +292,33 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 
+var CanvasTemplate = /*#__PURE__*/function () {
+  function CanvasTemplate() {
+    _classCallCheck(this, CanvasTemplate);
 
-var BayCanvas = /*#__PURE__*/function () {
-  function BayCanvas() {
-    _classCallCheck(this, BayCanvas);
-
-    this.background = 'bay-area-canvas';
-    this.width = 0.9 * window.innerWidth;
-    this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
+    this.width = 0.8 * window.innerWidth;
+    this.height = Math.min(0.8 * window.innerWidth * 0.5625, 0.8 * window.innerHeight);
     this.activeFireworks = [];
     this.removeFireworks = [];
     this.newfireworks = [];
-    this.fac3d = 1;
-    this.time = 1000;
     this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
     this.active = true;
     this.closed = false;
   }
 
-  _createClass(BayCanvas, [{
+  _createClass(CanvasTemplate, [{
+    key: "listenFordeactivate",
+    value: function listenFordeactivate() {
+      var _this = this;
+
+      var settingsButtons = document.getElementsByClassName('open-modal');
+      Object.values(settingsButtons).forEach(function (button) {
+        button.addEventListener('click', function (e) {
+          _this.active = false;
+        });
+      });
+    }
+  }, {
     key: "activate",
     value: function activate(ctx) {
       this.active = true;
@@ -137,13 +327,9 @@ var BayCanvas = /*#__PURE__*/function () {
       this.addEventListeners(ctx);
     }
   }, {
-    key: "drawBackground",
-    value: function drawBackground(ctx) {
-      (0,_bay_background__WEBPACK_IMPORTED_MODULE_3__.drawBayAreaBackground)(ctx, this.width, this.height);
-    }
-  }, {
     key: "addEventListeners",
     value: function addEventListeners(ctx) {
+      this.listenFordeactivate();
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
       this.fireworkOnClick();
@@ -158,83 +344,13 @@ var BayCanvas = /*#__PURE__*/function () {
             w = _ref[0],
             h = _ref[1];
         that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - this.offsetLeft - 6, e.pageY - this.offsetTop - 6],
+          pos: [e.pageX - this.offsetLeft, e.pageY - this.offsetTop],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: Math.max(h / 250, 0)
-        })); // console.log(this.offsetX)
-        // console.log(this.offsetLeft)
-        // console.log(this.clientLeft)
+          radius: Math.max(h * that.fac3d, 0)
+        }));
       });
-    }
-  }, {
-    key: "launchFireworks",
-    value: function launchFireworks() {
-      var _this = this;
-
-      var _ref2 = [this.width, this.height],
-          w = _ref2[0],
-          h = _ref2[1];
-      var launching = setInterval(function () {
-        if (_this.activeFireworks.length < 30 && _this.active && _this.colorList.length > 0) {
-          ///Bottom Left
-          setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
-
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
-              acc: -.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 250)
-            }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
-
-          setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
-
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
-              acc: -0.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 250)
-            }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Left
-
-          setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
-
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-              acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 250)
-            }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Right
-
-          setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
-
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-              acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 250)
-            }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
-        }
-
-        ;
-        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
-      }, this.time);
     }
   }, {
     key: "renderCanvas",
@@ -252,13 +368,7 @@ var BayCanvas = /*#__PURE__*/function () {
             switch (firework.getName()) {
               case 'Projectile':
                 if (firework.vel[1] > 0.15) {
-                  if (firework.pos[1] < 0.39 * _this2.height) {
-                    _this2.fac3d = firework.pos[1] / 200;
-                  } else {
-                    _this2.fac3d = firework.pos[1] / 175;
-                  }
-
-                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d);
+                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d * firework.pos[1]);
                 }
 
                 break;
@@ -285,62 +395,13 @@ var BayCanvas = /*#__PURE__*/function () {
         _this2.activeFireworks = _this2.activeFireworks.cleanArray();
         if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
       }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-      var settingsButtons = document.getElementsByClassName('open-modal');
-      Object.values(settingsButtons).forEach(function (button) {
-        button.addEventListener('click', function (e) {
-          _this2.active = false;
-        });
-      });
     }
   }]);
 
-  return BayCanvas;
+  return CanvasTemplate;
 }();
 
 
-
-/***/ }),
-
-/***/ "./src/scripts/canvas_display.js":
-/*!***************************************!*\
-  !*** ./src/scripts/canvas_display.js ***!
-  \***************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
-/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
-
-
-
-function CanvasDisplay(background) {
-  var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var canvas = document.querySelector('canvas');
-  var ctx = canvas.getContext('2d');
-  canvas.width = 0.9 * window.innerWidth;
-  canvas.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
-  var bg;
-
-  switch (background) {
-    case 'bay-area-canvas':
-      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-      bg.activate(ctx);
-      break;
-
-    case 'solid-color-canvas':
-      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__.default(color);
-      bg.activate(ctx);
-      break;
-
-    default:
-      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-  }
-}
-
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (CanvasDisplay);
 
 /***/ }),
 
@@ -433,48 +494,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _firework__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firework */ "./src/scripts/projectiles/firework.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var Chrysanthemum = /*#__PURE__*/function () {
+
+
+var Chrysanthemum = /*#__PURE__*/function (_Firework) {
+  _inherits(Chrysanthemum, _Firework);
+
+  var _super = _createSuper(Chrysanthemum);
+
   function Chrysanthemum(props) {
-    var _this = this;
+    var _this;
 
     _classCallCheck(this, Chrysanthemum);
 
-    this.origin = props.pos;
-    this.pos = props.pos;
-    this.grav = props.vel / 10;
-    this.acc = 31 / 32;
-    this.color = props.color;
-    this.radius = props.radius || 0.5;
-    this.time = 0;
-    this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
-      _this.particles[i] = {
-        vel: velVec,
-        pos: _this.pos
-      };
-    });
-    this.middleLayer = {};
+    _this = _super.call(this, props);
+    _this.radius = props.radius || 0.5;
+    _this.origin = props.pos;
+    _this.middleLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 14).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 2 / 3),
         pos: _this.pos
       };
     });
-    this.innerLayer = {};
+    _this.innerLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 8).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 3),
         pos: _this.pos
       };
     });
+    return _this;
   }
 
   _createClass(Chrysanthemum, [{
@@ -511,14 +584,53 @@ var Chrysanthemum = /*#__PURE__*/function () {
         });
       });
       this.origin = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(this.origin, [0, this.grav]);
-      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
   return Chrysanthemum;
-}();
+}(_firework__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Chrysanthemum);
+
+/***/ }),
+
+/***/ "./src/scripts/projectiles/firework.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/projectiles/firework.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Firework = function Firework(props) {
+  var _this = this;
+
+  _classCallCheck(this, Firework);
+
+  this.pos = props.pos;
+  this.vel = props.vel;
+  this.acc = 31 / 32;
+  this.grav = props.vel / 10;
+  this.time = 0;
+  this.color = props.color;
+  this.particles = {};
+  (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
+    _this.particles[i] = {
+      vel: velVec,
+      pos: _this.pos
+    };
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Firework);
 
 /***/ }),
 
@@ -533,54 +645,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _firework__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firework */ "./src/scripts/projectiles/firework.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var Peony = /*#__PURE__*/function () {
+
+
+var Peony = /*#__PURE__*/function (_Firework) {
+  _inherits(Peony, _Firework);
+
+  var _super = _createSuper(Peony);
+
   function Peony(props) {
-    var _this = this;
+    var _this;
 
     _classCallCheck(this, Peony);
 
-    this.pos = props.pos;
-    this.vel = props.vel;
-    this.grav = props.vel / 10;
-    this.color = props.color;
-    this.radius = props.radius || 0.5;
-    this.time = props.time || 0;
-    this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
-      _this.particles[i] = {
-        vel: velVec,
-        pos: _this.pos
-      };
-    });
-    this.outsideLayer = {};
+    _this = _super.call(this, props);
+    _this.radius = props.radius || 0.5;
+    _this.outsideLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 12).forEach(function (velVec, i) {
       _this.outsideLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 3 / 4),
         pos: _this.pos
       };
     });
-    this.middleLayer = {};
+    _this.middleLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(3) + 9).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 2),
         pos: _this.pos
       };
     });
-    this.innerLayer = {};
+    _this.innerLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(2) + 4).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 0.25),
         pos: _this.pos
       };
     });
+    return _this;
   }
 
   _createClass(Peony, [{
@@ -615,12 +739,12 @@ var Peony = /*#__PURE__*/function () {
           particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, [0, _this3.vel / 10]);
         });
       });
-      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
   return Peony;
-}();
+}(_firework__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Peony);
 
@@ -657,15 +781,12 @@ var Projectile = /*#__PURE__*/function () {
     this.radius = props.radius || 0.5;
     this.prevPos = [];
     this.smokePos = [];
-    this.trailLength = props.trailLength || 10;
-    this.smokeLength = props.smokeLength || 50;
+    this.trailLength = props.trailLength || 6;
+    this.smokeLength = props.smokeLength || 24;
     this.time = 0;
   }
 
   _createClass(Projectile, [{
-    key: "particleVectors",
-    value: function particleVectors() {}
-  }, {
     key: "draw",
     value: function draw(ctx) {
       var _this = this;
@@ -678,21 +799,21 @@ var Projectile = /*#__PURE__*/function () {
 
       this.prevPos.forEach(function (trail, i) {
         ctx.beginPath();
-        ctx.arc(trail[0], trail[1], _this.radius * i / _this.trailLength, 0, 2 * Math.PI);
+        ctx.arc(trail[0], trail[1], _this.radius / 4 + 3 * _this.radius * (i + 1) / (4 * _this.trailLength), 0, 2 * Math.PI);
         ctx.fill();
       }); //Smoke trail
 
       this.smokePos.forEach(function (smoke, i) {
         ctx.fillStyle = 'grey';
         ctx.beginPath();
-        ctx.arc(smoke[0], smoke[1], _this.radius / _this.trailLength, 0, 2 * Math.PI);
+        ctx.arc(smoke[0], smoke[1], _this.radius / 4, 0, 2 * Math.PI);
         ctx.fill();
       });
     }
   }, {
     key: "move",
     value: function move() {
-      if (this.time % _utils__WEBPACK_IMPORTED_MODULE_0__.FPS * 2) {
+      if (this.time % 2 == 0) {
         this.prevPos.push(this.pos);
 
         if (this.prevPos.length > this.trailLength) {
@@ -704,7 +825,7 @@ var Projectile = /*#__PURE__*/function () {
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
       this.vel[1] = this.vel[1] + this.acc;
       this.acc = Math.min(this.acc + .0005, this.gravity);
-      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time += 1;
     }
   }]);
 
@@ -727,44 +848,52 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../nav_util */ "./src/scripts/nav_util.js");
+/* harmony import */ var _canvas_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas_template */ "./src/scripts/canvas_template.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
 
 
-var SolidCanvas = /*#__PURE__*/function () {
+
+var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
+  _inherits(SolidCanvas, _CanvasTemplate);
+
+  var _super = _createSuper(SolidCanvas);
+
   function SolidCanvas(color) {
+    var _this;
+
     _classCallCheck(this, SolidCanvas);
 
-    this.background = 'solid-color-canvas';
-    this.color = color;
-    this.width = 0.9 * window.innerWidth;
-    this.height = Math.min(0.9 * window.innerWidth * 0.5625, 0.9 * window.innerHeight);
-    this.activeFireworks = [];
-    this.removeFireworks = [];
-    this.newfireworks = [];
-    this.fac3d = 1;
-    this.time = 600;
-    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
-    this.active = true;
-    this.closed = false;
+    _this = _super.call(this);
+    _this.background = 'solid-color-canvas';
+    _this.color = color;
+    _this.time = 600;
+    _this.fac3d = 1 / 150;
+    return _this;
   }
 
   _createClass(SolidCanvas, [{
-    key: "activate",
-    value: function activate(ctx) {
-      this.active = true;
-      this.renderCanvas(ctx);
-      this.launchFireworks(ctx);
-      this.addEventListeners(ctx);
-    }
-  }, {
     key: "drawBackground",
     value: function drawBackground(ctx) {
       ctx.fillStyle = this.color;
@@ -773,133 +902,51 @@ var SolidCanvas = /*#__PURE__*/function () {
       ctx.fill();
     }
   }, {
-    key: "addEventListeners",
-    value: function addEventListeners(ctx) {
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
-      this.fireworkOnClick();
-    }
-  }, {
-    key: "fireworkOnClick",
-    value: function fireworkOnClick() {
-      var that = this;
-      var canvas = document.querySelector('canvas');
-      canvas.addEventListener('click', function (e) {
-        var _ref = [that.width, that.height],
-            w = _ref[0],
-            h = _ref[1];
-        that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - this.offsetLeft - 6, e.pageY - this.offsetTop - 6],
-          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-          acc: -0.008,
-          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: Math.max(h / 250, 0)
-        }));
-        console.log(this.radius); // console.log(this.offsetLeft)
-        // console.log(this.clientLeft)
-      });
-    }
-  }, {
     key: "launchFireworks",
     value: function launchFireworks() {
-      var _this = this;
+      var _this2 = this;
 
-      var _ref2 = [this.width, this.height],
-          w = _ref2[0],
-          h = _ref2[1];
+      var _ref = [this.width, this.height],
+          w = _ref[0],
+          h = _ref[1];
       var launching = setInterval(function () {
-        if (_this.activeFireworks.length < 25 && _this.active && _this.colorList.length > 0) {
+        if (_this2.activeFireworks.length < 25 && _this2.active && _this2.colorList.length > 0) {
           ///Bottom Left
           setTimeout(function () {
             var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
 
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
               acc: -.015,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 200)
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph * _this2.fac3d)
             }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
 
           setTimeout(function () {
             var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
 
-            _this.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 200],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 200],
               acc: -0.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: Math.max(0, ph / 200)
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph * _this2.fac3d)
             }));
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }
 
         ;
-        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
       }, this.time);
-    }
-  }, {
-    key: "renderCanvas",
-    value: function renderCanvas(ctx) {
-      var _this2 = this;
-
-      var renderFireworks = setInterval(function () {
-        if (_this2.active) {
-          _this2.drawBackground(ctx);
-
-          _this2.activeFireworks.forEach(function (firework, i) {
-            firework.draw(ctx);
-            firework.move();
-
-            switch (firework.getName()) {
-              case 'Projectile':
-                if (firework.vel[1] > 0.15) {
-                  _this2.fac3d = firework.pos[1] / 50;
-                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d);
-                }
-
-                break;
-
-              case 'Peony':
-                if (firework.time > 550) {
-                  _this2.removeFireworks.push(i);
-                }
-
-              case 'Chrysanthemum':
-                if (firework.time > 600) {
-                  _this2.removeFireworks.push(i);
-                }
-
-                break;
-
-              default:
-                break;
-            }
-          });
-        }
-
-        _this2.removeFireworks.forEach(function (idx) {
-          delete _this2.activeFireworks[idx];
-        });
-
-        _this2.removeFireworks = [];
-        _this2.activeFireworks = _this2.activeFireworks.cleanArray();
-        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
-      }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-      var settingsButtons = document.getElementsByClassName('open-modal');
-      Object.values(settingsButtons).forEach(function (button) {
-        button.addEventListener('click', function (e) {
-          _this2.active = false;
-        });
-      });
     }
   }]);
 
   return SolidCanvas;
-}();
+}(_canvas_template__WEBPACK_IMPORTED_MODULE_2__.default);
 
 
 
@@ -966,7 +1013,7 @@ function randomFirework(projectile, fac3d) {
     case 0:
       return new _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__.default({
         pos: projectile.pos,
-        vel: (rand(0.5) + 0.5) * fac3d,
+        vel: (rand(0.5) + 1.5) * fac3d,
         color: projectile.color,
         radius: Math.max(0, projectile.radius * 0.4 * fac3d)
       });
@@ -974,7 +1021,7 @@ function randomFirework(projectile, fac3d) {
     case 1:
       return new _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__.default({
         pos: projectile.pos,
-        vel: (rand(0.5) + 0.5) * fac3d,
+        vel: (rand(0.5) + 1.5) * fac3d,
         color: projectile.color,
         radius: Math.max(0, projectile.radius * fac3d)
       });
@@ -1107,8 +1154,6 @@ var __webpack_exports__ = {};
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _styles_index_scss__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./styles/index.scss */ "./src/styles/index.scss");
 /* harmony import */ var _scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./scripts/canvas_display */ "./src/scripts/canvas_display.js");
-/* harmony import */ var _scripts_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./scripts/utils */ "./src/scripts/utils.js");
-
 
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -1126,8 +1171,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var cv = document.querySelector('canvas');
   cv.addEventListener('click', function (event) {
     var x = this.offsetLeft;
-    var y = this.offsetTop;
-    console.log("x:".concat(event.pageX, "  y:").concat(event.pageY));
+    var y = this.offsetTop; // console.log(`x:${(event.pageX)}  y:${event.pageY}`)
   });
 });
 })();

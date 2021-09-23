@@ -39,14 +39,14 @@ export function randomFirework(projectile, fac3d) {
                 pos: projectile.pos,
                 vel: ((rand(0.5))+0.5)*fac3d,
                 color: projectile.color,
-                radius: projectile.radius*0.4*fac3d,
+                radius: Math.max(0, projectile.radius*0.4*fac3d),
             })
         case 1:
         return new Chrysanthemum({
             pos: projectile.pos,
             vel: ((rand(0.5))+0.5)*fac3d,
             color: projectile.color,
-            radius: projectile.radius*fac3d,
+            radius: Math.max(0, projectile.radius*fac3d),
         })
         default:
             break;
@@ -68,7 +68,7 @@ export const COLORS = {
     blue:['#3340DB', '#504DF4', '#539DB3', '#39657E'],
     pink:['#DE5BF8', '#FC7F81', '#ff007f', '#ff1493'],
     yellow: ['#ffff00', '#e2bb2b', '#b69835'],
-    green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
+    green: ['#6e9b81', '#2b583d', 'green', '#adff2f'],
     red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
     purple: ['#A76BFE', '#792BB2', '#E365E4'],
     orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'], 

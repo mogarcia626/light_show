@@ -39,14 +39,13 @@ export default class BayCanvas {
         const that = this
         const canvas = document.querySelector('canvas')
         canvas.addEventListener('click', function(e) {
-            // console.log(e.pageX)
             const [w, h] = [that.width, that.height]
             that.activeFireworks.push(new Projectile( {
                 pos: [e.pageX-this.offsetLeft-6, e.pageY-this.offsetTop-6],
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                 acc: -0.008,
                 color: Util.selectRandomColor(that.colorList),
-                radius: h/250,
+                radius: Math.max(h/250,0),
             }))
             // console.log(this.offsetX)
             // console.log(this.offsetLeft)
@@ -67,7 +66,7 @@ export default class BayCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -ph/400],
                         acc: -.01,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/250,
+                        radius: Math.max(0, ph/250),
                     }))
                 }, Util.rand(this.time))        
                 //Bottom Right
@@ -78,7 +77,7 @@ export default class BayCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -h/400],
                         acc: -0.01,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/250,
+                        radius: Math.max(0, ph/250),
                     }))
                 }, Util.rand(this.time))
                 //Top Left
@@ -89,7 +88,7 @@ export default class BayCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                         acc: -0.008,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/250,
+                        radius: Math.max(0, ph/250),
                     }))
                 }, Util.rand(this.time))
                 //Top Right
@@ -100,7 +99,7 @@ export default class BayCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                         acc: -0.008,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/250,
+                        radius: Math.max(0, ph/250),
                     }))
                 }, Util.rand(this.time))
             };

@@ -10,8 +10,8 @@ import { FPS } from '../utils';
         this.radius = props.radius || 0.5;
         this.prevPos = [];
         this.smokePos = []
-        this.trailLength = props.trailLength || 8
-        this.smokeLength = props.smokeLength || 36 
+        this.trailLength = props.trailLength || 6
+        this.smokeLength = props.smokeLength || 24 
         this.time = 0
     }    
     
@@ -31,7 +31,7 @@ import { FPS } from '../utils';
         this.smokePos.forEach((smoke, i) => {
             ctx.fillStyle = 'grey'
             ctx.beginPath();
-            ctx.arc(smoke[0], smoke[1], this.radius/2, 0, 2 * Math.PI);
+            ctx.arc(smoke[0], smoke[1], this.radius/4, 0, 2 * Math.PI);
             ctx.fill(); 
         });
     }

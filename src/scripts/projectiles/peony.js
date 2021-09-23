@@ -1,20 +1,10 @@
 import {subVectors, FPS, addVectors, randInt, multiplyVector} from '../utils';
+import Firework from './firework';
 
-class Peony {
-    constructor(props) {
-        this.pos = props.pos;
-        this.vel = props.vel;
-        this.grav = props.vel/10;
-        this.color = props.color;
-        this.radius = props.radius || 0.5;  
-        this.time = props.time || 0;
-        this.particles = {}
-        subVectors(props.vel, randInt(6)+18 ).forEach((velVec, i) => {
-            this.particles[i] = {
-                vel: velVec,
-                pos: this.pos,
-            }
-        })  
+class Peony extends Firework {
+    constructor(props) { 
+        super(props)        
+        this.radius = props.radius || 0.5;    
         this.outsideLayer = {}
         subVectors(props.vel, randInt(4)+12 ).forEach((velVec, i,) => {
             this.outsideLayer[i] = {
@@ -37,7 +27,6 @@ class Peony {
             }
         })   
     }
-
 
     draw(ctx) {
         let particle;
@@ -65,11 +54,8 @@ class Peony {
                     particle.pos = addVectors(particle.pos, [0, this.vel/10])
             }); 
         })
-        this.time = this.time + FPS;
-    }
-
-    
-
+        this.time += FPS;
+    }  
 }
 
 export default Peony

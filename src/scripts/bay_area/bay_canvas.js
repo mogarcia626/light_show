@@ -8,7 +8,7 @@ export default class BayCanvas extends CanvasTemplate{
         super();
         this.background = 'bay-area-canvas'
         this.time = 1000
-        this.fac3d = 1/175 
+        this.fac3d = 1/400 
     }
     
     drawBackground(ctx) {

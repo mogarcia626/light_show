@@ -47,7 +47,7 @@ export default class CanvasTemplate {
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                 acc: -0.008,
                 color: Util.selectRandomColor(that.colorList),
-                radius: Math.max(h*that.fac3d/4,0),
+                radius: Math.max(h*that.fac3d,0),
             }))
         })
     }

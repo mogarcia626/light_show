@@ -8,7 +8,7 @@ export default class SolidCanvas extends CanvasTemplate {
         this.background = 'solid-color-canvas';
         this.color = color;
         this.time = 600;
-        this.fac3d = 1/50;
+        this.fac3d = 1/150;
     };
     
     drawBackground(ctx) {
@@ -31,7 +31,7 @@ export default class SolidCanvas extends CanvasTemplate {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -ph/(Util.rand(50)+150)],
                         acc: -.015,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: Math.max(0, ph/200),
+                        radius: Math.max(0, ph*this.fac3d),
                     }))
                 }, Util.rand(this.time))
             
@@ -40,10 +40,10 @@ export default class SolidCanvas extends CanvasTemplate {
                     let [pw, ph] = [w*(0.5+Util.rand(0.5)), h*(Util.rand(0.25)+0.75)];
                     this.activeFireworks.push(new Projectile( {
                         pos: [pw, ph],
-                        vel: [(Util.rand(0.5*w)/w)-0.25, -h/200],
+                        vel: [(Util.rand(0.5*w)/w)-0.25, -ph/200],
                         acc: -0.01,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: Math.max(0, ph/200),
+                        radius: Math.max(0, ph*this.fac3d),
                     }))
                 }, Util.rand(this.time))
             };

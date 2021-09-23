@@ -140,7 +140,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
     _this = _super.call(this);
     _this.background = 'bay-area-canvas';
     _this.time = 1000;
-    _this.fac3d = 1 / 175;
+    _this.fac3d = 1 / 400;
     return _this;
   }
 
@@ -348,7 +348,7 @@ var CanvasTemplate = /*#__PURE__*/function () {
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: Math.max(h * that.fac3d / 4, 0)
+          radius: Math.max(h * that.fac3d, 0)
         }));
       });
     }
@@ -494,48 +494,60 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _firework__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firework */ "./src/scripts/projectiles/firework.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var Chrysanthemum = /*#__PURE__*/function () {
+
+
+var Chrysanthemum = /*#__PURE__*/function (_Firework) {
+  _inherits(Chrysanthemum, _Firework);
+
+  var _super = _createSuper(Chrysanthemum);
+
   function Chrysanthemum(props) {
-    var _this = this;
+    var _this;
 
     _classCallCheck(this, Chrysanthemum);
 
-    this.origin = props.pos;
-    this.pos = props.pos;
-    this.grav = props.vel / 10;
-    this.acc = 31 / 32;
-    this.color = props.color;
-    this.radius = props.radius || 0.5;
-    this.time = 0;
-    this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
-      _this.particles[i] = {
-        vel: velVec,
-        pos: _this.pos
-      };
-    });
-    this.middleLayer = {};
+    _this = _super.call(this, props);
+    _this.radius = props.radius || 0.5;
+    _this.origin = props.pos;
+    _this.middleLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 14).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 2 / 3),
         pos: _this.pos
       };
     });
-    this.innerLayer = {};
+    _this.innerLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 8).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 3),
         pos: _this.pos
       };
     });
+    return _this;
   }
 
   _createClass(Chrysanthemum, [{
@@ -572,14 +584,53 @@ var Chrysanthemum = /*#__PURE__*/function () {
         });
       });
       this.origin = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(this.origin, [0, this.grav]);
-      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
   return Chrysanthemum;
-}();
+}(_firework__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Chrysanthemum);
+
+/***/ }),
+
+/***/ "./src/scripts/projectiles/firework.js":
+/*!*********************************************!*\
+  !*** ./src/scripts/projectiles/firework.js ***!
+  \*********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+
+
+var Firework = function Firework(props) {
+  var _this = this;
+
+  _classCallCheck(this, Firework);
+
+  this.pos = props.pos;
+  this.vel = props.vel;
+  this.acc = 31 / 32;
+  this.grav = props.vel / 10;
+  this.time = 0;
+  this.color = props.color;
+  this.particles = {};
+  (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
+    _this.particles[i] = {
+      vel: velVec,
+      pos: _this.pos
+    };
+  });
+};
+
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Firework);
 
 /***/ }),
 
@@ -594,54 +645,66 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _firework__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./firework */ "./src/scripts/projectiles/firework.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var Peony = /*#__PURE__*/function () {
+
+
+var Peony = /*#__PURE__*/function (_Firework) {
+  _inherits(Peony, _Firework);
+
+  var _super = _createSuper(Peony);
+
   function Peony(props) {
-    var _this = this;
+    var _this;
 
     _classCallCheck(this, Peony);
 
-    this.pos = props.pos;
-    this.vel = props.vel;
-    this.grav = props.vel / 10;
-    this.color = props.color;
-    this.radius = props.radius || 0.5;
-    this.time = props.time || 0;
-    this.particles = {};
-    (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(6) + 18).forEach(function (velVec, i) {
-      _this.particles[i] = {
-        vel: velVec,
-        pos: _this.pos
-      };
-    });
-    this.outsideLayer = {};
+    _this = _super.call(this, props);
+    _this.radius = props.radius || 0.5;
+    _this.outsideLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(4) + 12).forEach(function (velVec, i) {
       _this.outsideLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 3 / 4),
         pos: _this.pos
       };
     });
-    this.middleLayer = {};
+    _this.middleLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(3) + 9).forEach(function (velVec, i) {
       _this.middleLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 1 / 2),
         pos: _this.pos
       };
     });
-    this.innerLayer = {};
+    _this.innerLayer = {};
     (0,_utils__WEBPACK_IMPORTED_MODULE_0__.subVectors)(props.vel, (0,_utils__WEBPACK_IMPORTED_MODULE_0__.randInt)(2) + 4).forEach(function (velVec, i) {
       _this.innerLayer[i] = {
         vel: (0,_utils__WEBPACK_IMPORTED_MODULE_0__.multiplyVector)(velVec, 0.25),
         pos: _this.pos
       };
     });
+    return _this;
   }
 
   _createClass(Peony, [{
@@ -676,12 +739,12 @@ var Peony = /*#__PURE__*/function () {
           particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, [0, _this3.vel / 10]);
         });
       });
-      this.time = this.time + _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
     }
   }]);
 
   return Peony;
-}();
+}(_firework__WEBPACK_IMPORTED_MODULE_1__.default);
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Peony);
 
@@ -718,8 +781,8 @@ var Projectile = /*#__PURE__*/function () {
     this.radius = props.radius || 0.5;
     this.prevPos = [];
     this.smokePos = [];
-    this.trailLength = props.trailLength || 8;
-    this.smokeLength = props.smokeLength || 36;
+    this.trailLength = props.trailLength || 6;
+    this.smokeLength = props.smokeLength || 24;
     this.time = 0;
   }
 
@@ -743,7 +806,7 @@ var Projectile = /*#__PURE__*/function () {
       this.smokePos.forEach(function (smoke, i) {
         ctx.fillStyle = 'grey';
         ctx.beginPath();
-        ctx.arc(smoke[0], smoke[1], _this.radius / 2, 0, 2 * Math.PI);
+        ctx.arc(smoke[0], smoke[1], _this.radius / 4, 0, 2 * Math.PI);
         ctx.fill();
       });
     }
@@ -826,7 +889,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
     _this.background = 'solid-color-canvas';
     _this.color = color;
     _this.time = 600;
-    _this.fac3d = 1 / 50;
+    _this.fac3d = 1 / 150;
     return _this;
   }
 
@@ -858,7 +921,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
               acc: -.015,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 200)
+              radius: Math.max(0, ph * _this2.fac3d)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
 
@@ -868,10 +931,10 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
 
             _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 200],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 200],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 200)
+              radius: Math.max(0, ph * _this2.fac3d)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }
@@ -950,7 +1013,7 @@ function randomFirework(projectile, fac3d) {
     case 0:
       return new _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__.default({
         pos: projectile.pos,
-        vel: (rand(0.5) + 0.5) * fac3d,
+        vel: (rand(0.5) + 1.5) * fac3d,
         color: projectile.color,
         radius: Math.max(0, projectile.radius * 0.4 * fac3d)
       });
@@ -958,7 +1021,7 @@ function randomFirework(projectile, fac3d) {
     case 1:
       return new _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__.default({
         pos: projectile.pos,
-        vel: (rand(0.5) + 0.5) * fac3d,
+        vel: (rand(0.5) + 1.5) * fac3d,
         color: projectile.color,
         radius: Math.max(0, projectile.radius * fac3d)
       });

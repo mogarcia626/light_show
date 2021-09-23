@@ -154,7 +154,6 @@ var BayCanvas = /*#__PURE__*/function () {
       var that = this;
       var canvas = document.querySelector('canvas');
       canvas.addEventListener('click', function (e) {
-        // console.log(e.pageX)
         var _ref = [that.width, that.height],
             w = _ref[0],
             h = _ref[1];
@@ -163,7 +162,7 @@ var BayCanvas = /*#__PURE__*/function () {
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: h / 250
+          radius: Math.max(h / 250, 0)
         })); // console.log(this.offsetX)
         // console.log(this.offsetLeft)
         // console.log(this.clientLeft)
@@ -189,7 +188,7 @@ var BayCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
               acc: -.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 250
+              radius: Math.max(0, ph / 250)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
 
@@ -202,7 +201,7 @@ var BayCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 250
+              radius: Math.max(0, ph / 250)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Left
 
@@ -215,7 +214,7 @@ var BayCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
               acc: -0.008,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 250
+              radius: Math.max(0, ph / 250)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Top Right
 
@@ -228,7 +227,7 @@ var BayCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
               acc: -0.008,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 250
+              radius: Math.max(0, ph / 250)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
         }
@@ -778,15 +777,36 @@ var SolidCanvas = /*#__PURE__*/function () {
     value: function addEventListeners(ctx) {
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
+      this.fireworkOnClick();
+    }
+  }, {
+    key: "fireworkOnClick",
+    value: function fireworkOnClick() {
+      var that = this;
+      var canvas = document.querySelector('canvas');
+      canvas.addEventListener('click', function (e) {
+        var _ref = [that.width, that.height],
+            w = _ref[0],
+            h = _ref[1];
+        that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [e.pageX - this.offsetLeft - 6, e.pageY - this.offsetTop - 6],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
+          acc: -0.008,
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
+          radius: Math.max(h / 250, 0)
+        }));
+        console.log(this.radius); // console.log(this.offsetLeft)
+        // console.log(this.clientLeft)
+      });
     }
   }, {
     key: "launchFireworks",
     value: function launchFireworks() {
       var _this = this;
 
-      var _ref = [this.width, this.height],
-          w = _ref[0],
-          h = _ref[1];
+      var _ref2 = [this.width, this.height],
+          w = _ref2[0],
+          h = _ref2[1];
       var launching = setInterval(function () {
         if (_this.activeFireworks.length < 25 && _this.active && _this.colorList.length > 0) {
           ///Bottom Left
@@ -799,7 +819,7 @@ var SolidCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
               acc: -.015,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 200
+              radius: Math.max(0, ph / 200)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time)); //Bottom Right
 
@@ -812,7 +832,7 @@ var SolidCanvas = /*#__PURE__*/function () {
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 200],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this.colorList),
-              radius: ph / 200
+              radius: Math.max(0, ph / 200)
             }));
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this.time));
         }
@@ -948,7 +968,7 @@ function randomFirework(projectile, fac3d) {
         pos: projectile.pos,
         vel: (rand(0.5) + 0.5) * fac3d,
         color: projectile.color,
-        radius: projectile.radius * 0.4 * fac3d
+        radius: Math.max(0, projectile.radius * 0.4 * fac3d)
       });
 
     case 1:
@@ -956,7 +976,7 @@ function randomFirework(projectile, fac3d) {
         pos: projectile.pos,
         vel: (rand(0.5) + 0.5) * fac3d,
         color: projectile.color,
-        radius: projectile.radius * fac3d
+        radius: Math.max(0, projectile.radius * fac3d)
       });
 
     default:
@@ -980,7 +1000,7 @@ var COLORS = {
   blue: ['#3340DB', '#504DF4', '#539DB3', '#39657E'],
   pink: ['#DE5BF8', '#FC7F81', '#ff007f', '#ff1493'],
   yellow: ['#ffff00', '#e2bb2b', '#b69835'],
-  green: ['#6e9b81', '#2b583d', '#a0c0ad', '#adff2f'],
+  green: ['#6e9b81', '#2b583d', 'green', '#adff2f'],
   red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
   purple: ['#A76BFE', '#792BB2', '#E365E4'],
   orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'],

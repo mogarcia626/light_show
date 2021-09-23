@@ -35,6 +35,25 @@ export default class SolidCanvas {
     addEventListeners(ctx) {
         returnToHome(this)
         openColorMenu(this, ctx)
+        this.fireworkOnClick()
+    }
+
+    fireworkOnClick() {
+        const that = this
+        const canvas = document.querySelector('canvas')
+        canvas.addEventListener('click', function(e) {
+            const [w, h] = [that.width, that.height]
+            that.activeFireworks.push(new Projectile( {
+                pos: [e.pageX-this.offsetLeft-6, e.pageY-this.offsetTop-6],
+                vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
+                acc: -0.008,
+                color: Util.selectRandomColor(that.colorList),
+                radius: Math.max(h/250,0),
+            }))
+            console.log(this.radius)
+            // console.log(this.offsetLeft)
+            // console.log(this.clientLeft)
+        })
     }
 
     launchFireworks() {
@@ -50,7 +69,7 @@ export default class SolidCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -ph/(Util.rand(50)+150)],
                         acc: -.015,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/200,
+                        radius: Math.max(0, ph/200),
                     }))
                 }, Util.rand(this.time))
             
@@ -62,7 +81,7 @@ export default class SolidCanvas {
                         vel: [(Util.rand(0.5*w)/w)-0.25, -h/200],
                         acc: -0.01,
                         color: Util.selectRandomColor(this.colorList),
-                        radius: ph/200,
+                        radius: Math.max(0, ph/200),
                     }))
                 }, Util.rand(this.time))
             };

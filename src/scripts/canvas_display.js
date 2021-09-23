@@ -4,8 +4,8 @@
  function CanvasDisplay(background, color = null) {
     const canvas = document.querySelector('canvas');
     const ctx = canvas.getContext('2d');
-    canvas.width = 0.9*window.innerWidth;
-    canvas.height = Math.min(0.9*window.innerWidth*0.5625, 0.9*window.innerHeight);        
+    canvas.width = 0.8*window.innerWidth;
+    canvas.height = Math.min(0.8*window.innerWidth*0.5625, 0.8*window.innerHeight);        
     
     let bg;
     switch (background) {
@@ -13,7 +13,7 @@
             bg = new BayCanvas();
             bg.activate(ctx)
             break;
-        case 'solid-color-canvas':   
+        case 'solid-color-canvas': 
             bg = new SolidCanvas(color);
             bg.activate(ctx)
             break;

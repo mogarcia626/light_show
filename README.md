@@ -1,7 +1,6 @@
 # [LIGHT SHOW](https://mogarcia626.github.io/light_show/)
 <img src="https://github.com/mogarcia626/light_show/blob/main/dist/images/lightshow_logo.png" alt="drawing" width="128"/>
 
-# Introduction
 Light Show is a digital and interactive fireworks display.  
 
 1. [Technologies](#technologies)
@@ -9,7 +8,6 @@ Light Show is a digital and interactive fireworks display.
 3. [Fireworks](#fireworks)
 4. [Customization](#customization)
 5. [Launching on Click](#launching-on-click)
-6. [Upcoming Features](#upcoming-features)
 
 
 ## Technologies

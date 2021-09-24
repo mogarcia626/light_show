@@ -1,5 +1,6 @@
 @import url(modal.scss);
 @import url(canvas_menu.scss);
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
 body {
     background-color: #2b2727;
@@ -10,11 +11,29 @@ body {
     justify-content: center;
     align-items: center;
     margin: 0;
+    font-family: 'Manrope', sans-serif;
+    color: white;
 }
 
 body canvas {
-    position: absolute;
-    margin: 0;
-    z-index: 5;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     cursor: crosshair;
+    border: solid #E2BB2B 4px;
+    border-radius: 8px;
+}
+
+.row-between {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-bottom: 2em;
+}
+
+.center {
+    text-align: center;
+    margin-bottom: 0;
 }

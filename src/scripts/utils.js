@@ -72,7 +72,8 @@ export const COLORS = {
     red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
     purple: ['#A76BFE', '#792BB2', '#E365E4'],
     orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'], 
-    white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
+    white: ['#C0C0C0', '#FFFAFA', '#FFFAFA'],
+    black: ['black', '#696969']
 }
 
 export function establishColorList() {

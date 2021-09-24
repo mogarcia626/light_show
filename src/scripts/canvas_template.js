@@ -42,8 +42,10 @@ export default class CanvasTemplate {
         const canvas = document.querySelector('canvas')
         canvas.addEventListener('click', function(e) {
             const [w, h] = [that.width, that.height]
+            // console.log(`[${w}, ${h}]`)
+            console.log(`[${e.pageX-this.offsetLeft+w/2}, ${e.pageY-this.offsetTop+h/2}]`)
             that.activeFireworks.push(new Projectile( {
-                pos: [e.pageX-this.offsetLeft, e.pageY-this.offsetTop],
+                pos: [e.pageX-this.offsetLeft+w/2, e.pageY-this.offsetTop+h/2],
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                 acc: -0.008,
                 color: Util.selectRandomColor(that.colorList),

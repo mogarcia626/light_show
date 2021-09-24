@@ -342,9 +342,11 @@ var CanvasTemplate = /*#__PURE__*/function () {
       canvas.addEventListener('click', function (e) {
         var _ref = [that.width, that.height],
             w = _ref[0],
-            h = _ref[1];
+            h = _ref[1]; // console.log(`[${w}, ${h}]`)
+
+        console.log("[".concat(e.pageX - this.offsetLeft + w / 2, ", ").concat(e.pageY - this.offsetTop + h / 2, "]"));
         that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - this.offsetLeft, e.pageY - this.offsetTop],
+          pos: [e.pageX - this.offsetLeft + w / 2, e.pageY - this.offsetTop + h / 2],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
@@ -1051,7 +1053,8 @@ var COLORS = {
   red: ['#C63347', '#FA5348', '#F75781', '#C11E4B'],
   purple: ['#A76BFE', '#792BB2', '#E365E4'],
   orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'],
-  white: ['#C0C0C0', '#FFFAFA', '#FFFAFA']
+  white: ['#C0C0C0', '#FFFAFA', '#FFFAFA'],
+  black: ['black', '#696969']
 };
 function establishColorList() {
   return Object.keys(COLORS);

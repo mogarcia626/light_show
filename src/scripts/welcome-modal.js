@@ -2,7 +2,7 @@
 export const welcomeModal = document.getElementById("welcome-modal");
 
 // Get the button that closes the modal
-export const welcomeCloseBtn = document.getElementById("close-modal");
+// export const welcomeCloseBtn = document.getElementById("close-modal");
 
 // When the user clicks the button, close the modal 
 welcomeCloseBtn.onclick = function() {

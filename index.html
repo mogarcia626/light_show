@@ -7,6 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./dist/main.css" />
     <script src="./dist/main.js"></script>
+    <script src="https://kit.fontawesome.com/24416d6f2a.js" crossorigin="anonymous"></script>
 
     <meta property="og:title" content="Light Show">
     <meta name="image" property="og:image" content="https://i.imgur.com/eyvVg9l.gif">
@@ -18,15 +19,17 @@
 </head>
 <body>
 
+<!------- Welcome Modal ------------------------------------------------------------->
     <div id="welcome-modal" class="modal"> 
         <div id="welcome-modal-content" class="modal-content">
             <div class='row-between'>
                 <img src="./dist/images/lightshow_logo.png" height='40'>
-                <h3 id='title'> Welcome to Light Show </h3>
+                <h3 class='modal-title'> Welcome to Light Show </h3>
                 <img src="./dist/images/lightshow_logo.png" height='40'>
-            </div>
-            <p>Light show is a digital and interactive fireworks display.</p>
-            <p>To begin, click on the backdrop you'd like to view using the buttons below:</p>
+            </div><br>
+
+            <p>Light show is a digital and interactive fireworks display.</p><br>            
+            <p>To begin, click on the backdrop you'd like to view using the buttons below:</p><br><br>
 
             <button class='close-modal' id='bay-area-canvas'>Bay Area</button>
 
@@ -37,24 +40,27 @@
            
             <p class='center'>Enjoy the show!</p>
         </div>    
-    </div>  
+    </div> 
 
+<!------- Canvas ------------------------------------------------------------->
     <canvas id='canvas'></canvas>
 
+<!------- Canvas Buttons ------------------------------------------------------------->
     <div id='canvas-menu'>.
-        <button class='open-modal' id='back-to-main'>HOME</button>
-        <button class='open-modal' id='select-colors'>COLOR</button>
+        <div id='open-welcome-modal'><i class="fas fa-home" id='icon-button'></i></div>
+        <div id='open-color-modal'><i class="fas fa-paint-brush" id='icon-button'></i></div>
+
     </div>
 
-<!--                 Color Selector Modal                 -->
+<!------- Color Selector Modal ------------------------------------------------------------->
     <div id="colors-modal" class="modal">
         <div id="colors-modal-content" class="modal-content">
             <div class='row-between'>
                 <img src="./dist/images/lightshow_logo.png" height='40'>
-                <h3 id='title'> Color Menu </h3>
+                <h3 class='modal-title'>Color Menu</h3>
                 <img src="./dist/images/lightshow_logo.png" height='40'>
             </div>
-            <p id='color-prompt'>Select any colors for your fireworks from the list below:</p>
+            <p id='color-prompt'>Select any colors from the list below:</p>
     
             <form>
                 <div id='colors-all-none'>
@@ -95,9 +101,9 @@
                 </div>
             </form>
             <br>
-
-            <button class='close-modal' id='close-color-modal'>CONTINUE</button>
-            <img class='right-arrow' src="./dist/images/right-arrow.svg" alt="right-arrow">
+            <div class='exit-icon'>
+                <div id='close-color-modal'><i class="fas fa-play" id='icon-button'></i></div>
+            </div>
         </div>
     </div>
     

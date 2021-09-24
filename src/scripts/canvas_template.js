@@ -15,7 +15,7 @@ export default class CanvasTemplate {
     }
 
     listenFordeactivate() {
-        const settingsButtons = document.getElementsByClassName('open-modal')
+        const settingsButtons = document.getElementsByClassName('icon-button')
         Object.values(settingsButtons).forEach(button => {
             button.addEventListener('click', e => {
                 this.active = false

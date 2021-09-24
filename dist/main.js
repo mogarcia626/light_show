@@ -311,7 +311,7 @@ var CanvasTemplate = /*#__PURE__*/function () {
     value: function listenFordeactivate() {
       var _this = this;
 
-      var settingsButtons = document.getElementsByClassName('open-modal');
+      var settingsButtons = document.getElementsByClassName('icon-button');
       Object.values(settingsButtons).forEach(function (button) {
         button.addEventListener('click', function (e) {
           _this.active = false;
@@ -421,7 +421,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
 function returnToHome(bg) {
-  var homeButton = document.getElementById('back-to-main');
+  var homeButton = document.getElementById('open-welcome-modal');
   homeButton.addEventListener('click', function () {
     bg.closed = true;
     document.getElementById("welcome-modal").style.display = "block";
@@ -429,7 +429,7 @@ function returnToHome(bg) {
   });
 }
 function openColorMenu(bg) {
-  var colorButton = document.getElementById('select-colors');
+  var colorButton = document.getElementById('open-color-modal');
   colorButton.addEventListener('click', function () {
     bg.active = false;
     document.getElementById("colors-modal").style.display = "block";

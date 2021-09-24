@@ -2,17 +2,14 @@
 
 #canvas-menu {
     display: none; /* Off Screen until canvas is rendered */  
-    justify-content: space-around;
-    position: absolute; 
-    bottom: 12%; 
+    justify-content: space-between;
+    position: fixed;
+    top: 78%;
+    left: 50%;
+    transform: translate(-50%, -50%);
     z-index: 10;
-    width: 80%
-}
-
-.open-modal {
-
-}
-
-#back-to-main {
-
+    width: 15%;
+    padding: 0.5em 3em;
+    background: #2B2727;
+    border-radius: 8px;
 }

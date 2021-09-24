@@ -19,20 +19,23 @@
     padding: 20px;
     border: solid #E2BB2B 1.5px;     
     border-radius: 8px;
-    width: 60%;
-    max-width: 400px;
+    width: 25%;
+    max-width: 300px;
     display: flex;
     flex-direction: column;
 }
 
-.right-arrow {
-    height: 1rem;
-    fill: grey;
-    &:hover {
-        fill: #E2BB2B;
-        height: 2rem;
-    }
+#icon-button {
+    font-size: 1.25em;
+    color: white;
+}
+#icon-button:hover {
+    color: #696969;
+}
 
+.exit-icon {
+    align-self: flex-end;
+    margin: -.4em -.4em -.4em 0;
 }
 
 /* Welcome Modal when webpage is first loaded */
@@ -40,15 +43,12 @@
     display: block; /* On Screen by default */    
 }
 
-#welcome-modal-content {    
-
-}
-
-#title {
+.modal-title {
+    font-size: 1.25em;
     letter-spacing: 3px;
-    border-top: solid 1px white;
-    border-bottom: solid 1px white;
-    padding: 1px;
+    border-top: solid 1.5px white;
+    border-bottom: solid 1.5px white;
+    padding: 2px 0 6px;
     margin: 0;
 }
 
@@ -74,14 +74,17 @@
 #color-list {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    row-gap: 0.5em;
+    row-gap: 0.75em;
     column-gap: 1.25em;
 }
 
 .color-item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1.5em 1fr;
 }
-
+.color-item > input {
+    margin: 0;
+}
 
 .button {
     align-self: center;

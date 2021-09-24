@@ -339,13 +339,16 @@ var CanvasTemplate = /*#__PURE__*/function () {
     value: function fireworkOnClick() {
       var that = this;
       var canvas = document.querySelector('canvas');
+      var bounds = canvas.getBoundingClientRect();
       canvas.addEventListener('click', function (e) {
         var _ref = [that.width, that.height],
             w = _ref[0],
-            h = _ref[1]; // console.log(`[${e.pageX-this.offsetLeft+w/2}, ${e.pageY-this.offsetTop+h/2}]`)
+            h = _ref[1]; // console.log(`clientRect [${canvas.getBoundingClientRect().left}, ${canvas.getBoundingClientRect().top}]`)
+        // console.log(`e.click [${e.pageX}, ${e.pageY}]`)
+        // console.log(`dimensions [${w}, ${h}]`)
 
         that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - this.offsetLeft, e.pageY - this.offsetTop],
+          pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),

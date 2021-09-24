@@ -40,11 +40,14 @@ export default class CanvasTemplate {
     fireworkOnClick() {
         const that = this
         const canvas = document.querySelector('canvas')
+        const bounds = canvas.getBoundingClientRect()
         canvas.addEventListener('click', function(e) {
             const [w, h] = [that.width, that.height]
-            // console.log(`[${e.pageX-this.offsetLeft+w/2}, ${e.pageY-this.offsetTop+h/2}]`)
+            // console.log(`clientRect [${canvas.getBoundingClientRect().left}, ${canvas.getBoundingClientRect().top}]`)
+            // console.log(`e.click [${e.pageX}, ${e.pageY}]`)
+            // console.log(`dimensions [${w}, ${h}]`)
             that.activeFireworks.push(new Projectile( {
-                pos: [e.pageX-this.offsetLeft, e.pageY-this.offsetTop],
+                pos: [e.pageX-bounds.left-2, e.pageY-bounds.top-2],
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                 acc: -0.008,
                 color: Util.selectRandomColor(that.colorList),

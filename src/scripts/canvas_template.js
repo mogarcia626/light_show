@@ -15,7 +15,7 @@ export default class CanvasTemplate {
     }
 
     listenFordeactivate() {
-        const settingsButtons = document.getElementsByClassName('open-modal')
+        const settingsButtons = document.getElementsByClassName('icon-button')
         Object.values(settingsButtons).forEach(button => {
             button.addEventListener('click', e => {
                 this.active = false
@@ -42,6 +42,7 @@ export default class CanvasTemplate {
         const canvas = document.querySelector('canvas')
         canvas.addEventListener('click', function(e) {
             const [w, h] = [that.width, that.height]
+            // console.log(`[${e.pageX-this.offsetLeft+w/2}, ${e.pageY-this.offsetTop+h/2}]`)
             that.activeFireworks.push(new Projectile( {
                 pos: [e.pageX-this.offsetLeft, e.pageY-this.offsetTop],
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],

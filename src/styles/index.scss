@@ -1,20 +1,5 @@
-@import url(modal.scss);
-@import url(canvas_menu.scss);
+@import url(reset.scss);
+@import url(modals.scss);
+@import url(canvas.scss);
+@import url('https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 
-body {
-    background-color: #2b2727;
-    width: 100vw;
-    height: 100vh;
-    position: relative; 
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0;
-}
-
-body canvas {
-    position: absolute;
-    margin: 0;
-    z-index: 5;
-    cursor: crosshair;
-}

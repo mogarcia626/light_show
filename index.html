@@ -7,6 +7,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="./dist/main.css" />
     <script src="./dist/main.js"></script>
+    <script src="https://kit.fontawesome.com/24416d6f2a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://chir.ag/projects/ntc/ntc.js"></script>
 
     <meta property="og:title" content="Light Show">
     <meta name="image" property="og:image" content="https://i.imgur.com/eyvVg9l.gif">
@@ -17,74 +19,99 @@
     <title>Light Show</title>
 </head>
 <body>
-
+    <!------- Welcome Modal ------------------------------------------------------------->
     <div id="welcome-modal" class="modal"> 
         <div id="welcome-modal-content" class="modal-content">
-           <h3>🎆 Welcome to Light Show 🎇</h3>
-            <p>Light show is an interactive digital fire works show.
-                <br>Click on the view you would like to begin.
-            </p>
-             <p>Enjoy the show!</p>
+            <div class='row-between'>
+                <img src="./dist/images/lightshow_logo.png" height='40'>
+                <h3 class='modal-title'> Welcome to Light Show </h3>
+                <img src="./dist/images/lightshow_logo.png" height='40'>
+            </div><br>
 
-            <button class='close-modal' id='bay-area-canvas'>Bay Area</button>
+            <p>Light show is a digital and interactive fireworks display.</p><br>            
+            <p>To begin, click on the backdrop you'd like to view using the buttons below:</p><br>
+
+            <div class='close-welcome-modal' id='bay-area-canvas'>Over the Bay</div>
 
             <br>
-                <label>Select a Background Color:</label>
-                <input type="color" id='solidBackgroundColor'>
-                <button class='close-modal' id='solid-color-canvas'>Solid Background</button>
+            <p>Or, select a color below for a solid background color:</p>
+            <br>
+            
+            <input type="color" id='color-input'><br>
+            <div class='close-welcome-modal' id='solid-color-canvas'></div>
            
+            <p class='center'>Enjoy the show!</p>
         </div>    
-    </div>  
+    </div> 
 
-    <canvas id='canvas'></canvas>
-
-    <div id='canvas-menu'>.
-        <button class='open-modal' id='back-to-main'>HOME</button>
-        <button class='open-modal' id='select-colors'>COLOR</button>
+    <!------- Canvas ------------------------------------------------------------->
+    <div id='canvas-container'>
+        <canvas id='canvas'></canvas>
+    <!------- Canvas Buttons ------------------------------------------------------------->
+        <div id='canvas-menu'>
+            <!-- <div id='open-randomized-modal'><i class="fas fa-random" id='icon-button'></i></div>
+            <div id='open-customize-modal'><i class="fas fa-edit" id='icon-button'></i></div>
+            <div id='open-persist-modal'><i class="fas fa-sync-alt" id='icon-button'></i></div> -->
+            <div id='open-welcome-modal'><i class="fas fa-home" id='icon-button'></i></div>
+            <!-- <div id='open-firework-modal'><i class="fas fa-bomb" id='icon-button'></i></div> -->
+            <div id='open-color-modal'><i class="fas fa-paint-brush" id='icon-button'></i></div>
+            <div id='play'><i class="fas fa-play" id='icon-button'></i></div>
+            <!-- <div id='pause'><i class="fas fa-pause" id='icon-button'></i></div> -->      
+        </div>
     </div>
 
+    <!------- Color Selector Modal ------------------------------------------------------------->
     <div id="colors-modal" class="modal">
         <div id="colors-modal-content" class="modal-content">
-            <p>Select the colors of your fireworks below.</p>
+            <div class='row-between'>
+                <img src="./dist/images/lightshow_logo.png" height='40'>
+                <h3 class='modal-title'>Color Menu</h3>
+                <img src="./dist/images/lightshow_logo.png" height='40'>
+            </div>
+            <p id='color-prompt'>Select any colors from the list below:</p>
     
             <form>
-                <div class='color-item'>
-                    <input type="checkbox" id="all" value="all" checked>
-                    <label for="white">All</label>
+                <div id='colors-all-none'>
+                    <div><input type="checkbox" id="all" value="all" checked>
+                    <label for="white">All</label></div>
                 
-                    <input type="checkbox" id="none" value="none">
-                    <label for="white">None</label>
+                    <div><input type="checkbox" id="none" value="none">
+                    <label for="white">None</label></div>
                 </div>
-                <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="yellow" value="yellow" checked>
-                    <label for="yellow">Yellow</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="blue" value="blue" checked>
-                    <label for="blue">Blue</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="pink" value="pink" checked>
-                    <label for="pink">Pink</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="green" value="green" checked>
-                    <label for="green">Green</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="red" value="red" checked>
-                    <label for="red">Red</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="purple" value="purple" checked>
-                    <label for="purple">Purple</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="orange" value="orange" checked>
-                    <label for="orange">Orange</label>
-                </div>  <div class='color-item'>
-                    <input type="checkbox" class='color-check' id="white" value="white" checked>
-                    <label for="white">White</label>
+                <div id='color-list'>
+                    <div class='color-item'><input type="checkbox" class='color-check' id="green" value="green" checked>
+                    <label for="green">Green</label></div>
+
+                    <div class='color-item'><input type="checkbox" class='color-check' id="blue" value="blue" checked>
+                    <label for="blue">Blue</label></div>
+                
+                    <div class='color-item'><input type="checkbox" class='color-check' id="red" value="red" checked>
+                    <label for="red">Red</label></div>
+                    
+                    <div class='color-item'><input type="checkbox" class='color-check' id="yellow" value="yellow" checked>
+                    <label for="yellow">Yellow</label></div>
+                
+                    <div class='color-item'><input type="checkbox" class='color-check' id="purple" value="purple" checked>
+                    <label for="purple">Purple</label></div>
+                
+                    <div class='color-item'><input type="checkbox" class='color-check' id="orange" value="orange" checked>
+                    <label for="orange">Orange</label></div>
+                
+                    <div class='color-item'><input type="checkbox" class='color-check' id="white" value="white" checked>
+                    <label for="white">White</label></div>
+
+                    <div class='color-item'><input type="checkbox" class='color-check' id="black" value="black" checked>
+                    <label for="black">Black</label></div>
+                
+                    <div class='color-item'><input type="checkbox" class='color-check' id="pink" value="pink" checked>
+                    <label for="pink">Pink</label></div>
+
                 </div>
             </form>
             <br>
-
-            <button class='close-modal' id='close-color-modal'>CONTINUE</button>
-        
+            <div class='exit-icon'>
+                <div id='close-color-modal'><i class="fas fa-play" id='icon-button'></i></div>
+            </div>
         </div>
     </div>
     

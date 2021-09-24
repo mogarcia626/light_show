@@ -1,7 +1,7 @@
 import { COLORS } from './utils'
     
 export function returnToHome(bg) {
-    const homeButton = document.getElementById('back-to-main');
+    const homeButton = document.getElementById('open-welcome-modal');
     homeButton.addEventListener('click', function() { 
         bg.closed = true    
         document.getElementById("welcome-modal").style.display="block";
@@ -11,7 +11,7 @@ export function returnToHome(bg) {
 
 export function openColorMenu(bg) {
     
-    const colorButton = document.getElementById('select-colors');
+    const colorButton = document.getElementById('open-color-modal');
     colorButton.addEventListener('click', function() {        
         bg.active = false      
         document.getElementById("colors-modal").style.display="block";

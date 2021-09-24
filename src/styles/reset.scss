@@ -47,16 +47,6 @@ body {
     color: white;
 }
 
-canvas {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: crosshair;
-    border: solid #E2BB2B 4px;
-    border-radius: 8px;
-}
-
 ol, ul {
 	list-style: none;
 }

@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="./dist/main.css" />
     <script src="./dist/main.js"></script>
     <script src="https://kit.fontawesome.com/24416d6f2a.js" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="https://chir.ag/projects/ntc/ntc.js"></script>
 
     <meta property="og:title" content="Light Show">
     <meta name="image" property="og:image" content="https://i.imgur.com/eyvVg9l.gif">
@@ -18,8 +19,7 @@
     <title>Light Show</title>
 </head>
 <body>
-
-<!------- Welcome Modal ------------------------------------------------------------->
+    <!------- Welcome Modal ------------------------------------------------------------->
     <div id="welcome-modal" class="modal"> 
         <div id="welcome-modal-content" class="modal-content">
             <div class='row-between'>
@@ -29,30 +29,38 @@
             </div><br>
 
             <p>Light show is a digital and interactive fireworks display.</p><br>            
-            <p>To begin, click on the backdrop you'd like to view using the buttons below:</p><br><br>
+            <p>To begin, click on the backdrop you'd like to view using the buttons below:</p><br>
 
-            <button class='close-modal' id='bay-area-canvas'>Bay Area</button>
+            <div class='close-welcome-modal' id='bay-area-canvas'>Over the Bay</div>
 
             <br>
-            <label>Select a Background Color:</label>
-            <input type="color" id='solidBackgroundColor'>
-            <button class='close-modal' id='solid-color-canvas'>Solid Background</button>
+            <p>Or, select a color below for a solid background color:</p>
+            <br>
+            
+            <input type="color" id='color-input'><br>
+            <div class='close-welcome-modal' id='solid-color-canvas'></div>
            
             <p class='center'>Enjoy the show!</p>
         </div>    
     </div> 
 
-<!------- Canvas ------------------------------------------------------------->
-    <canvas id='canvas'></canvas>
-
-<!------- Canvas Buttons ------------------------------------------------------------->
-    <div id='canvas-menu'>.
-        <div id='open-welcome-modal'><i class="fas fa-home" id='icon-button'></i></div>
-        <div id='open-color-modal'><i class="fas fa-paint-brush" id='icon-button'></i></div>
-
+    <!------- Canvas ------------------------------------------------------------->
+    <div id='canvas-container'>
+        <canvas id='canvas'></canvas>
+    <!------- Canvas Buttons ------------------------------------------------------------->
+        <div id='canvas-menu'>
+            <!-- <div id='open-randomized-modal'><i class="fas fa-random" id='icon-button'></i></div>
+            <div id='open-customize-modal'><i class="fas fa-edit" id='icon-button'></i></div>
+            <div id='open-persist-modal'><i class="fas fa-sync-alt" id='icon-button'></i></div> -->
+            <div id='open-welcome-modal'><i class="fas fa-home" id='icon-button'></i></div>
+            <!-- <div id='open-firework-modal'><i class="fas fa-bomb" id='icon-button'></i></div> -->
+            <div id='open-color-modal'><i class="fas fa-paint-brush" id='icon-button'></i></div>
+            <div id='play'><i class="fas fa-play" id='icon-button'></i></div>
+            <!-- <div id='pause'><i class="fas fa-pause" id='icon-button'></i></div> -->      
+        </div>
     </div>
 
-<!------- Color Selector Modal ------------------------------------------------------------->
+    <!------- Color Selector Modal ------------------------------------------------------------->
     <div id="colors-modal" class="modal">
         <div id="colors-modal-content" class="modal-content">
             <div class='row-between'>

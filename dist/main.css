@@ -48,16 +48,6 @@ body {
     color: white;
 }
 
-canvas {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    cursor: crosshair;
-    border: solid #E2BB2B 4px;
-    border-radius: 8px;
-}
-
 ol, ul {
 	list-style: none;
 }
@@ -109,8 +99,7 @@ table {
     padding: 20px;
     border: solid #E2BB2B 1.5px;     
     border-radius: 8px;
-    width: 25%;
-    max-width: 300px;
+    max-width: 24em;
     display: flex;
     flex-direction: column;
 }
@@ -133,6 +122,20 @@ table {
     display: block; /* On Screen by default */    
 }
 
+.close-welcome-modal {
+    border: 1px solid white;
+    border-radius: 2px;
+    text-align: center;
+    width: 40%;
+    align-self: center;
+    padding: 0.25em 0;
+    background: #421c52;
+    font-size: .9em;    
+}
+.close-welcome-modal:hover {
+    background: #301935;
+}
+
 .modal-title {
     font-size: 1.25em;
     letter-spacing: 3px;
@@ -140,6 +143,23 @@ table {
     border-bottom: solid 1.5px white;
     padding: 2px 0 6px;
     margin: 0;
+}
+
+#color-input{
+    align-self: center;
+    border-radius: 50%;
+    height: 56px;
+    width: 56px;
+    border: none;
+    outline: none;
+    -webkit-appearance: none;
+}
+#color-input::-webkit-color-swatch-wrapper {
+    padding: 0; 
+}
+#color-input::-webkit-color-swatch {
+    border: none;
+    border-radius: 50%;
 }
 
 #colors-modal {
@@ -175,23 +195,33 @@ table {
 .color-item > input {
     margin: 0;
 }
-
-.button {
-    align-self: center;
-    width: 30%;
-}
 /* Canvas Menu styling */
+canvas-container {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    
+}
+
+canvas {
+    width: 100%;
+    height: 100%;
+    cursor: crosshair;
+    border: solid #E2BB2B 4px;
+    border-radius: 8px;
+}
 
 #canvas-menu {
     display: none; /* Off Screen until canvas is rendered */  
-    justify-content: space-between;
-    position: fixed;
-    top: 78%;
+    position: absolute;
+    bottom: 10%;
     left: 50%;
     transform: translate(-50%, -50%);
+    justify-content: space-between;
     z-index: 10;
-    width: 15%;
-    padding: 0.5em 3em;
+    width: 35%;
+    padding: 0.5em 2em;
     background: #2B2727;
     border-radius: 8px;
 }

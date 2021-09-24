@@ -342,11 +342,10 @@ var CanvasTemplate = /*#__PURE__*/function () {
       canvas.addEventListener('click', function (e) {
         var _ref = [that.width, that.height],
             w = _ref[0],
-            h = _ref[1]; // console.log(`[${w}, ${h}]`)
+            h = _ref[1]; // console.log(`[${e.pageX-this.offsetLeft+w/2}, ${e.pageY-this.offsetTop+h/2}]`)
 
-        console.log("[".concat(e.pageX - this.offsetLeft + w / 2, ", ").concat(e.pageY - this.offsetTop + h / 2, "]"));
         that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - this.offsetLeft + w / 2, e.pageY - this.offsetTop + h / 2],
+          pos: [e.pageX - this.offsetLeft, e.pageY - this.offsetTop],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
@@ -1160,22 +1159,27 @@ __webpack_require__.r(__webpack_exports__);
 
 
 document.addEventListener("DOMContentLoaded", function () {
-  //Close Welcome Modal and fill out Canvas with background of choice
-  var canvasButtons = document.getElementsByClassName('close-modal');
+  var color = document.getElementById('color-input');
+  var colorOutput = document.getElementById('solid-color-canvas');
+  colorOutput.innerHTML = ntc.name("".concat(color.value))[1];
+  color.addEventListener("change", function () {
+    colorOutput.innerHTML = ntc.name("".concat(color.value))[1];
+  }); //Close Welcome Modal and fill out Canvas with background of choice
+
+  var canvasButtons = document.getElementsByClassName('close-welcome-modal');
   Object.values(canvasButtons).forEach(function (button) {
     button.addEventListener('click', function (e) {
-      var color = document.getElementById('solidBackgroundColor').value;
       document.getElementById("welcome-modal").style.display = "none";
       document.getElementById("canvas-menu").style.display = "flex";
-      (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color);
+      (0,_scripts_canvas_display__WEBPACK_IMPORTED_MODULE_1__.default)(e.target.id, color.value);
     });
   }); // Add event listener for `click` events.
-
-  var cv = document.querySelector('canvas');
-  cv.addEventListener('click', function (event) {
-    var x = this.offsetLeft;
-    var y = this.offsetTop; // console.log(`x:${(event.pageX)}  y:${event.pageY}`)
-  });
+  // let cv = document.querySelector('canvas')
+  // cv.addEventListener('click', function(event) {
+  //     let x = this.offsetLeft
+  //     let y = this.offsetTop
+  //     console.log(`x:${(event.pageX)}  y:${event.pageY}`)
+  // })
 });
 })();
 

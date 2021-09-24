@@ -12,6 +12,8 @@ export default class CanvasTemplate {
         this.colorList = Util.establishColorList()
         this.active = true
         this.closed = false
+        this.first = null
+        this.last = null
     }
 
     listenFordeactivate() {
@@ -43,16 +45,15 @@ export default class CanvasTemplate {
         const bounds = canvas.getBoundingClientRect()
         canvas.addEventListener('click', function(e) {
             const [w, h] = [that.width, that.height]
-            // console.log(`clientRect [${canvas.getBoundingClientRect().left}, ${canvas.getBoundingClientRect().top}]`)
-            // console.log(`e.click [${e.pageX}, ${e.pageY}]`)
-            // console.log(`dimensions [${w}, ${h}]`)
-            that.activeFireworks.push(new Projectile( {
+            let clickFW = new Projectile( {
                 pos: [e.pageX-bounds.left-2, e.pageY-bounds.top-2],
                 vel: [(Util.rand(0.5*w)/w)-0.25, -h/800],
                 acc: -0.008,
                 color: Util.selectRandomColor(that.colorList),
                 radius: Math.max(h*that.fac3d,0),
-            }))
+            })
+            !that.first ? that.first = clickFW : Util.joinNodes(that.last, clickFW);
+            that.last = clickFW
         })
     }
 
@@ -60,36 +61,75 @@ export default class CanvasTemplate {
         let renderFireworks = setInterval( () => {
             if (this.active) {
                 this.drawBackground(ctx)
-                this.activeFireworks.forEach((firework, i) => {
+
+                let firework = this.first
+                while (firework) {
                     firework.draw(ctx)
                     firework.move()
-    
+
                     switch (firework.getName()) {
                         case 'Projectile':
                             if (firework.vel[1] > 0.15) {
-                                this.activeFireworks[i] = Util.randomFirework(firework, this.fac3d*firework.pos[1]);
+                                const newFW = Util.randomFirework(firework, this.fac3d*firework.pos[1]);
+                                if (this.first===firework) this.first = newFW
+                                Util.replaceNode(firework, newFW)
                             } 
                             break;
                         case 'Peony':
-                            if (firework.time > 550) this.removeFireworks.push(i)
+                            if (firework.time > 550) {
+                                if (this.first === firework) this.first = firework.next
+                                Util.removeNode(firework)
+                            }
                             break;
                         case 'Chrysanthemum':
-                            if (firework.time > 600) this.removeFireworks.push(i)               
-                            break;
+                            if (firework.time > 600) {
+                                if (this.first === firework) this.first = firework.next
+                                Util.removeNode(firework)
+                            }
                         default: break;
-                    }                            
-                });
+                    }  
+                    
+                    firework = firework.next
+                };
             }
-                        
-            this.removeFireworks.forEach(idx => {
-                delete this.activeFireworks[idx]
-            });
-            this.removeFireworks = []
-
-            this.activeFireworks = this.activeFireworks.cleanArray()
+             
             if (this.closed) Util.freeze(renderFireworks);            
         }, Util.FPS)
     }
 
 }
 
+// renderCanvas(ctx) {
+//         let renderFireworks = setInterval( () => {
+//             if (this.active) {
+//                 this.drawBackground(ctx)
+//                 this.activeFireworks.forEach((firework, i) => {
+//                     firework.draw(ctx)
+//                     firework.move()
+    
+//                     switch (firework.getName()) {
+//                         case 'Projectile':
+//                             if (firework.vel[1] > 0.15) {
+//                                 this.activeFireworks[i] = Util.randomFirework(firework, this.fac3d*firework.pos[1]);
+//                             } 
+//                             break;
+//                         case 'Peony':
+//                             if (firework.time > 550) this.removeFireworks.push(i)
+//                             break;
+//                         case 'Chrysanthemum':
+//                             if (firework.time > 600) this.removeFireworks.push(i)               
+//                             break;
+//                         default: break;
+//                     }                            
+//                 });
+//             }
+                        
+//             this.removeFireworks.forEach(idx => {
+//                 delete this.activeFireworks[idx]
+//             });
+//             this.removeFireworks = []
+
+//             this.activeFireworks = this.activeFireworks.cleanArray()
+//             if (this.closed) Util.freeze(renderFireworks);            
+//         }, Util.FPS)
+//     }

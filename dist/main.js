@@ -139,7 +139,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
 
     _this = _super.call(this);
     _this.background = 'bay-area-canvas';
-    _this.time = 1000;
+    _this.time = 500;
     _this.fac3d = 1 / 400;
     return _this;
   }
@@ -158,58 +158,64 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
           w = _ref[0],
           h = _ref[1];
       var launching = setInterval(function () {
-        if (_this2.activeFireworks.length < 30 && _this2.active && _this2.colorList.length > 0) {
+        if (_this2.active && _this2.colorList.length > 0) {
           ///Bottom Left
           setTimeout(function () {
             var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
 
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
               acc: -.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
-            }));
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
 
           setTimeout(function () {
             var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
 
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
-            }));
+            });
+            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
 
           setTimeout(function () {
             var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
-
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
               acc: -0.008,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
-            }));
+            });
+            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
 
           setTimeout(function () {
             var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
-
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
               acc: -0.008,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
-            }));
+            });
+            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }
 
@@ -304,6 +310,8 @@ var CanvasTemplate = /*#__PURE__*/function () {
     this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
     this.active = true;
     this.closed = false;
+    this.first = null;
+    this.last = null;
   }
 
   _createClass(CanvasTemplate, [{
@@ -343,17 +351,16 @@ var CanvasTemplate = /*#__PURE__*/function () {
       canvas.addEventListener('click', function (e) {
         var _ref = [that.width, that.height],
             w = _ref[0],
-            h = _ref[1]; // console.log(`clientRect [${canvas.getBoundingClientRect().left}, ${canvas.getBoundingClientRect().top}]`)
-        // console.log(`e.click [${e.pageX}, ${e.pageY}]`)
-        // console.log(`dimensions [${w}, ${h}]`)
-
-        that.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            h = _ref[1];
+        var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
           acc: -0.008,
           color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
           radius: Math.max(h * that.fac3d, 0)
-        }));
+        });
+        !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
+        that.last = clickFW;
       });
     }
   }, {
@@ -365,45 +372,84 @@ var CanvasTemplate = /*#__PURE__*/function () {
         if (_this2.active) {
           _this2.drawBackground(ctx);
 
-          _this2.activeFireworks.forEach(function (firework, i) {
+          var firework = _this2.first;
+
+          while (firework) {
             firework.draw(ctx);
             firework.move();
 
             switch (firework.getName()) {
               case 'Projectile':
                 if (firework.vel[1] > 0.15) {
-                  _this2.activeFireworks[i] = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d * firework.pos[1]);
+                  var newFW = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d * firework.pos[1]);
+                  if (_this2.first === firework) _this2.first = newFW;
+                  _utils__WEBPACK_IMPORTED_MODULE_1__.replaceNode(firework, newFW);
                 }
 
                 break;
 
               case 'Peony':
-                if (firework.time > 550) _this2.removeFireworks.push(i);
+                if (firework.time > 550) {
+                  if (_this2.first === firework) _this2.first = firework.next;
+                  _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
+                }
+
                 break;
 
               case 'Chrysanthemum':
-                if (firework.time > 600) _this2.removeFireworks.push(i);
-                break;
+                if (firework.time > 600) {
+                  if (_this2.first === firework) _this2.first = firework.next;
+                  _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
+                }
 
               default:
                 break;
             }
-          });
+
+            firework = firework.next;
+          }
+
+          ;
         }
 
-        _this2.removeFireworks.forEach(function (idx) {
-          delete _this2.activeFireworks[idx];
-        });
-
-        _this2.removeFireworks = [];
-        _this2.activeFireworks = _this2.activeFireworks.cleanArray();
         if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
       }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
     }
   }]);
 
   return CanvasTemplate;
-}();
+}(); // renderCanvas(ctx) {
+//         let renderFireworks = setInterval( () => {
+//             if (this.active) {
+//                 this.drawBackground(ctx)
+//                 this.activeFireworks.forEach((firework, i) => {
+//                     firework.draw(ctx)
+//                     firework.move()
+//                     switch (firework.getName()) {
+//                         case 'Projectile':
+//                             if (firework.vel[1] > 0.15) {
+//                                 this.activeFireworks[i] = Util.randomFirework(firework, this.fac3d*firework.pos[1]);
+//                             } 
+//                             break;
+//                         case 'Peony':
+//                             if (firework.time > 550) this.removeFireworks.push(i)
+//                             break;
+//                         case 'Chrysanthemum':
+//                             if (firework.time > 600) this.removeFireworks.push(i)               
+//                             break;
+//                         default: break;
+//                     }                            
+//                 });
+//             }
+//             this.removeFireworks.forEach(idx => {
+//                 delete this.activeFireworks[idx]
+//             });
+//             this.removeFireworks = []
+//             this.activeFireworks = this.activeFireworks.cleanArray()
+//             if (this.closed) Util.freeze(renderFireworks);            
+//         }, Util.FPS)
+//     }
+
 
 
 
@@ -619,6 +665,8 @@ var Firework = function Firework(props) {
 
   _classCallCheck(this, Firework);
 
+  this.next = null;
+  this.previous = null;
   this.pos = props.pos;
   this.vel = props.vel;
   this.acc = 31 / 32;
@@ -892,7 +940,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
     _this = _super.call(this);
     _this.background = 'solid-color-canvas';
     _this.color = color;
-    _this.time = 600;
+    _this.time = 300;
     _this.fac3d = 1 / 150;
     return _this;
   }
@@ -914,32 +962,34 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
           w = _ref[0],
           h = _ref[1];
       var launching = setInterval(function () {
-        if (_this2.activeFireworks.length < 25 && _this2.active && _this2.colorList.length > 0) {
+        if (_this2.active && _this2.colorList.length > 0) {
           ///Bottom Left
           setTimeout(function () {
             var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
-
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
               acc: -.015,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
-            }));
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
 
           setTimeout(function () {
             var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
-
-            _this2.activeFireworks.push(new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
               vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 200],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
-            }));
+            });
+            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }
 
@@ -976,7 +1026,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "FPS": () => (/* binding */ FPS),
 /* harmony export */   "scale": () => (/* binding */ scale),
 /* harmony export */   "inherits": () => (/* binding */ inherits),
-/* harmony export */   "freeze": () => (/* binding */ freeze)
+/* harmony export */   "freeze": () => (/* binding */ freeze),
+/* harmony export */   "joinNodes": () => (/* binding */ joinNodes),
+/* harmony export */   "replaceNode": () => (/* binding */ replaceNode),
+/* harmony export */   "removeNode": () => (/* binding */ removeNode)
 /* harmony export */ });
 /* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/peony */ "./src/scripts/projectiles/peony.js");
 /* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
@@ -1078,6 +1131,24 @@ function inherits(ChildClass, BaseClass) {
 ;
 function freeze(interval) {
   clearInterval(interval);
+}
+function joinNodes(node1, node2) {
+  node1.next = node2;
+  node2.prev = node1;
+}
+function replaceNode(oldNode, newNode) {
+  var prev = oldNode.prev;
+  var next = oldNode.next;
+  if (prev) prev.next = newNode;
+  newNode.prev = prev;
+  if (next) next.prev = newNode;
+  newNode.next = next;
+}
+function removeNode(node) {
+  var prev = node.prev;
+  var next = node.next;
+  if (next) next.prev = prev;
+  if (prev) prev.next = next;
 }
 
 /***/ }),

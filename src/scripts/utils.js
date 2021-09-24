@@ -100,3 +100,25 @@ export function freeze(interval) {
     clearInterval(interval)
 }
 
+export function joinNodes(node1, node2) {
+    node1.next = node2
+    node2.prev = node1
+}
+
+export function replaceNode(oldNode, newNode) {
+    const prev = oldNode.prev
+    const next = oldNode.next
+
+    if (prev) prev.next = newNode
+    newNode.prev = prev
+    
+    if (next) next.prev = newNode
+    newNode.next = next
+}
+
+export function removeNode(node) {
+    const prev = node.prev
+    const next = node.next
+    if (next) next.prev = prev
+    if (prev) prev.next = next
+}

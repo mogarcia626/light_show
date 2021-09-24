@@ -2,6 +2,8 @@ import { FPS } from '../utils';
 
     class Projectile {
     constructor(props) {
+        this.next = null
+        this.prev = null
         this.pos = props.pos;
         this.vel = props.vel;
         this.acc = props.acc;

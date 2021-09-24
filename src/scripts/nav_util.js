@@ -2,10 +2,10 @@ import { COLORS } from './utils'
     
 export function returnToHome(bg) {
     const homeButton = document.getElementById('open-welcome-modal');
-    homeButton.addEventListener('click', function() { 
+    homeButton.addEventListener('click', function() {    
         bg.closed = true    
         document.getElementById("welcome-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none";    
+        document.getElementById('canvas-menu').style.display="none";
     }) 
 }
 
@@ -65,3 +65,36 @@ export function openColorMenu(bg) {
         })
     }) 
 }
+
+export function pause(bg) {
+    const playButton = document.getElementById("play")
+    playButton.style.display="none";
+
+    const pauseButton = document.getElementById('pause');
+    pauseButton.style.display="block";
+    pauseButton.addEventListener('click', clickPause)
+    
+    function clickPause(e) {
+        bg.active = false
+        pauseButton.removeEventListener('click', clickPause)
+        pauseButton.style.display="none";
+        playButton.style.display="block";
+        play(bg)
+    }
+}
+
+export function play(bg) {
+    const playButton = document.getElementById('play');
+    playButton.addEventListener('click', clickPlay)
+    
+    function clickPlay(e) {
+        bg.active = true
+        playButton.removeEventListener('click', clickPlay)
+        playButton.style.display="none"; 
+        const pauseButton = document.getElementById("pause")
+        pauseButton.style.display="block";
+        pause(bg)
+    }
+}
+
+

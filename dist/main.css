@@ -223,5 +223,12 @@ canvas {
     border-radius: 8px;
 }
 
+#play {
+    display: none;
+}
+#pause {
+    display: block;
+}
+
 
 /*# sourceMappingURL=main.css.map*/

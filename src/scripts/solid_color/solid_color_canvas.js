@@ -7,7 +7,7 @@ export default class SolidCanvas extends CanvasTemplate {
         super();
         this.background = 'solid-color-canvas';
         this.color = color;
-        this.time = 300;
+        this.time = 600;
         this.fac3d = 1/150;
     };
     

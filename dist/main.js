@@ -139,7 +139,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
 
     _this = _super.call(this);
     _this.background = 'bay-area-canvas';
-    _this.time = 500;
+    _this.time = 600;
     _this.fac3d = 1 / 400;
     return _this;
   }
@@ -315,18 +315,6 @@ var CanvasTemplate = /*#__PURE__*/function () {
   }
 
   _createClass(CanvasTemplate, [{
-    key: "listenFordeactivate",
-    value: function listenFordeactivate() {
-      var _this = this;
-
-      var settingsButtons = document.getElementsByClassName('icon-button');
-      Object.values(settingsButtons).forEach(function (button) {
-        button.addEventListener('click', function (e) {
-          _this.active = false;
-        });
-      });
-    }
-  }, {
     key: "activate",
     value: function activate(ctx) {
       this.active = true;
@@ -337,7 +325,7 @@ var CanvasTemplate = /*#__PURE__*/function () {
   }, {
     key: "addEventListeners",
     value: function addEventListeners(ctx) {
-      this.listenFordeactivate();
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.pause)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
       this.fireworkOnClick();
@@ -366,13 +354,13 @@ var CanvasTemplate = /*#__PURE__*/function () {
   }, {
     key: "renderCanvas",
     value: function renderCanvas(ctx) {
-      var _this2 = this;
+      var _this = this;
 
       var renderFireworks = setInterval(function () {
-        if (_this2.active) {
-          _this2.drawBackground(ctx);
+        if (_this.active) {
+          _this.drawBackground(ctx);
 
-          var firework = _this2.first;
+          var firework = _this.first;
 
           while (firework) {
             firework.draw(ctx);
@@ -381,8 +369,8 @@ var CanvasTemplate = /*#__PURE__*/function () {
             switch (firework.getName()) {
               case 'Projectile':
                 if (firework.vel[1] > 0.15) {
-                  var newFW = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this2.fac3d * firework.pos[1]);
-                  if (_this2.first === firework) _this2.first = newFW;
+                  var newFW = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this.fac3d * firework.pos[1]);
+                  if (_this.first === firework) _this.first = newFW;
                   _utils__WEBPACK_IMPORTED_MODULE_1__.replaceNode(firework, newFW);
                 }
 
@@ -390,7 +378,7 @@ var CanvasTemplate = /*#__PURE__*/function () {
 
               case 'Peony':
                 if (firework.time > 550) {
-                  if (_this2.first === firework) _this2.first = firework.next;
+                  if (_this.first === firework) _this.first = firework.next;
                   _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
                 }
 
@@ -398,7 +386,7 @@ var CanvasTemplate = /*#__PURE__*/function () {
 
               case 'Chrysanthemum':
                 if (firework.time > 600) {
-                  if (_this2.first === firework) _this2.first = firework.next;
+                  if (_this.first === firework) _this.first = firework.next;
                   _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
                 }
 
@@ -412,44 +400,13 @@ var CanvasTemplate = /*#__PURE__*/function () {
           ;
         }
 
-        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
+        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
       }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
     }
   }]);
 
   return CanvasTemplate;
-}(); // renderCanvas(ctx) {
-//         let renderFireworks = setInterval( () => {
-//             if (this.active) {
-//                 this.drawBackground(ctx)
-//                 this.activeFireworks.forEach((firework, i) => {
-//                     firework.draw(ctx)
-//                     firework.move()
-//                     switch (firework.getName()) {
-//                         case 'Projectile':
-//                             if (firework.vel[1] > 0.15) {
-//                                 this.activeFireworks[i] = Util.randomFirework(firework, this.fac3d*firework.pos[1]);
-//                             } 
-//                             break;
-//                         case 'Peony':
-//                             if (firework.time > 550) this.removeFireworks.push(i)
-//                             break;
-//                         case 'Chrysanthemum':
-//                             if (firework.time > 600) this.removeFireworks.push(i)               
-//                             break;
-//                         default: break;
-//                     }                            
-//                 });
-//             }
-//             this.removeFireworks.forEach(idx => {
-//                 delete this.activeFireworks[idx]
-//             });
-//             this.removeFireworks = []
-//             this.activeFireworks = this.activeFireworks.cleanArray()
-//             if (this.closed) Util.freeze(renderFireworks);            
-//         }, Util.FPS)
-//     }
-
+}();
 
 
 
@@ -464,7 +421,9 @@ var CanvasTemplate = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
-/* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu)
+/* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu),
+/* harmony export */   "pause": () => (/* binding */ pause),
+/* harmony export */   "play": () => (/* binding */ play)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
@@ -529,6 +488,34 @@ function openColorMenu(bg) {
       bg.active = true;
     });
   });
+}
+function pause(bg) {
+  var playButton = document.getElementById("play");
+  playButton.style.display = "none";
+  var pauseButton = document.getElementById('pause');
+  pauseButton.style.display = "block";
+  pauseButton.addEventListener('click', clickPause);
+
+  function clickPause(e) {
+    bg.active = false;
+    pauseButton.removeEventListener('click', clickPause);
+    pauseButton.style.display = "none";
+    playButton.style.display = "block";
+    play(bg);
+  }
+}
+function play(bg) {
+  var playButton = document.getElementById('play');
+  playButton.addEventListener('click', clickPlay);
+
+  function clickPlay(e) {
+    bg.active = true;
+    playButton.removeEventListener('click', clickPlay);
+    playButton.style.display = "none";
+    var pauseButton = document.getElementById("pause");
+    pauseButton.style.display = "block";
+    pause(bg);
+  }
 }
 
 /***/ }),
@@ -666,7 +653,7 @@ var Firework = function Firework(props) {
   _classCallCheck(this, Firework);
 
   this.next = null;
-  this.previous = null;
+  this.prev = null;
   this.pos = props.pos;
   this.vel = props.vel;
   this.acc = 31 / 32;
@@ -825,6 +812,8 @@ var Projectile = /*#__PURE__*/function () {
   function Projectile(props) {
     _classCallCheck(this, Projectile);
 
+    this.next = null;
+    this.prev = null;
     this.pos = props.pos;
     this.vel = props.vel;
     this.acc = props.acc;
@@ -940,7 +929,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
     _this = _super.call(this);
     _this.background = 'solid-color-canvas';
     _this.color = color;
-    _this.time = 300;
+    _this.time = 600;
     _this.fac3d = 1 / 150;
     return _this;
   }

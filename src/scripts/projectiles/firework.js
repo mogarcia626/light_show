@@ -3,7 +3,7 @@ import {subVectors, randInt} from '../utils';
 class Firework {
     constructor(props) {
         this.next = null
-        this.previous = null
+        this.prev = null
         this.pos = props.pos;
         this.vel = props.vel;
         this.acc = 31/32;

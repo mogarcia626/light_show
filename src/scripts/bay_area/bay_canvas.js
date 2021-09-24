@@ -7,7 +7,7 @@ export default class BayCanvas extends CanvasTemplate{
     constructor() {
         super();
         this.background = 'bay-area-canvas'
-        this.time = 500
+        this.time = 600
         this.fac3d = 1/400 
     }
     

@@ -47,7 +47,7 @@ export default class SolidCanvas extends CanvasTemplate {
                         color: Util.selectRandomColor(this.colorList),
                         radius: Math.max(0, ph*this.fac3d),
                     });
-                    Util.joinNodes(this.last, newFW);
+                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
                     this.last = newFW
                 }, Util.rand(this.time))
             };

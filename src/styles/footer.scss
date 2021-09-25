@@ -1,0 +1,71 @@
+.footer-background {
+    position: fixed;
+    bottom: 0.3em;
+    width: 98.5%;
+    border-radius: 5px;
+    background-color: #2d333f;
+    color: #37314e;
+}
+.footer-main {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.3em 1em;
+}
+
+.footer-background a {
+    color: inherit;
+    text-decoration: inherit;
+    cursor: pointer;
+    font-size: 0.8em;
+}
+.footer-background a:hover {
+    color: white;
+    font-weight: 700;
+}
+
+.tech-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-gap: 0.25em 0.5em;
+    padding: 0;
+    font-size: 0.8em;
+}
+
+.footer-list {
+    padding: 0 8px 5px;
+    font-size: 0.8em;
+}
+        
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}
+
+.footer-section-title {
+    color: white;
+    padding: 8px 0;
+    font-size: 0.8em;
+    font-weight: bold;
+}
+
+.footer-section-sub-title {
+    color: white;
+    padding: 0 8px 8px;
+    font-size: 0.9em;
+}
+
+.about-me-section {
+    display: flex;
+}
+
+.discover-links a {
+    display: grid;
+    grid-template-columns: 15% 85%;
+    grid-gap: 5%;
+}   
+
+.link-button {
+    color: white;
+    fill: white;
+}

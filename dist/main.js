@@ -186,7 +186,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
             _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
 
@@ -200,7 +200,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
             _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
 
@@ -214,7 +214,7 @@ var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
             _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }
@@ -977,7 +977,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
             });
-            _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
             _this2.last = newFW;
           }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
         }

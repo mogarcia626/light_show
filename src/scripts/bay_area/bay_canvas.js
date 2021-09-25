@@ -43,7 +43,7 @@ export default class BayCanvas extends CanvasTemplate{
                         color: Util.selectRandomColor(this.colorList),
                         radius: Math.max(0, ph/250),
                     });
-                    Util.joinNodes(this.last, newFW);
+                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
                     this.last = newFW
                 }, Util.rand(this.time))
                 //Top Left
@@ -56,7 +56,7 @@ export default class BayCanvas extends CanvasTemplate{
                         color: Util.selectRandomColor(this.colorList),
                         radius: Math.max(0, ph/250),
                     });
-                    Util.joinNodes(this.last, newFW);
+                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
                     this.last = newFW
                 }, Util.rand(this.time))
                 //Top Right
@@ -69,7 +69,7 @@ export default class BayCanvas extends CanvasTemplate{
                         color: Util.selectRandomColor(this.colorList),
                         radius: Math.max(0, ph/250),
                     });
-                    Util.joinNodes(this.last, newFW);
+                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
                     this.last = newFW
                 }, Util.rand(this.time))
             };

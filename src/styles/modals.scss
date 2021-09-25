@@ -30,6 +30,7 @@
 }
 #icon-button:hover {
     color: #696969;
+    cursor: pointer;
 }
 
 .exit-icon {
@@ -54,6 +55,7 @@
 }
 .close-welcome-modal:hover {
     background: #301935;
+    cursor: pointer;
 }
 
 .modal-title {
@@ -65,7 +67,7 @@
     margin: 0;
 }
 
-#color-input{
+#color-input {
     align-self: center;
     border-radius: 50%;
     height: 56px;
@@ -81,6 +83,7 @@
     border: none;
     border-radius: 50%;
 }
+#color-input:hover { cursor: pointer; background-color: #696969;}
 
 #colors-modal {
     display: none; /* Off Screen by default */    

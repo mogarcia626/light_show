@@ -1,4 +1,5 @@
 /* Canvas Menu styling */
+
 #main-header {
     position: fixed;
     top: 10%;
@@ -22,6 +23,8 @@ canvas {
     cursor: crosshair;
     border: solid #E2BB2B 2px;
     border-radius: 8px;
+    max-width: 1200px;
+    max-height: 800px;
 }
 
 #canvas-menu {

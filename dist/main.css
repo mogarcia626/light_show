@@ -199,6 +199,7 @@ table {
     margin: 0;
 }
 /* Canvas Menu styling */
+
 #main-header {
     position: fixed;
     top: 10%;
@@ -222,6 +223,8 @@ canvas {
     cursor: crosshair;
     border: solid #E2BB2B 2px;
     border-radius: 8px;
+    max-width: 1200px;
+    max-height: 800px;
 }
 
 #canvas-menu {
@@ -246,53 +249,42 @@ canvas {
 }
 .footer-background {
     position: fixed;
-    bottom: 0.3em;
+    bottom: 0.5em;
     width: 98.5%;
-    border-radius: 5px;
+    max-width: 1552px;
+    border: 1.5px solid white;
+    border-radius: 3px;
     background-color: #2d333f;
     color: #37314e;
+    z-index: 15;
 }
 .footer-main {
     display: flex;
     justify-content: space-between;
-    padding: 0.3em 1em;
-}
-
-.footer-background a {
-    color: inherit;
-    text-decoration: inherit;
-    cursor: pointer;
-    font-size: 0.8em;
-}
-.footer-background a:hover {
-    color: white;
-    font-weight: 700;
+    padding: 0.5em 0 0.75em 2em;    
 }
 
 .tech-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    grid-gap: 0.25em 0.5em;
+    grid-gap: 0.3em 1em;
     padding: 0;
-    font-size: 0.8em;
-}
-
-.footer-list {
-    padding: 0 8px 5px;
-    font-size: 0.8em;
+    font-size: 0.9em;
+    margin-top: 0.25em;
 }
         
 .footer-section {
     display: flex;
     flex-direction: column;
     color: white;
+    margin: 0 1em;
 }
 
 .footer-section-title {
     color: white;
-    padding: 8px 0;
-    font-size: 0.8em;
+    padding: 8px 0 4px;
     font-weight: bold;
+    text-decoration: underline;
 }
 
 .footer-section-sub-title {
@@ -307,13 +299,31 @@ canvas {
 
 .discover-links a {
     display: grid;
-    grid-template-columns: 15% 85%;
-    grid-gap: 5%;
-}   
+    grid-template-columns: 20px 1fr;
+    grid-gap: 8px;
+    color: white;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9em;    
+    padding: .15em 0;
+}
+.discover-links a:hover {
+    font-weight: 600;
+    padding-right: 0;
+}
+
+.discover-links li {
+    width: 7.5em;
+}
 
 .link-button {
-    color: white;
     fill: white;
+    width: 20px;
+}
+
+.project-link {
+    width: 18px;
+    border-radius: 4px;
 }
 
 

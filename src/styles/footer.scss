@@ -1,69 +1,48 @@
-.footer-background {
-    position: fixed;
-    bottom: 0.5em;
-    width: 98.5%;
-    max-width: 1552px;
-    border: 1.5px solid white;
-    border-radius: 3px;
-    background-color: #2d333f;
-    color: #37314e;
-    z-index: 15;
-}
-.footer-main {
-    display: flex;
-    justify-content: space-between;
-    padding: 0.5em 0 0.75em 2em;    
-}
-
-.tech-list {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    grid-gap: 0.3em 1em;
-    padding: 0;
-    font-size: 0.9em;
-    margin-top: 0.25em;
-}
-        
 .footer-section {
     display: flex;
     flex-direction: column;
-    color: white;
-    margin: 0 1em;
+    color: lightgray;
+    font-size: 0.9em;
+    z-index: 15;
+    position: fixed;
+    bottom: 0;
+    padding: 0 3%;
 }
 
 .footer-section-title {
-    color: white;
-    padding: 8px 0 4px;
+    padding-bottom: 4px;
     font-weight: bold;
-    text-decoration: underline;
 }
 
-.footer-section-sub-title {
-    color: white;
-    padding: 0 8px 8px;
-    font-size: 0.9em;
+#technologies {
+    left: 0;
 }
 
-.about-me-section {
-    display: flex;
+#my-links {
+    right: 0;
 }
 
-.discover-links a {
+.footer-section ul {
+    margin-bottom: 1.5em;
+}
+
+.footer-section a {
     display: grid;
     grid-template-columns: 20px 1fr;
     grid-gap: 8px;
-    color: white;
+    color: lightgray;
     text-decoration: none;
     cursor: pointer;
     font-size: 0.9em;    
     padding: .15em 0;
 }
-.discover-links a:hover {
+.footer-section a:hover {
     font-weight: 600;
     padding-right: 0;
+    color: white;
 }
 
-.discover-links li {
+.footer-section li {
     width: 7.5em;
 }
 

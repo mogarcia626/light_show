@@ -1,6 +1,3 @@
-import Peony from "./projectiles/peony";
-import Chrysanthemum from './projectiles/chrysanthemum'
-
 export function randInt(num) {
     return Math.floor(Math.random() * num)
 }
@@ -9,6 +6,8 @@ export function rand(num = 1) {
     return Math.random() * num
 }
 
+//__________________________________________________________________________
+// vector manipulation functions
 export function addVectors(vec1, vec2) {
     return [ (vec1[0] + vec2[0]), (vec1[1] + vec2[1]) ]
 }
@@ -30,39 +29,12 @@ export function subVectors(v, num, angle=0) {
     return vecs
 }
 
-export function randomFirework(projectile, fac3d) {
-    let choice = randInt(2);
-    // choice = 0
-    switch (choice) {
-        case 0:
-            return new Peony({
-                pos: projectile.pos,
-                vel: ((rand(0.5))+1.5)*fac3d,
-                color: projectile.color,
-                radius: Math.max(0, projectile.radius*0.4*fac3d),
-            })
-        case 1:
-        return new Chrysanthemum({
-            pos: projectile.pos,
-            vel: ((rand(0.5))+1.5)*fac3d,
-            color: projectile.color,
-            radius: Math.max(0, projectile.radius*fac3d),
-        })
-        default:
-            break;
-    }
-}
-
-//Classname.getName() wil return 'class name'
-Object.prototype.getName = function() { 
-   var funcNameRegex = /function (.{1,})\(/;
-   var results = (funcNameRegex).exec((this).constructor.toString());
-   return (results && results.length > 1) ? results[1] : "";
+// Scale the length of a vector by the given amount.
+export function scale(vec, m) {
+    return [vec[0] * m, vec[1] * m];
 };
+//end_________________________________________________________________________
 
-Array.prototype.cleanArray = function() {
-    return this.filter(el => el );
-}
 
 export const COLORS = {
     blue:['#3340DB', '#504DF4', '#539DB3', '#39657E'],
@@ -85,21 +57,14 @@ export function selectRandomColor(colors) {
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 
-export const FPS = 1000/180
-
-// Scale the length of a vector by the given amount.
-export function scale(vec, m) {
-    return [vec[0] * m, vec[1] * m];
-};
-export function inherits(ChildClass, BaseClass) {
-    ChildClass.prototype = Object.create(BaseClass.prototype);
-    ChildClass.prototype.constructor = ChildClass;
-};
+export const FPS = 1000/60
 
 export function freeze(interval) {
     clearInterval(interval)
 }
 
+//______________________________________________________________
+// Node manipulation for fireworks node list
 export function joinNodes(node1, node2) {
     node1.next = node2
     node2.prev = node1
@@ -122,3 +87,4 @@ export function removeNode(node) {
     if (next) next.prev = prev
     if (prev) prev.next = next
 }
+// end_________________________________________________________

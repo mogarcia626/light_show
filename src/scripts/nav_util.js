@@ -66,7 +66,7 @@ export function openColorMenu(bg) {
     }) 
 }
 
-export function pause(bg) {
+export function play(bg) {
     const playButton = document.getElementById("play")
     playButton.style.display="none";
 
@@ -74,26 +74,25 @@ export function pause(bg) {
     pauseButton.style.display="block";
     pauseButton.addEventListener('click', clickPause)
     
+    bg.render()
+
     function clickPause(e) {
         bg.active = false
         pauseButton.removeEventListener('click', clickPause)
         pauseButton.style.display="none";
         playButton.style.display="block";
-        play(bg)
+        pause(bg)
     }
 }
 
-export function play(bg) {
+export function pause(bg) {
     const playButton = document.getElementById('play');
     playButton.addEventListener('click', clickPlay)
     
     function clickPlay(e) {
         bg.active = true
         playButton.removeEventListener('click', clickPlay)
-        playButton.style.display="none"; 
-        const pauseButton = document.getElementById("pause")
-        pauseButton.style.display="block";
-        pause(bg)
+        play(bg)
     }
 }
 

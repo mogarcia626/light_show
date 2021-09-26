@@ -1,23 +1,36 @@
- import BayCanvas from './bay_area/bay_canvas';
- import SolidCanvas from './solid_color/solid_color_canvas';
+ import BayAnimation from './bay_area/bay_animation';
+import { drawBayAreaBackground } from './bay_area/bay_background';
+ import SolidAnimation from './solid_color/solid_animation';
+import drawSolidBackground from './solid_color/solid_background';
  
  function CanvasDisplay(background, color = null) {
-    const canvas = document.querySelector('canvas');
+     const w = Math.min(0.7*window.innerWidth, 1200);
+     const h = Math.min(0.7*window.innerWidth*2/3, 0.7*window.innerHeight);
+
+    const canvas = document.getElementById('animation-canvas');
+    canvas.width = w;
+    canvas.height = h;
     const ctx = canvas.getContext('2d');
-    canvas.width = 0.8*window.innerWidth;
-    canvas.height = Math.min(0.8*window.innerWidth*0.5625, 0.8*window.innerHeight);        
+
+    const bg = document.getElementById('background-canvas');
+    bg.width = w;
+    bg.height = h;
+    const bgCtx = bg.getContext('2d')
     
-    let bg;
+    let animation;
     switch (background) {
         case 'bay-area-canvas':
-            bg = new BayCanvas();
-            bg.activate(ctx)
+            drawBayAreaBackground(bgCtx, w, h)
+            animation = new BayAnimation(canvas);
+            animation.activate(ctx)
             break;
         case 'solid-color-canvas': 
-            bg = new SolidCanvas(color);
-            bg.activate(ctx)
+            drawSolidBackground(bgCtx, w, h, color)
+            animation = new SolidAnimation(canvas);
+            animation.activate(ctx)
             break;
-        default: bg = new BayCanvas();
+        default: 
+            break;
     } 
 
 }

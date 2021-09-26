@@ -2,6 +2,273 @@
 /******/ 	"use strict";
 /******/ 	var __webpack_modules__ = ({
 
+/***/ "./src/scripts/animation_object.js":
+/*!*****************************************!*\
+  !*** ./src/scripts/animation_object.js ***!
+  \*****************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ Animation)
+/* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+/* harmony import */ var _firework_utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./firework_utils */ "./src/scripts/firework_utils.js");
+/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./nav_util */ "./src/scripts/nav_util.js");
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+
+
+var Animation = /*#__PURE__*/function () {
+  function Animation(canvas) {
+    _classCallCheck(this, Animation);
+
+    this.canvas = canvas;
+    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
+    this.active = true;
+    this.closed = false;
+    this.first = null;
+    this.last = null;
+    this.clearing = true;
+  }
+
+  _createClass(Animation, [{
+    key: "activate",
+    value: function activate(ctx) {
+      this.active = true;
+      this.launchFireworks(ctx);
+      this.addEventListeners(ctx);
+    }
+  }, {
+    key: "addEventListeners",
+    value: function addEventListeners(ctx) {
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.play)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.returnToHome)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.openColorMenu)(this, ctx);
+      this.fireworkOnClick();
+    }
+  }, {
+    key: "fireworkOnClick",
+    value: function fireworkOnClick() {
+      // console.log(this.canvas.getBoundingClientRect())
+      var that = this;
+      var bounds = that.canvas.getBoundingClientRect();
+      this.canvas.addEventListener('click', function (e) {
+        var h = that.canvas.height;
+        var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+          pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 800],
+          acc: -0.008,
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
+          radius: Math.max(h * that.fac3d, 0)
+        });
+        !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
+        that.last = clickFW;
+      });
+    }
+  }, {
+    key: "render",
+    value: function render() {
+      var ctx = this.canvas.getContext('2d');
+
+      if (this.active && !this.closed) {
+        if (this.clearing) ctx.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        var firework = this.first;
+
+        while (firework) {
+          firework.draw(ctx);
+          firework.move();
+
+          switch (firework.getName()) {
+            case 'Projectile':
+              if (firework.vel[1] > 0.15) {
+                var newFW = (0,_firework_utils__WEBPACK_IMPORTED_MODULE_2__.randomFirework)(firework, this.fac3d * firework.pos[1]);
+                if (this.first === firework) this.first = newFW;
+                _utils__WEBPACK_IMPORTED_MODULE_1__.replaceNode(firework, newFW);
+              }
+
+              break;
+
+            case 'Peony':
+              if (firework.time > 550) {
+                if (this.first === firework) this.first = firework.next;
+                _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
+              }
+
+              break;
+
+            case 'Chrysanthemum':
+              if (firework.time > 600) {
+                if (this.first === firework) this.first = firework.next;
+                _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
+              }
+
+            default:
+              break;
+          }
+
+          firework = firework.next;
+        }
+
+        ;
+        window.requestAnimationFrame(this.render.bind(this));
+      }
+    }
+  }]);
+
+  return Animation;
+}();
+
+
+
+/***/ }),
+
+/***/ "./src/scripts/bay_area/bay_animation.js":
+/*!***********************************************!*\
+  !*** ./src/scripts/bay_area/bay_animation.js ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ BayAnimation)
+/* harmony export */ });
+/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+/* harmony import */ var _animation_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../animation_object */ "./src/scripts/animation_object.js");
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
+
+
+
+
+var BayAnimation = /*#__PURE__*/function (_Animation) {
+  _inherits(BayAnimation, _Animation);
+
+  var _super = _createSuper(BayAnimation);
+
+  function BayAnimation(canvas) {
+    var _this;
+
+    _classCallCheck(this, BayAnimation);
+
+    _this = _super.call(this, canvas);
+    _this.time = 800;
+    _this.fac3d = 1 / 400;
+    return _this;
+  }
+
+  _createClass(BayAnimation, [{
+    key: "launchFireworks",
+    value: function launchFireworks() {
+      var _this2 = this;
+
+      var _ref = [this.canvas.width, this.canvas.height],
+          w = _ref[0],
+          h = _ref[1];
+      var launching = setInterval(function () {
+        if (_this2.active && _this2.colorList.length > 0) {
+          ///Bottom Left
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
+
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / 300],
+              acc: -.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
+
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 300],
+              acc: -0.01,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
+
+          setTimeout(function () {
+            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 600],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
+
+          setTimeout(function () {
+            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
+                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
+              pos: [pw, ph],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 600],
+              acc: -0.008,
+              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              radius: Math.max(0, ph / 250)
+            });
+            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            _this2.last = newFW;
+          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
+        }
+
+        ;
+        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+      }, this.time);
+    }
+  }]);
+
+  return BayAnimation;
+}(_animation_object__WEBPACK_IMPORTED_MODULE_2__.default);
+
+
+
+/***/ }),
+
 /***/ "./src/scripts/bay_area/bay_background.js":
 /*!************************************************!*\
   !*** ./src/scripts/bay_area/bay_background.js ***!
@@ -86,152 +353,6 @@ function drawBayAreaBackground(ctx, w, h) {
 
 /***/ }),
 
-/***/ "./src/scripts/bay_area/bay_canvas.js":
-/*!********************************************!*\
-  !*** ./src/scripts/bay_area/bay_canvas.js ***!
-  \********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ BayCanvas)
-/* harmony export */ });
-/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-/* harmony import */ var _canvas_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas_template */ "./src/scripts/canvas_template.js");
-/* harmony import */ var _bay_background__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./bay_background */ "./src/scripts/bay_area/bay_background.js");
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-
-
-
-
-
-var BayCanvas = /*#__PURE__*/function (_CanvasTemplate) {
-  _inherits(BayCanvas, _CanvasTemplate);
-
-  var _super = _createSuper(BayCanvas);
-
-  function BayCanvas() {
-    var _this;
-
-    _classCallCheck(this, BayCanvas);
-
-    _this = _super.call(this);
-    _this.background = 'bay-area-canvas';
-    _this.time = 600;
-    _this.fac3d = 1 / 400;
-    return _this;
-  }
-
-  _createClass(BayCanvas, [{
-    key: "drawBackground",
-    value: function drawBackground(ctx) {
-      (0,_bay_background__WEBPACK_IMPORTED_MODULE_3__.drawBayAreaBackground)(ctx, this.width, this.height);
-    }
-  }, {
-    key: "launchFireworks",
-    value: function launchFireworks() {
-      var _this2 = this;
-
-      var _ref = [this.width, this.height],
-          w = _ref[0],
-          h = _ref[1];
-      var launching = setInterval(function () {
-        if (_this2.active && _this2.colorList.length > 0) {
-          ///Bottom Left
-          setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
-
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 400],
-              acc: -.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
-            _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
-
-          setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
-
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 400],
-              acc: -0.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
-            _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
-
-          setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-              acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
-            _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
-
-          setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-              acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
-            _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
-        }
-
-        ;
-        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
-      }, this.time);
-    }
-  }]);
-
-  return BayCanvas;
-}(_canvas_template__WEBPACK_IMPORTED_MODULE_2__.default);
-
-
-
-/***/ }),
-
 /***/ "./src/scripts/canvas_display.js":
 /*!***************************************!*\
   !*** ./src/scripts/canvas_display.js ***!
@@ -242,32 +363,44 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_canvas */ "./src/scripts/bay_area/bay_canvas.js");
-/* harmony import */ var _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./solid_color/solid_color_canvas */ "./src/scripts/solid_color/solid_color_canvas.js");
+/* harmony import */ var _bay_area_bay_animation__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./bay_area/bay_animation */ "./src/scripts/bay_area/bay_animation.js");
+/* harmony import */ var _bay_area_bay_background__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./bay_area/bay_background */ "./src/scripts/bay_area/bay_background.js");
+/* harmony import */ var _solid_color_solid_animation__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./solid_color/solid_animation */ "./src/scripts/solid_color/solid_animation.js");
+/* harmony import */ var _solid_color_solid_background__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./solid_color/solid_background */ "./src/scripts/solid_color/solid_background.js");
+
+
 
 
 
 function CanvasDisplay(background) {
   var color = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
-  var canvas = document.querySelector('canvas');
+  var w = Math.min(0.7 * window.innerWidth, 1200);
+  var h = Math.min(0.7 * window.innerWidth * 2 / 3, 0.7 * window.innerHeight);
+  var canvas = document.getElementById('animation-canvas');
+  canvas.width = w;
+  canvas.height = h;
   var ctx = canvas.getContext('2d');
-  canvas.width = 0.8 * window.innerWidth;
-  canvas.height = Math.min(0.8 * window.innerWidth * 0.5625, 0.8 * window.innerHeight);
-  var bg;
+  var bg = document.getElementById('background-canvas');
+  bg.width = w;
+  bg.height = h;
+  var bgCtx = bg.getContext('2d');
+  var animation;
 
   switch (background) {
     case 'bay-area-canvas':
-      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
-      bg.activate(ctx);
+      (0,_bay_area_bay_background__WEBPACK_IMPORTED_MODULE_1__.drawBayAreaBackground)(bgCtx, w, h);
+      animation = new _bay_area_bay_animation__WEBPACK_IMPORTED_MODULE_0__.default(canvas);
+      animation.activate(ctx);
       break;
 
     case 'solid-color-canvas':
-      bg = new _solid_color_solid_color_canvas__WEBPACK_IMPORTED_MODULE_1__.default(color);
-      bg.activate(ctx);
+      (0,_solid_color_solid_background__WEBPACK_IMPORTED_MODULE_3__.default)(bgCtx, w, h, color);
+      animation = new _solid_color_solid_animation__WEBPACK_IMPORTED_MODULE_2__.default(canvas);
+      animation.activate(ctx);
       break;
 
     default:
-      bg = new _bay_area_bay_canvas__WEBPACK_IMPORTED_MODULE_0__.default();
+      break;
   }
 }
 
@@ -275,140 +408,53 @@ function CanvasDisplay(background) {
 
 /***/ }),
 
-/***/ "./src/scripts/canvas_template.js":
-/*!****************************************!*\
-  !*** ./src/scripts/canvas_template.js ***!
-  \****************************************/
+/***/ "./src/scripts/firework_utils.js":
+/*!***************************************!*\
+  !*** ./src/scripts/firework_utils.js ***!
+  \***************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ CanvasTemplate)
+/* harmony export */   "randomFirework": () => (/* binding */ randomFirework)
 /* harmony export */ });
-/* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
-/* harmony import */ var _nav_util__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./nav_util */ "./src/scripts/nav_util.js");
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+/* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/peony */ "./src/scripts/projectiles/peony.js");
+/* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
 
+ //returns the type of object as a string [].getName -> 'Array'
 
+Object.prototype.getName = function () {
+  var funcNameRegex = /function (.{1,})\(/;
+  var results = funcNameRegex.exec(this.constructor.toString());
+  return results && results.length > 1 ? results[1] : "";
+};
 
+function randomFirework(projectile, fac3d) {
+  var choice = (0,_utils__WEBPACK_IMPORTED_MODULE_2__.randInt)(2); // choice = 0
 
-var CanvasTemplate = /*#__PURE__*/function () {
-  function CanvasTemplate() {
-    _classCallCheck(this, CanvasTemplate);
-
-    this.width = 0.8 * window.innerWidth;
-    this.height = Math.min(0.8 * window.innerWidth * 0.5625, 0.8 * window.innerHeight);
-    this.activeFireworks = [];
-    this.removeFireworks = [];
-    this.newfireworks = [];
-    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
-    this.active = true;
-    this.closed = false;
-    this.first = null;
-    this.last = null;
-  }
-
-  _createClass(CanvasTemplate, [{
-    key: "activate",
-    value: function activate(ctx) {
-      this.active = true;
-      this.renderCanvas(ctx);
-      this.launchFireworks(ctx);
-      this.addEventListeners(ctx);
-    }
-  }, {
-    key: "addEventListeners",
-    value: function addEventListeners(ctx) {
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.pause)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.returnToHome)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_2__.openColorMenu)(this, ctx);
-      this.fireworkOnClick();
-    }
-  }, {
-    key: "fireworkOnClick",
-    value: function fireworkOnClick() {
-      var that = this;
-      var canvas = document.querySelector('canvas');
-      var bounds = canvas.getBoundingClientRect();
-      canvas.addEventListener('click', function (e) {
-        var _ref = [that.width, that.height],
-            w = _ref[0],
-            h = _ref[1];
-        var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
-          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -h / 800],
-          acc: -0.008,
-          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: Math.max(h * that.fac3d, 0)
-        });
-        !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
-        that.last = clickFW;
+  switch (choice) {
+    case 0:
+      return new _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__.default({
+        pos: projectile.pos,
+        vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) + 1.5) * fac3d,
+        color: projectile.color,
+        radius: Math.max(0, projectile.radius * 0.4 * fac3d)
       });
-    }
-  }, {
-    key: "renderCanvas",
-    value: function renderCanvas(ctx) {
-      var _this = this;
 
-      var renderFireworks = setInterval(function () {
-        if (_this.active) {
-          _this.drawBackground(ctx);
+    case 1:
+      return new _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__.default({
+        pos: projectile.pos,
+        vel: ((0,_utils__WEBPACK_IMPORTED_MODULE_2__.rand)(0.5) + 1.5) * fac3d,
+        color: projectile.color,
+        radius: Math.max(0, projectile.radius * fac3d)
+      });
 
-          var firework = _this.first;
-
-          while (firework) {
-            firework.draw(ctx);
-            firework.move();
-
-            switch (firework.getName()) {
-              case 'Projectile':
-                if (firework.vel[1] > 0.15) {
-                  var newFW = _utils__WEBPACK_IMPORTED_MODULE_1__.randomFirework(firework, _this.fac3d * firework.pos[1]);
-                  if (_this.first === firework) _this.first = newFW;
-                  _utils__WEBPACK_IMPORTED_MODULE_1__.replaceNode(firework, newFW);
-                }
-
-                break;
-
-              case 'Peony':
-                if (firework.time > 550) {
-                  if (_this.first === firework) _this.first = firework.next;
-                  _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
-                }
-
-                break;
-
-              case 'Chrysanthemum':
-                if (firework.time > 600) {
-                  if (_this.first === firework) _this.first = firework.next;
-                  _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
-                }
-
-              default:
-                break;
-            }
-
-            firework = firework.next;
-          }
-
-          ;
-        }
-
-        if (_this.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(renderFireworks);
-      }, _utils__WEBPACK_IMPORTED_MODULE_1__.FPS);
-    }
-  }]);
-
-  return CanvasTemplate;
-}();
-
-
+    default:
+      break;
+  }
+}
 
 /***/ }),
 
@@ -422,8 +468,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
 /* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu),
-/* harmony export */   "pause": () => (/* binding */ pause),
-/* harmony export */   "play": () => (/* binding */ play)
+/* harmony export */   "play": () => (/* binding */ play),
+/* harmony export */   "pause": () => (/* binding */ pause)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
 
@@ -489,32 +535,30 @@ function openColorMenu(bg) {
     });
   });
 }
-function pause(bg) {
+function play(bg) {
   var playButton = document.getElementById("play");
   playButton.style.display = "none";
   var pauseButton = document.getElementById('pause');
   pauseButton.style.display = "block";
   pauseButton.addEventListener('click', clickPause);
+  bg.render();
 
   function clickPause(e) {
     bg.active = false;
     pauseButton.removeEventListener('click', clickPause);
     pauseButton.style.display = "none";
     playButton.style.display = "block";
-    play(bg);
+    pause(bg);
   }
 }
-function play(bg) {
+function pause(bg) {
   var playButton = document.getElementById('play');
   playButton.addEventListener('click', clickPlay);
 
   function clickPlay(e) {
     bg.active = true;
     playButton.removeEventListener('click', clickPlay);
-    playButton.style.display = "none";
-    var pauseButton = document.getElementById("pause");
-    pauseButton.style.display = "block";
-    pause(bg);
+    play(bg);
   }
 }
 
@@ -621,7 +665,7 @@ var Chrysanthemum = /*#__PURE__*/function (_Firework) {
         });
       });
       this.origin = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(this.origin, [0, this.grav]);
-      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time++;
     }
   }]);
 
@@ -778,7 +822,7 @@ var Peony = /*#__PURE__*/function (_Firework) {
           particle.pos = (0,_utils__WEBPACK_IMPORTED_MODULE_0__.addVectors)(particle.pos, [0, _this3.vel / 10]);
         });
       });
-      this.time += _utils__WEBPACK_IMPORTED_MODULE_0__.FPS;
+      this.time++;
     }
   }]);
 
@@ -822,9 +866,8 @@ var Projectile = /*#__PURE__*/function () {
     this.radius = props.radius || 0.5;
     this.prevPos = [];
     this.smokePos = [];
-    this.trailLength = props.trailLength || 6;
-    this.smokeLength = props.smokeLength || 24;
-    this.time = 0;
+    this.trailLength = props.trailLength || 3;
+    this.smokeLength = props.smokeLength || 12;
   }
 
   _createClass(Projectile, [{
@@ -832,41 +875,38 @@ var Projectile = /*#__PURE__*/function () {
     value: function draw(ctx) {
       var _this = this;
 
-      //Spearhead of projectile
-      ctx.fillStyle = this.color;
-      ctx.beginPath();
-      ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
-      ctx.fill(); //Trail
-
-      this.prevPos.forEach(function (trail, i) {
-        ctx.beginPath();
-        ctx.arc(trail[0], trail[1], _this.radius / 4 + 3 * _this.radius * (i + 1) / (4 * _this.trailLength), 0, 2 * Math.PI);
-        ctx.fill();
-      }); //Smoke trail
-
+      //Smoke trail
       this.smokePos.forEach(function (smoke, i) {
         ctx.fillStyle = 'grey';
         ctx.beginPath();
-        ctx.arc(smoke[0], smoke[1], _this.radius / 4, 0, 2 * Math.PI);
+        ctx.arc(smoke[0], smoke[1], _this.radius * (i + 1) / (2 * _this.smokePos.length), 0, 2 * Math.PI);
         ctx.fill();
-      });
+      }); //Trail
+
+      this.prevPos.forEach(function (trail, i) {
+        ctx.beginPath();
+        ctx.fillStyle = _this.color;
+        ctx.arc(trail[0], trail[1], _this.radius * (0.5 + (i + 1) / (2 * _this.trailLength)), 0, 2 * Math.PI);
+        ctx.fill();
+      }); //Spearhead of projectile
+
+      ctx.beginPath();
+      ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
+      ctx.fill();
     }
   }, {
     key: "move",
     value: function move() {
-      if (this.time % 2 == 0) {
-        this.prevPos.push(this.pos);
+      this.prevPos.push(this.pos);
 
-        if (this.prevPos.length > this.trailLength) {
-          this.smokePos.push(this.prevPos.shift());
-          if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
-        }
+      if (this.prevPos.length > this.trailLength) {
+        this.smokePos.push(this.prevPos.shift());
+        if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
       }
 
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
       this.vel[1] = this.vel[1] + this.acc;
       this.acc = Math.min(this.acc + .0005, this.gravity);
-      this.time += 1;
     }
   }]);
 
@@ -877,19 +917,19 @@ var Projectile = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/scripts/solid_color/solid_color_canvas.js":
-/*!*******************************************************!*\
-  !*** ./src/scripts/solid_color/solid_color_canvas.js ***!
-  \*******************************************************/
+/***/ "./src/scripts/solid_color/solid_animation.js":
+/*!****************************************************!*\
+  !*** ./src/scripts/solid_color/solid_animation.js ***!
+  \****************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (/* binding */ SolidCanvas)
+/* harmony export */   "default": () => (/* binding */ SolidAnimation)
 /* harmony export */ });
 /* harmony import */ var _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../projectiles/projectile */ "./src/scripts/projectiles/projectile.js");
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
-/* harmony import */ var _canvas_template__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../canvas_template */ "./src/scripts/canvas_template.js");
+/* harmony import */ var _animation_object__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../animation_object */ "./src/scripts/animation_object.js");
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -916,38 +956,28 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 
 
 
-var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
-  _inherits(SolidCanvas, _CanvasTemplate);
+var SolidAnimation = /*#__PURE__*/function (_Animation) {
+  _inherits(SolidAnimation, _Animation);
 
-  var _super = _createSuper(SolidCanvas);
+  var _super = _createSuper(SolidAnimation);
 
-  function SolidCanvas(color) {
+  function SolidAnimation(canvas) {
     var _this;
 
-    _classCallCheck(this, SolidCanvas);
+    _classCallCheck(this, SolidAnimation);
 
-    _this = _super.call(this);
-    _this.background = 'solid-color-canvas';
-    _this.color = color;
+    _this = _super.call(this, canvas);
     _this.time = 600;
     _this.fac3d = 1 / 150;
     return _this;
   }
 
-  _createClass(SolidCanvas, [{
-    key: "drawBackground",
-    value: function drawBackground(ctx) {
-      ctx.fillStyle = this.color;
-      ctx.beginPath();
-      ctx.rect(0, 0, this.width, this.height);
-      ctx.fill();
-    }
-  }, {
+  _createClass(SolidAnimation, [{
     key: "launchFireworks",
     value: function launchFireworks() {
       var _this2 = this;
 
-      var _ref = [this.width, this.height],
+      var _ref = [this.canvas.width, this.canvas.height],
           w = _ref[0],
           h = _ref[1];
       var launching = setInterval(function () {
@@ -958,7 +988,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 150)],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 100)],
               acc: -.015,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
@@ -972,7 +1002,7 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
                 ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5 * w) / w - 0.25, -ph / 200],
+              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 100)],
               acc: -0.01,
               color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
@@ -988,10 +1018,29 @@ var SolidCanvas = /*#__PURE__*/function (_CanvasTemplate) {
     }
   }]);
 
-  return SolidCanvas;
-}(_canvas_template__WEBPACK_IMPORTED_MODULE_2__.default);
+  return SolidAnimation;
+}(_animation_object__WEBPACK_IMPORTED_MODULE_2__.default);
 
 
+
+/***/ }),
+
+/***/ "./src/scripts/solid_color/solid_background.js":
+/*!*****************************************************!*\
+  !*** ./src/scripts/solid_color/solid_background.js ***!
+  \*****************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (/* binding */ drawSolidBackground)
+/* harmony export */ });
+function drawSolidBackground(ctx, w, h, color) {
+  ctx.fillStyle = color;
+  ctx.beginPath();
+  ctx.rect(0, 0, w, h);
+  ctx.fill();
+}
 
 /***/ }),
 
@@ -1008,29 +1057,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addVectors": () => (/* binding */ addVectors),
 /* harmony export */   "multiplyVector": () => (/* binding */ multiplyVector),
 /* harmony export */   "subVectors": () => (/* binding */ subVectors),
-/* harmony export */   "randomFirework": () => (/* binding */ randomFirework),
+/* harmony export */   "scale": () => (/* binding */ scale),
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
 /* harmony export */   "FPS": () => (/* binding */ FPS),
-/* harmony export */   "scale": () => (/* binding */ scale),
-/* harmony export */   "inherits": () => (/* binding */ inherits),
 /* harmony export */   "freeze": () => (/* binding */ freeze),
 /* harmony export */   "joinNodes": () => (/* binding */ joinNodes),
 /* harmony export */   "replaceNode": () => (/* binding */ replaceNode),
 /* harmony export */   "removeNode": () => (/* binding */ removeNode)
 /* harmony export */ });
-/* harmony import */ var _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./projectiles/peony */ "./src/scripts/projectiles/peony.js");
-/* harmony import */ var _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./projectiles/chrysanthemum */ "./src/scripts/projectiles/chrysanthemum.js");
-
-
 function randInt(num) {
   return Math.floor(Math.random() * num);
 }
 function rand() {
   var num = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 1;
   return Math.random() * num;
-}
+} //__________________________________________________________________________
+// vector manipulation functions
+
 function addVectors(vec1, vec2) {
   return [vec1[0] + vec2[0], vec1[1] + vec2[1]];
 }
@@ -1051,43 +1096,12 @@ function subVectors(v, num) {
   }
 
   return vecs;
+} // Scale the length of a vector by the given amount.
+
+function scale(vec, m) {
+  return [vec[0] * m, vec[1] * m];
 }
-function randomFirework(projectile, fac3d) {
-  var choice = randInt(2); // choice = 0
-
-  switch (choice) {
-    case 0:
-      return new _projectiles_peony__WEBPACK_IMPORTED_MODULE_0__.default({
-        pos: projectile.pos,
-        vel: (rand(0.5) + 1.5) * fac3d,
-        color: projectile.color,
-        radius: Math.max(0, projectile.radius * 0.4 * fac3d)
-      });
-
-    case 1:
-      return new _projectiles_chrysanthemum__WEBPACK_IMPORTED_MODULE_1__.default({
-        pos: projectile.pos,
-        vel: (rand(0.5) + 1.5) * fac3d,
-        color: projectile.color,
-        radius: Math.max(0, projectile.radius * fac3d)
-      });
-
-    default:
-      break;
-  }
-} //Classname.getName() wil return 'class name'
-
-Object.prototype.getName = function () {
-  var funcNameRegex = /function (.{1,})\(/;
-  var results = funcNameRegex.exec(this.constructor.toString());
-  return results && results.length > 1 ? results[1] : "";
-};
-
-Array.prototype.cleanArray = function () {
-  return this.filter(function (el) {
-    return el;
-  });
-};
+; //end_________________________________________________________________________
 
 var COLORS = {
   blue: ['#3340DB', '#504DF4', '#539DB3', '#39657E'],
@@ -1107,20 +1121,12 @@ function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
   return COLORS[colorKey][randInt(COLORS[colorKey].length)];
 }
-var FPS = 1000 / 180; // Scale the length of a vector by the given amount.
-
-function scale(vec, m) {
-  return [vec[0] * m, vec[1] * m];
-}
-;
-function inherits(ChildClass, BaseClass) {
-  ChildClass.prototype = Object.create(BaseClass.prototype);
-  ChildClass.prototype.constructor = ChildClass;
-}
-;
+var FPS = 1000 / 60;
 function freeze(interval) {
   clearInterval(interval);
-}
+} //______________________________________________________________
+// Node manipulation for fireworks node list
+
 function joinNodes(node1, node2) {
   node1.next = node2;
   node2.prev = node1;
@@ -1138,7 +1144,7 @@ function removeNode(node) {
   var next = node.next;
   if (next) next.prev = prev;
   if (prev) prev.next = next;
-}
+} // end_________________________________________________________
 
 /***/ }),
 

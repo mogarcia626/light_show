@@ -227,13 +227,13 @@ table {
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 0;
+    z-index: 0;    
+    border: solid #E2BB2B 2px;
+    border-radius: 8px;
 }
 
 #animation-canvas {
     cursor: crosshair;
-    border: solid #E2BB2B 2px;
-    border-radius: 8px;
     z-index: 2;
 }
 
@@ -314,6 +314,18 @@ table {
     width: 18px;
     border-radius: 4px;
 }
+#adjust-buttons {
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  left: 24px;
+}
 
+.adjust-inputs {
+  display: flex;
+  flex-direction: column;
+  margin: 8px 0 0;
+  width: 8em;
+}
 
 /*# sourceMappingURL=main.css.map*/

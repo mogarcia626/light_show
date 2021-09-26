@@ -1,23 +1,25 @@
-import { Node } from '../utils';
+import { Node, rand, getInputValue } from '../utils';
 
     class Projectile {
-    constructor(props) {
+    constructor(x, y, fac3d, color) {
         this.next = null
         this.prev = null
-        this.pos = props.pos;
-        this.vel = props.vel;
-        this.acc = props.acc;
-        this.color = props.color;
-        this.gravity = 0.12;
-        this.radius = props.radius || 0.5;
+        
+        this.pos = [x, y];
+        this.vel = [rand(.8)-0.4, y * fac3d * getInputValue('velocity')]
+        this.acc = fac3d * getInputValue('acceleration')
+        this.grav = fac3d * getInputValue('gravity')
+
+        this.radius = fac3d * y * getInputValue('radius')
+        this.color = color;
+
         this.trailFirst = null;
         this.trailLast = null
         this.smokeFirst = null
         this.smokeLast = null
-        this.trailLength = props.trailLength || 2
-        this.smokeLength = props.smokeLength || 16
-    }    
-    // high count = small radius
+        this.trailLength = 2
+        this.smokeLength = 16
+    } 
 
     draw(ctx) {
         //Smoke trail
@@ -50,7 +52,7 @@ import { Node } from '../utils';
         ctx.fill();
     }
 
-    move() {
+    move() {        
         const newTrail = new Node([this.pos])
         if (!this.trailFirst) this.trailFirst = newTrail
         if (this.trailLast) this.trailLast.next = newTrail
@@ -81,8 +83,8 @@ import { Node } from '../utils';
             this.pos[0] + this.vel[0],
             this.pos[1] + this.vel[1]
         ];
-        this.vel[1] = this.vel[1] + this.acc        
-        this.acc = Math.min(this.acc+.0005, this.gravity)
+        this.vel[1] = this.vel[1] + this.acc      
+        this.acc += this.grav
     }
 
 }

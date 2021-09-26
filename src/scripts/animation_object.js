@@ -12,6 +12,7 @@ export default class Animation {
         this.first = null
         this.last = null
         this.clearing = true
+        this.fac3d = Util.getInputValue('fac3d')
     }
 
     activate() {
@@ -32,14 +33,11 @@ export default class Animation {
         this.canvas.addEventListener('click', launch)
         
         function launch(e) {
-            const h = that.canvas.height
-            let clickFW = new Projectile( {
-                pos: [e.pageX-bounds.left-2, e.pageY-bounds.top-2],
-                vel: [Util.rand(0.6)-0.3, -h/800],
-                acc: -0.008,
-                color: Util.selectRandomColor(that.colorList),
-                radius: Math.max(h*that.fac3d,0),
-            })
+            let [w,h] = [e.pageX-bounds.left, e.pageY-bounds.top]
+            let color = Util.selectRandomColor(that.colorList)
+
+            let clickFW = new Projectile(w, h, that.fac3d, color)
+            
             !that.first ? that.first = clickFW : Util.joinNodes(that.last, clickFW);
             that.last = clickFW
         }
@@ -55,14 +53,14 @@ export default class Animation {
                 firework.move()
                 switch (firework.getName()) {
                     case 'Projectile':
-                        if (firework.vel[1] > 0.15) {
+                        if (firework.vel[1] > 0.15 ) {
                             const newFW = randomFirework(firework, this.fac3d*firework.pos[1]);
                             if (this.first===firework) this.first = newFW
                             Util.replaceNode(firework, newFW)
                         } 
                         break;
                     case 'Peony':
-                        if (firework.time > 55) {
+                        if (firework.time > 105) {
                             if (this.first === firework) this.first = firework.next
                             Util.removeNode(firework)
                         }

@@ -57,6 +57,9 @@ export function selectRandomColor(colors) {
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 
+export function getInputValue(str) {
+    return parseFloat(document.getElementById(str).value)
+}
 //______________________________________________________________
 // Node manipulation for fireworks node list
 

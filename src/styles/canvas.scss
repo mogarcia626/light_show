@@ -27,13 +27,13 @@
     bottom: 0;
     left: 0;
     right: 0;
-    z-index: 0;
+    z-index: 0;    
+    border: solid #E2BB2B 2px;
+    border-radius: 8px;
 }
 
 #animation-canvas {
     cursor: crosshair;
-    border: solid #E2BB2B 2px;
-    border-radius: 8px;
     z-index: 2;
 }
 

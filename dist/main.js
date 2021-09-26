@@ -38,6 +38,7 @@ var Animation = /*#__PURE__*/function () {
     this.first = null;
     this.last = null;
     this.clearing = true;
+    this.fac3d = _utils__WEBPACK_IMPORTED_MODULE_1__.getInputValue('fac3d');
   }
 
   _createClass(Animation, [{
@@ -62,14 +63,10 @@ var Animation = /*#__PURE__*/function () {
       this.canvas.addEventListener('click', launch);
 
       function launch(e) {
-        var h = that.canvas.height;
-        var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-          pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
-          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 800],
-          acc: -0.008,
-          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
-          radius: Math.max(h * that.fac3d, 0)
-        });
+        var w = e.pageX - bounds.left,
+            h = e.pageY - bounds.top;
+        var color = _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList);
+        var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(w, h, that.fac3d, color);
         !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
         that.last = clickFW;
       }
@@ -98,7 +95,7 @@ var Animation = /*#__PURE__*/function () {
               break;
 
             case 'Peony':
-              if (firework.time > 55) {
+              if (firework.time > 105) {
                 if (this.first === firework) this.first = firework.next;
                 _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
               }
@@ -181,8 +178,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
     _classCallCheck(this, BayAnimation);
 
     _this = _super.call(this, canvas);
-    _this.time = 800;
-    _this.fac3d = 1 / 400;
+    _this.time = 400; // this.fac3d = 1/400 
+
     return _this;
   }
 
@@ -203,13 +200,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
             var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.44); // 0.4 - 0.8
 
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / 300],
-              acc: -.01,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Bottom Right
@@ -218,13 +210,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
             var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.4); // 0.4 - 0.8
 
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 300],
-              acc: -0.01,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Top Left
@@ -232,13 +219,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
           setTimeout(function () {
             var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.12) + 0.23);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 600],
-              acc: -0.008,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Top Right
@@ -246,13 +228,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
           setTimeout(function () {
             var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.075) + 0.275);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 600],
-              acc: -0.008,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph / 250)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time));
@@ -906,25 +883,24 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
 var Projectile = /*#__PURE__*/function () {
-  function Projectile(props) {
+  function Projectile(x, y, fac3d, color) {
     _classCallCheck(this, Projectile);
 
     this.next = null;
     this.prev = null;
-    this.pos = props.pos;
-    this.vel = props.vel;
-    this.acc = props.acc;
-    this.color = props.color;
-    this.gravity = 0.12;
-    this.radius = props.radius || 0.5;
+    this.pos = [x, y];
+    this.vel = [(0,_utils__WEBPACK_IMPORTED_MODULE_0__.rand)(.8) - 0.4, y * fac3d * (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getInputValue)('velocity')];
+    this.acc = fac3d * (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getInputValue)('acceleration');
+    this.grav = fac3d * (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getInputValue)('gravity');
+    this.radius = fac3d * y * (0,_utils__WEBPACK_IMPORTED_MODULE_0__.getInputValue)('radius');
+    this.color = color;
     this.trailFirst = null;
     this.trailLast = null;
     this.smokeFirst = null;
     this.smokeLast = null;
-    this.trailLength = props.trailLength || 2;
-    this.smokeLength = props.smokeLength || 16;
-  } // high count = small radius
-
+    this.trailLength = 2;
+    this.smokeLength = 16;
+  }
 
   _createClass(Projectile, [{
     key: "draw",
@@ -1003,7 +979,7 @@ var Projectile = /*#__PURE__*/function () {
 
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
       this.vel[1] = this.vel[1] + this.acc;
-      this.acc = Math.min(this.acc + .0005, this.gravity);
+      this.acc += this.grav;
     }
   }]);
 
@@ -1064,8 +1040,8 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
     _classCallCheck(this, SolidAnimation);
 
     _this = _super.call(this, canvas);
-    _this.time = 600;
-    _this.fac3d = 1 / 150;
+    _this.time = 600; // this.fac3d = 1/150;
+
     return _this;
   }
 
@@ -1085,13 +1061,8 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
           setTimeout(function () {
             var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.45) + 0.45);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(50) + 100)],
-              acc: -.015,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph * _this2.fac3d)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Bottom Right
@@ -1099,13 +1070,8 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
           setTimeout(function () {
             var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
                 ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.25) + 0.75);
-            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
-              pos: [pw, ph],
-              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(50) + 100)],
-              acc: -0.01,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              radius: Math.max(0, ph * _this2.fac3d)
-            });
+            var color = (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList);
+            var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default(pw, ph, _this2.fac3d, color);
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
           }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time));
@@ -1160,6 +1126,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
+/* harmony export */   "getInputValue": () => (/* binding */ getInputValue),
 /* harmony export */   "Node": () => (/* binding */ Node),
 /* harmony export */   "joinNodes": () => (/* binding */ joinNodes),
 /* harmony export */   "replaceNode": () => (/* binding */ replaceNode),
@@ -1232,6 +1199,9 @@ function establishColorList() {
 function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
   return COLORS[colorKey][randInt(COLORS[colorKey].length)];
+}
+function getInputValue(str) {
+  return parseFloat(document.getElementById(str).value);
 } //______________________________________________________________
 // Node manipulation for fireworks node list
 

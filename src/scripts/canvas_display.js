@@ -10,7 +10,6 @@ import drawSolidBackground from './solid_color/solid_background';
     const canvas = document.getElementById('animation-canvas');
     canvas.width = w;
     canvas.height = h;
-    const ctx = canvas.getContext('2d');
 
     const bg = document.getElementById('background-canvas');
     bg.width = w;

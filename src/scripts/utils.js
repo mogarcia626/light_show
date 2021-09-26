@@ -59,6 +59,14 @@ export function selectRandomColor(colors) {
 
 //______________________________________________________________
 // Node manipulation for fireworks node list
+
+export class Node {
+    constructor([pos]) {
+        this.pos = pos
+        this.next = null
+        this.count = 0
+    }
+}
 export function joinNodes(node1, node2) {
     node1.next = node2
     node2.prev = node1

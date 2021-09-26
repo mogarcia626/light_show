@@ -57,7 +57,6 @@ var Animation = /*#__PURE__*/function () {
   }, {
     key: "fireworkOnClick",
     value: function fireworkOnClick() {
-      // console.log(this.canvas.getBoundingClientRect())
       var that = this;
       var bounds = that.canvas.getBoundingClientRect();
       this.canvas.addEventListener('click', launch);
@@ -382,7 +381,6 @@ function CanvasDisplay(background) {
   var canvas = document.getElementById('animation-canvas');
   canvas.width = w;
   canvas.height = h;
-  var ctx = canvas.getContext('2d');
   var bg = document.getElementById('background-canvas');
   bg.width = w;
   bg.height = h;
@@ -919,31 +917,53 @@ var Projectile = /*#__PURE__*/function () {
     this.color = props.color;
     this.gravity = 0.12;
     this.radius = props.radius || 0.5;
-    this.prevPos = [];
-    this.smokePos = [];
-    this.trailLength = props.trailLength || 3;
-    this.smokeLength = props.smokeLength || 12;
-  }
+    this.trailFirst = null;
+    this.trailLast = null;
+    this.smokeFirst = null;
+    this.smokeLast = null;
+    this.trailLength = props.trailLength || 2;
+    this.smokeLength = props.smokeLength || 16;
+  } // high count = small radius
+
 
   _createClass(Projectile, [{
     key: "draw",
     value: function draw(ctx) {
-      var _this = this;
-
       //Smoke trail
-      this.smokePos.forEach(function (smoke, i) {
+      var smoke = this.smokeFirst;
+
+      while (smoke) {
+        smoke.count++;
+        var _ref = [smoke.pos[0], smoke.pos[1]],
+            x = _ref[0],
+            y = _ref[1];
+        var i = 0.5 * this.radius * (this.smokeLength - smoke.count) / this.smokeLength;
         ctx.fillStyle = 'grey';
         ctx.beginPath();
-        ctx.arc(smoke[0], smoke[1], _this.radius * (i + 1) / (2 * _this.smokePos.length), 0, 2 * Math.PI);
+        ctx.arc(x, y, i, 0, 2 * Math.PI);
         ctx.fill();
-      }); //Trail
+        smoke = smoke.next;
+      }
 
-      this.prevPos.forEach(function (trail, i) {
+      ; //Trail
+
+      var trail = this.trailFirst;
+
+      while (trail) {
+        trail.count++;
+        var _ref2 = [trail.pos[0], trail.pos[1]],
+            _x = _ref2[0],
+            _y = _ref2[1];
+
+        var _i = this.radius * (0.5 + 0.5 * (this.trailLength - trail.count) / this.trailLength);
+
+        ctx.fillStyle = this.color;
         ctx.beginPath();
-        ctx.fillStyle = _this.color;
-        ctx.arc(trail[0], trail[1], _this.radius * (0.5 + (i + 1) / (2 * _this.trailLength)), 0, 2 * Math.PI);
+        ctx.arc(_x, _y, _i, 0, 2 * Math.PI);
         ctx.fill();
-      }); //Spearhead of projectile
+        trail = trail.next;
+      } //Spearhead of projectile
+
 
       ctx.beginPath();
       ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
@@ -952,11 +972,33 @@ var Projectile = /*#__PURE__*/function () {
   }, {
     key: "move",
     value: function move() {
-      this.prevPos.push(this.pos);
+      var newTrail = new _utils__WEBPACK_IMPORTED_MODULE_0__.Node([this.pos]);
+      if (!this.trailFirst) this.trailFirst = newTrail;
+      if (this.trailLast) this.trailLast.next = newTrail;
+      this.trailLast = newTrail;
+      var current = this.trailFirst;
 
-      if (this.prevPos.length > this.trailLength) {
-        this.smokePos.push(this.prevPos.shift());
-        if (this.smokePos.length > this.smokeLength) this.smokePos.shift();
+      while (current) {
+        if (current.count === this.trailLength) {
+          this.trailFirst = current.next;
+          current.count = 0;
+          current.next = null;
+          if (!this.smokeFirst) this.smokeFirst = current;
+          if (this.smokeLast) this.smokeLast.next = current;
+          this.smokeLast = current;
+        }
+
+        current = current.next;
+      }
+
+      current = this.smokeFirst;
+
+      while (current) {
+        if (current.count === this.smokeLength) {
+          this.smokeFirst = current.next;
+        }
+
+        current = current.next;
       }
 
       this.pos = [this.pos[0] + this.vel[0], this.pos[1] + this.vel[1]];
@@ -1118,10 +1160,25 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
+/* harmony export */   "Node": () => (/* binding */ Node),
 /* harmony export */   "joinNodes": () => (/* binding */ joinNodes),
 /* harmony export */   "replaceNode": () => (/* binding */ replaceNode),
 /* harmony export */   "removeNode": () => (/* binding */ removeNode)
 /* harmony export */ });
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
 function randInt(num) {
   return Math.floor(Math.random() * num);
 }
@@ -1178,6 +1235,16 @@ function selectRandomColor(colors) {
 } //______________________________________________________________
 // Node manipulation for fireworks node list
 
+var Node = function Node(_ref) {
+  var _ref2 = _slicedToArray(_ref, 1),
+      pos = _ref2[0];
+
+  _classCallCheck(this, Node);
+
+  this.pos = pos;
+  this.next = null;
+  this.count = 0;
+};
 function joinNodes(node1, node2) {
   node1.next = node2;
   node2.prev = node1;

@@ -27,7 +27,6 @@ export default class Animation {
     }
 
     fireworkOnClick() {
-        // console.log(this.canvas.getBoundingClientRect())
         const that = this
         const bounds = that.canvas.getBoundingClientRect()
         this.canvas.addEventListener('click', launch)

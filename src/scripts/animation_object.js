@@ -1,29 +1,28 @@
 import Projectile from "./projectiles/projectile";
 import * as Util from './utils';
 import { randomFirework } from "./firework_utils";
-import { returnToHome, openColorMenu, play } from "./nav_util";
+import { colorButtonListener, homeButtonListener, play } from "./nav_util";
 
 export default class Animation {
     constructor(canvas) {
         this.canvas = canvas
         this.colorList = Util.establishColorList()
         this.active = true
-        this.closed = false
+        this.launching = true
         this.first = null
         this.last = null
         this.clearing = true
     }
 
-    activate(ctx) {
-        this.active = true
-        this.launchFireworks(ctx);
-        this.addEventListeners(ctx);
+    activate() {
+        this.launchFireworks();
+        this.addEventListeners();
     }
 
-    addEventListeners(ctx) {
+    addEventListeners() {
         play(this)
-        returnToHome(this)
-        openColorMenu(this, ctx)
+        homeButtonListener(this)
+        colorButtonListener(this)
         this.fireworkOnClick()
     }
 
@@ -31,7 +30,9 @@ export default class Animation {
         // console.log(this.canvas.getBoundingClientRect())
         const that = this
         const bounds = that.canvas.getBoundingClientRect()
-        this.canvas.addEventListener('click', function(e) {
+        this.canvas.addEventListener('click', launch)
+        
+        function launch(e) {
             const h = that.canvas.height
             let clickFW = new Projectile( {
                 pos: [e.pageX-bounds.left-2, e.pageY-bounds.top-2],
@@ -42,7 +43,7 @@ export default class Animation {
             })
             !that.first ? that.first = clickFW : Util.joinNodes(that.last, clickFW);
             that.last = clickFW
-        })
+        }
     }
 
     render() {
@@ -62,13 +63,13 @@ export default class Animation {
                         } 
                         break;
                     case 'Peony':
-                        if (firework.time > 550) {
+                        if (firework.time > 55) {
                             if (this.first === firework) this.first = firework.next
                             Util.removeNode(firework)
                         }
                         break;
                     case 'Chrysanthemum':
-                        if (firework.time > 600) {
+                        if (firework.time > 60) {
                             if (this.first === firework) this.first = firework.next
                             Util.removeNode(firework)
                         }

@@ -22,12 +22,12 @@ import drawSolidBackground from './solid_color/solid_background';
         case 'bay-area-canvas':
             drawBayAreaBackground(bgCtx, w, h)
             animation = new BayAnimation(canvas);
-            animation.activate(ctx)
+            animation.activate()
             break;
         case 'solid-color-canvas': 
             drawSolidBackground(bgCtx, w, h, color)
             animation = new SolidAnimation(canvas);
-            animation.activate(ctx)
+            animation.activate()
             break;
         default: 
             break;

@@ -34,7 +34,7 @@ var Animation = /*#__PURE__*/function () {
     this.canvas = canvas;
     this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
     this.active = true;
-    this.closed = false;
+    this.launching = true;
     this.first = null;
     this.last = null;
     this.clearing = true;
@@ -42,17 +42,16 @@ var Animation = /*#__PURE__*/function () {
 
   _createClass(Animation, [{
     key: "activate",
-    value: function activate(ctx) {
-      this.active = true;
-      this.launchFireworks(ctx);
-      this.addEventListeners(ctx);
+    value: function activate() {
+      this.launchFireworks();
+      this.addEventListeners();
     }
   }, {
     key: "addEventListeners",
-    value: function addEventListeners(ctx) {
+    value: function addEventListeners() {
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.play)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.returnToHome)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.openColorMenu)(this, ctx);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.homeButtonListener)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.colorButtonListener)(this);
       this.fireworkOnClick();
     }
   }, {
@@ -61,7 +60,9 @@ var Animation = /*#__PURE__*/function () {
       // console.log(this.canvas.getBoundingClientRect())
       var that = this;
       var bounds = that.canvas.getBoundingClientRect();
-      this.canvas.addEventListener('click', function (e) {
+      this.canvas.addEventListener('click', launch);
+
+      function launch(e) {
         var h = that.canvas.height;
         var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [e.pageX - bounds.left - 2, e.pageY - bounds.top - 2],
@@ -72,7 +73,7 @@ var Animation = /*#__PURE__*/function () {
         });
         !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
         that.last = clickFW;
-      });
+      }
     }
   }, {
     key: "render",
@@ -98,7 +99,7 @@ var Animation = /*#__PURE__*/function () {
               break;
 
             case 'Peony':
-              if (firework.time > 550) {
+              if (firework.time > 55) {
                 if (this.first === firework) this.first = firework.next;
                 _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
               }
@@ -106,7 +107,7 @@ var Animation = /*#__PURE__*/function () {
               break;
 
             case 'Chrysanthemum':
-              if (firework.time > 600) {
+              if (firework.time > 60) {
                 if (this.first === firework) this.first = firework.next;
                 _utils__WEBPACK_IMPORTED_MODULE_1__.removeNode(firework);
               }
@@ -191,73 +192,75 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
     value: function launchFireworks() {
       var _this2 = this;
 
+      this.launching = true;
+      this.active = true;
       var _ref = [this.canvas.width, this.canvas.height],
           w = _ref[0],
           h = _ref[1];
-      var launching = setInterval(function () {
+      var launchingInterval = setInterval(function () {
         if (_this2.active && _this2.colorList.length > 0) {
           ///Bottom Left
           setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.44); // 0.4 - 0.8
+            var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.44); // 0.4 - 0.8
 
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / 300],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / 300],
               acc: -.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Bottom Right
 
           setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.36) + 0.4); // 0.4 - 0.8
+            var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.36) + 0.4); // 0.4 - 0.8
 
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 300],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 300],
               acc: -0.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Left
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Top Left
 
           setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.12) + 0.23);
+            var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.12) + 0.23);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 600],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 600],
               acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Top Right
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Top Right
 
           setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.075) + 0.275);
+            var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.075) + 0.275);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -h / 600],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -h / 600],
               acc: -0.008,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph / 250)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time));
         }
 
         ;
-        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+        if (!_this2.launching) clearInterval(launchingInterval);
       }, this.time);
     }
   }]);
@@ -390,13 +393,13 @@ function CanvasDisplay(background) {
     case 'bay-area-canvas':
       (0,_bay_area_bay_background__WEBPACK_IMPORTED_MODULE_1__.drawBayAreaBackground)(bgCtx, w, h);
       animation = new _bay_area_bay_animation__WEBPACK_IMPORTED_MODULE_0__.default(canvas);
-      animation.activate(ctx);
+      animation.activate();
       break;
 
     case 'solid-color-canvas':
       (0,_solid_color_solid_background__WEBPACK_IMPORTED_MODULE_3__.default)(bgCtx, w, h, color);
       animation = new _solid_color_solid_animation__WEBPACK_IMPORTED_MODULE_2__.default(canvas);
-      animation.activate(ctx);
+      animation.activate();
       break;
 
     default:
@@ -466,43 +469,62 @@ function randomFirework(projectile, fac3d) {
 
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "returnToHome": () => (/* binding */ returnToHome),
-/* harmony export */   "openColorMenu": () => (/* binding */ openColorMenu),
+/* harmony export */   "homeButtonListener": () => (/* binding */ homeButtonListener),
+/* harmony export */   "colorButtonListener": () => (/* binding */ colorButtonListener),
 /* harmony export */   "play": () => (/* binding */ play),
 /* harmony export */   "pause": () => (/* binding */ pause)
 /* harmony export */ });
 /* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./utils */ "./src/scripts/utils.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
-function returnToHome(bg) {
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+ // _____HOME MENU_________________________________________________________
+
+function homeButtonListener(bg) {
   var homeButton = document.getElementById('open-welcome-modal');
-  homeButton.addEventListener('click', function () {
+  homeButton.addEventListener('click', returnToHome);
+
+  function returnToHome() {
     bg.closed = true;
     document.getElementById("welcome-modal").style.display = "block";
     document.getElementById('canvas-menu').style.display = "none";
-  });
-}
-function openColorMenu(bg) {
+    homeButton.removeEventListener('click', returnToHome);
+    document.getElementById("play").removeEventListener('click', clickPlay);
+    document.getElementById("pause").removeEventListener('click', clickPause);
+  }
+} // _____COLOR MENU_________________________________________________________
+
+function colorButtonListener(bg) {
   var colorButton = document.getElementById('open-color-modal');
-  colorButton.addEventListener('click', function () {
-    bg.active = false;
-    document.getElementById("colors-modal").style.display = "block";
-    document.getElementById('canvas-menu').style.display = "none";
+  colorButton.addEventListener('click', openColorMenu);
+
+  function openColorMenu() {
+    bg.launching = false;
+    document.getElementById("colors-modal").style.display = "block"; // document.getElementById('canvas-menu').style.display="none"; 
+
     var colorSet = new Set(bg.colorList);
     var colorCheckBoxes = document.getElementsByClassName("color-check");
     var allButton = document.getElementById('all');
-    allButton.addEventListener('change', function () {
+    allButton.addEventListener('change', checkAllColors);
+
+    function checkAllColors() {
       if (allButton.checked) {
         colorSet = new Set(Object.keys(_utils__WEBPACK_IMPORTED_MODULE_0__.COLORS));
-        bg.colorList = Object.keys(_utils__WEBPACK_IMPORTED_MODULE_0__.COLORS);
         noneButton.checked = false;
 
         for (var i = 0; i < colorCheckBoxes.length; i++) {
           colorCheckBoxes[i].checked = true;
         }
       }
-    });
+    }
+
     var noneButton = document.getElementById('none');
-    noneButton.addEventListener('change', function () {
+    noneButton.addEventListener('change', checkNoneColors);
+
+    function checkNoneColors() {
       if (noneButton.checked) {
         colorSet.clear();
         bg.colorList = [];
@@ -512,28 +534,61 @@ function openColorMenu(bg) {
           colorCheckBoxes[i].checked = false;
         }
       }
-    });
-
-    for (var i = 0; i < colorCheckBoxes.length; i++) {
-      colorCheckBoxes[i].addEventListener('change', function () {
-        if (this.checked) {
-          noneButton.checked = false;
-          colorSet.add(this.value);
-          bg.colorList = Array.from(colorSet);
-        } else {
-          allButton.checked = false;
-          colorSet["delete"](this.value);
-          bg.colorList = Array.from(colorSet);
-        }
-      });
     }
 
-    document.getElementById('close-color-modal').addEventListener('click', function () {
+    var _iterator = _createForOfIteratorHelper(colorCheckBoxes),
+        _step;
+
+    try {
+      for (_iterator.s(); !(_step = _iterator.n()).done;) {
+        var colorBox = _step.value;
+        colorBox.addEventListener('change', checkColor);
+      }
+    } catch (err) {
+      _iterator.e(err);
+    } finally {
+      _iterator.f();
+    }
+
+    function checkColor() {
+      if (this.checked) {
+        noneButton.checked = false;
+        colorSet.add(this.value);
+      } else {
+        allButton.checked = false;
+        colorSet["delete"](this.value);
+      }
+    }
+
+    ;
+    var resumeButton = document.getElementById('close-color-modal');
+    resumeButton.addEventListener('click', closeColorMenu);
+
+    function closeColorMenu() {
+      allButton.removeEventListener('change', checkAllColors);
+      noneButton.removeEventListener('change', checkNoneColors);
+      resumeButton.removeEventListener('click', closeColorMenu);
+
+      var _iterator2 = _createForOfIteratorHelper(colorCheckBoxes),
+          _step2;
+
+      try {
+        for (_iterator2.s(); !(_step2 = _iterator2.n()).done;) {
+          var colorBox = _step2.value;
+          colorBox.removeEventListener('change', checkColor);
+        }
+      } catch (err) {
+        _iterator2.e(err);
+      } finally {
+        _iterator2.f();
+      }
+
       document.getElementById("colors-modal").style.display = "none";
       document.getElementById("canvas-menu").style.display = "flex";
-      bg.active = true;
-    });
-  });
+      bg.colorList = Array.from(colorSet);
+      bg.launchFireworks();
+    }
+  }
 }
 function play(bg) {
   var playButton = document.getElementById("play");
@@ -543,7 +598,7 @@ function play(bg) {
   pauseButton.addEventListener('click', clickPause);
   bg.render();
 
-  function clickPause(e) {
+  function clickPause() {
     bg.active = false;
     pauseButton.removeEventListener('click', clickPause);
     pauseButton.style.display = "none";
@@ -555,7 +610,7 @@ function pause(bg) {
   var playButton = document.getElementById('play');
   playButton.addEventListener('click', clickPlay);
 
-  function clickPlay(e) {
+  function clickPlay() {
     bg.active = true;
     playButton.removeEventListener('click', clickPlay);
     play(bg);
@@ -977,43 +1032,45 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
     value: function launchFireworks() {
       var _this2 = this;
 
+      this.launching = true;
+      this.active = true;
       var _ref = [this.canvas.width, this.canvas.height],
           w = _ref[0],
           h = _ref[1];
-      var launching = setInterval(function () {
+      var launchingInterval = setInterval(function () {
         if (_this2.active && _this2.colorList.length > 0) {
           ///Bottom Left
           setTimeout(function () {
-            var pw = w * _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.45) + 0.45);
+            var pw = w * (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.45) + 0.45);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 100)],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(50) + 100)],
               acc: -.015,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time)); //Bottom Right
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time)); //Bottom Right
 
           setTimeout(function () {
-            var pw = w * (0.5 + _utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5)),
-                ph = h * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.25) + 0.75);
+            var pw = w * (0.5 + (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.5)),
+                ph = h * ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.25) + 0.75);
             var newFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
               pos: [pw, ph],
-              vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.6) - 0.3, -ph / (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(50) + 100)],
+              vel: [(0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(0.6) - 0.3, -ph / ((0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(50) + 100)],
               acc: -0.01,
-              color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(_this2.colorList),
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
               radius: Math.max(0, ph * _this2.fac3d)
             });
-            !_this2.first ? _this2.first = newFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(_this2.last, newFW);
+            !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
-          }, _utils__WEBPACK_IMPORTED_MODULE_1__.rand(_this2.time));
+          }, (0,_utils__WEBPACK_IMPORTED_MODULE_1__.rand)(_this2.time));
         }
 
         ;
-        if (_this2.closed) _utils__WEBPACK_IMPORTED_MODULE_1__.freeze(launching);
+        if (!_this2.launching) clearInterval(launchingInterval);
       }, this.time);
     }
   }]);
@@ -1061,8 +1118,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "COLORS": () => (/* binding */ COLORS),
 /* harmony export */   "establishColorList": () => (/* binding */ establishColorList),
 /* harmony export */   "selectRandomColor": () => (/* binding */ selectRandomColor),
-/* harmony export */   "FPS": () => (/* binding */ FPS),
-/* harmony export */   "freeze": () => (/* binding */ freeze),
 /* harmony export */   "joinNodes": () => (/* binding */ joinNodes),
 /* harmony export */   "replaceNode": () => (/* binding */ replaceNode),
 /* harmony export */   "removeNode": () => (/* binding */ removeNode)
@@ -1120,10 +1175,6 @@ function establishColorList() {
 function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
   return COLORS[colorKey][randInt(COLORS[colorKey].length)];
-}
-var FPS = 1000 / 60;
-function freeze(interval) {
-  clearInterval(interval);
 } //______________________________________________________________
 // Node manipulation for fireworks node list
 

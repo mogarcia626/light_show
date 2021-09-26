@@ -1,39 +1,49 @@
 import { COLORS } from './utils'
-    
-export function returnToHome(bg) {
+
+// _____HOME MENU_________________________________________________________
+export function homeButtonListener(bg) {
     const homeButton = document.getElementById('open-welcome-modal');
-    homeButton.addEventListener('click', function() {    
+    homeButton.addEventListener('click', returnToHome)
+    
+    function returnToHome() {    
         bg.closed = true    
         document.getElementById("welcome-modal").style.display="block";
         document.getElementById('canvas-menu').style.display="none";
-    }) 
+        homeButton.removeEventListener('click', returnToHome)
+        document.getElementById("play").removeEventListener('click', clickPlay)
+        document.getElementById("pause").removeEventListener('click', clickPause)
+    }
 }
 
-export function openColorMenu(bg) {
+// _____COLOR MENU_________________________________________________________
+export function colorButtonListener(bg) {
     
     const colorButton = document.getElementById('open-color-modal');
-    colorButton.addEventListener('click', function() {        
-        bg.active = false      
+    colorButton.addEventListener('click', openColorMenu)
+    
+    function openColorMenu() {        
+        bg.launching = false      
         document.getElementById("colors-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none"; 
+        // document.getElementById('canvas-menu').style.display="none"; 
 
         let colorSet = new Set(bg.colorList)        
         const colorCheckBoxes = document.getElementsByClassName(`color-check`);
 
         const allButton = document.getElementById('all')
-        allButton.addEventListener('change', () => {
+        allButton.addEventListener('change', checkAllColors)        
+        function checkAllColors() {
             if (allButton.checked) {
                 colorSet = new Set(Object.keys(COLORS))
-                bg.colorList = Object.keys(COLORS)
                 noneButton.checked = false;
                 for (let i = 0; i < colorCheckBoxes.length; i++) {
                     colorCheckBoxes[i].checked = true;                
                 }
             }
-        })
+        }
 
         const noneButton = document.getElementById('none')
-        noneButton.addEventListener('change', () => {
+        noneButton.addEventListener('change', checkNoneColors)
+        function checkNoneColors() {
             if (noneButton.checked) {
                 colorSet.clear()
                 bg.colorList = [];
@@ -42,28 +52,37 @@ export function openColorMenu(bg) {
                     colorCheckBoxes[i].checked = false;                
                 }
             }
-        })
+        }
         
-        for (let i = 0; i < colorCheckBoxes.length; i++) {
-            colorCheckBoxes[i].addEventListener('change', function() {
+        for (let colorBox of colorCheckBoxes) {
+            colorBox.addEventListener('change', checkColor)         
+        }
+        function checkColor() {
                 if (this.checked) {
                     noneButton.checked = false
                     colorSet.add(this.value);
-                    bg.colorList = Array.from(colorSet)
                 } else {
                     allButton.checked = false
                     colorSet.delete(this.value);
-                    bg.colorList = Array.from(colorSet)
                 }
-            }); 
-        }
+            }; 
         
-        document.getElementById('close-color-modal').addEventListener('click', () =>{
+        const resumeButton = document.getElementById('close-color-modal');
+        resumeButton.addEventListener('click', closeColorMenu)
+        
+        function closeColorMenu() {
+            allButton.removeEventListener('change', checkAllColors) 
+            noneButton.removeEventListener('change', checkNoneColors)
+            resumeButton.removeEventListener('click', closeColorMenu)
+            for (let colorBox of colorCheckBoxes) {
+                colorBox.removeEventListener('change', checkColor)         
+            }
             document.getElementById("colors-modal").style.display="none";
             document.getElementById("canvas-menu").style.display="flex";
-            bg.active = true;
-        })
-    }) 
+            bg.colorList = Array.from(colorSet)
+            bg.launchFireworks();
+        }
+    }
 }
 
 export function play(bg) {
@@ -76,7 +95,7 @@ export function play(bg) {
     
     bg.render()
 
-    function clickPause(e) {
+    function clickPause() {
         bg.active = false
         pauseButton.removeEventListener('click', clickPause)
         pauseButton.style.display="none";
@@ -89,7 +108,7 @@ export function pause(bg) {
     const playButton = document.getElementById('play');
     playButton.addEventListener('click', clickPlay)
     
-    function clickPlay(e) {
+    function clickPlay() {
         bg.active = true
         playButton.removeEventListener('click', clickPlay)
         play(bg)

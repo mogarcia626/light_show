@@ -57,12 +57,6 @@ export function selectRandomColor(colors) {
     return COLORS[colorKey][randInt(COLORS[colorKey].length)]
 }
 
-export const FPS = 1000/60
-
-export function freeze(interval) {
-    clearInterval(interval)
-}
-
 //______________________________________________________________
 // Node manipulation for fireworks node list
 export function joinNodes(node1, node2) {

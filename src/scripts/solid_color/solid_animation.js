@@ -1,5 +1,5 @@
 import Projectile from "../projectiles/projectile";
-import * as Util from '../utils';
+import { rand, selectRandomColor, joinNodes } from "../utils";
 import Animation from "../animation_object";
 
 export default class SolidAnimation extends Animation {
@@ -10,39 +10,45 @@ export default class SolidAnimation extends Animation {
     };
 
     launchFireworks() {
+        this.launching = true
+        this.active = true
         const [w, h] = [this.canvas.width, this.canvas.height]
-        let launching = setInterval( () => {
+        let launchingInterval = setInterval( () => {
             
             if (this.active && this.colorList.length > 0) {
                 ///Bottom Left
                 setTimeout(() => { 
-                    let [pw, ph] = [w*Util.rand(0.5), h*(Util.rand(0.45)+0.45)];
+                    let [pw, ph] = [w*rand(0.5), h*(rand(0.45)+0.45)];
+
                     let newFW = new Projectile( {
                         pos: [pw, ph],                    
-                        vel: [Util.rand(0.6)-0.3, -ph/(Util.rand(50)+100)],
+                        vel: [rand(0.6)-0.3, -ph/(rand(50)+100)],
                         acc: -.015,
-                        color: Util.selectRandomColor(this.colorList),
+                        color: selectRandomColor(this.colorList),
                         radius: Math.max(0, ph*this.fac3d),
                     });
-                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
+                    
+                    !this.first ? this.first = newFW : joinNodes(this.last, newFW);
                     this.last = newFW
-                }, Util.rand(this.time))
+                }, rand(this.time))
             
                 //Bottom Right
                 setTimeout(() => { 
-                    let [pw, ph] = [w*(0.5+Util.rand(0.5)), h*(Util.rand(0.25)+0.75)];
+                    let [pw, ph] = [w*(0.5+rand(0.5)), h*(rand(0.25)+0.75)];
+
                     let newFW = new Projectile( {
                         pos: [pw, ph],
-                        vel: [Util.rand(0.6)-0.3, -ph/(Util.rand(50)+100)],
+                        vel: [rand(0.6)-0.3, -ph/(rand(50)+100)],
                         acc: -0.01,
-                        color: Util.selectRandomColor(this.colorList),
+                        color: selectRandomColor(this.colorList),
                         radius: Math.max(0, ph*this.fac3d),
                     });
-                    !this.first ? this.first = newFW : Util.joinNodes(this.last, newFW);
+
+                    !this.first ? this.first = newFW : joinNodes(this.last, newFW);
                     this.last = newFW
-                }, Util.rand(this.time))
+                }, rand(this.time))
             };
-            if (this.closed) Util.freeze(launching);            
+            if (!this.launching) clearInterval(launchingInterval);            
         }, this.time)
     };
 

@@ -309,14 +309,20 @@ table {
     width: 7.5em;
 }
 
-.link-button {
+#link-button {
     fill: white;
-    width: 20px;
 }
 
 .project-link {
     width: 18px;
     border-radius: 4px;
+}
+
+#gh-repo {
+    display: flex;
+    align-items: center;
+    padding: 1em 0;
+    font-size: 1.1em;
 }
 #adjust-buttons {
   display: flex;

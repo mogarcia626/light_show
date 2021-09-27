@@ -3,17 +3,14 @@ export function StopAndPauseButtonListeners(
     startButton,
     pauseButton,
     stopButton,
-    colorButton,
 ) {
     startButton.style.display="none";
     pauseButton.style.display="block";
     stopButton.style.display="block";
-    colorButton.style.display='block'
 
     pauseButton.addEventListener('click', clickPause)
     stopButton.addEventListener('click', clickStop)
     
-    animation.launchFireworks()
     animation.render()
 
     function clickStop() {
@@ -26,23 +23,23 @@ export function StopAndPauseButtonListeners(
         startButton.addEventListener('click', clickStart)
         function clickStart() {
             startButton.removeEventListener('click', clickStart)
-            StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton)
+            animation.launchFireworks()
+            StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton)
         }
     }
 
      function clickPause() {
         animation.active = false
-        animation.launching = false
         pauseButton.removeEventListener('click', clickPause)
         stopButton.removeEventListener('click', clickStop)
         pauseButton.style.display="none";
         stopButton.style.display="none";
-        colorButton.style.display='none';
         startButton.style.display="block";
         startButton.addEventListener('click', clickResume)
         function clickResume() {
             startButton.removeEventListener('click', clickResume)
-            StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton)
+            animation.active = true
+            StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton)
         }
     }
 }

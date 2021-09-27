@@ -38,6 +38,9 @@ var Animation = /*#__PURE__*/function () {
     this.first = null;
     this.last = null;
     this.clearing = true;
+    this.trailLength = 4; //2
+
+    this.smokeLength = 0; //16
   }
 
   _createClass(Animation, [{
@@ -45,6 +48,7 @@ var Animation = /*#__PURE__*/function () {
     value: function activate() {
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.resetColorMenu)();
       this.fireworkOnClick();
+      this.launchFireworks();
       this.reactivate();
     }
   }, {
@@ -53,6 +57,8 @@ var Animation = /*#__PURE__*/function () {
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addHomeListener)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addColorListener)(this);
       (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addStopAndPauseListeners)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addPersistListener)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addResetListener)(this);
     }
   }, {
     key: "fireworkOnClick",
@@ -64,15 +70,15 @@ var Animation = /*#__PURE__*/function () {
       function launch(e) {
         var w = e.pageX - bounds.left,
             h = e.pageY - bounds.top;
-        console.log('click');
-        console.log([w, h]);
         var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [w, h],
           vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(.8) - 0.4, h * that.fac3d * that.vel * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5) + 0.5)],
           acc: that.fac3d * that.acc,
           grav: that.fac3d * that.grav,
           rad: that.fac3d * h * that.rad,
-          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList)
+          color: _utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor(that.colorList),
+          trailLength: that.trailLength,
+          smokeLength: that.smokeLength
         });
         !that.first ? that.first = clickFW : _utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes(that.last, clickFW);
         that.last = clickFW;
@@ -217,7 +223,9 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              smokeLength: _this2.clearing ? null : 0,
+              trailLength: _this2.clearing ? null : 0
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -233,7 +241,9 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -248,7 +258,9 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -263,7 +275,9 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -482,16 +496,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "addHomeListener": () => (/* binding */ addHomeListener),
 /* harmony export */   "addColorListener": () => (/* binding */ addColorListener),
 /* harmony export */   "resetColorMenu": () => (/* binding */ resetColorMenu),
-/* harmony export */   "addStopAndPauseListeners": () => (/* binding */ addStopAndPauseListeners)
+/* harmony export */   "addStopAndPauseListeners": () => (/* binding */ addStopAndPauseListeners),
+/* harmony export */   "addPersistListener": () => (/* binding */ addPersistListener),
+/* harmony export */   "addResetListener": () => (/* binding */ addResetListener)
 /* harmony export */ });
 /* harmony import */ var _navigation_color_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navigation/color_menu */ "./src/scripts/navigation/color_menu.js");
 /* harmony import */ var _navigation_home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navigation/home */ "./src/scripts/navigation/home.js");
-/* harmony import */ var _navigation_start_stop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navigation/start_stop */ "./src/scripts/navigation/start_stop.js");
+/* harmony import */ var _navigation_persist__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navigation/persist */ "./src/scripts/navigation/persist.js");
+/* harmony import */ var _navigation_start_stop__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./navigation/start_stop */ "./src/scripts/navigation/start_stop.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -527,6 +545,14 @@ function stopButton() {
 
 function startButton() {
   return document.getElementById('start');
+}
+
+function persistButton() {
+  return document.getElementById('persisting-effects');
+}
+
+function resetButton() {
+  return document.getElementById('reset-canvas');
 } // _____HOME MENU_________________________________________________________
 
 
@@ -558,7 +584,21 @@ function resetColorMenu() {
 } // _____ Stop / Start _________________________________________________________
 
 function addStopAndPauseListeners(animation) {
-  (0,_navigation_start_stop__WEBPACK_IMPORTED_MODULE_2__.StopAndPauseButtonListeners)(animation, startButton(), pauseButton(), stopButton(), colorButton());
+  (0,_navigation_start_stop__WEBPACK_IMPORTED_MODULE_3__.StopAndPauseButtonListeners)(animation, startButton(), pauseButton(), stopButton());
+} // _____ Persisting Fireworks _________________________________________________________
+
+function addPersistListener(animation) {
+  (0,_navigation_persist__WEBPACK_IMPORTED_MODULE_2__.persistButtonListener)(animation, persistButton());
+} // _____ Reset Canvas _________________________________________________________
+
+function addResetListener(animation) {
+  resetButton().addEventListener('click', resetBackgroundCanvas);
+
+  function resetBackgroundCanvas() {
+    var canvas = animation.canvas;
+    var ctx = canvas.getContext('2d');
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  }
 }
 
 /***/ }),
@@ -586,9 +626,10 @@ function colorButtonListener(animation, colorButton, colorsModal, canvasMenu) {
 
   function openColorMenu() {
     animation.launching = false;
-    colorsModal.style.display = "block";
-    var newCanvasMenu = canvasMenu.cloneNode(true);
-    canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
+    animation.active = false;
+    colorsModal.style.display = "block"; // const newCanvasMenu = canvasMenu.cloneNode(true);
+    // canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
+
     var colorSet = new Set(animation.colorList);
     var colorCheckBoxes = document.getElementsByClassName("color-check");
     var allButton = document.getElementById('all');
@@ -669,7 +710,7 @@ function colorButtonListener(animation, colorButton, colorsModal, canvasMenu) {
 
       colorsModal.style.display = "none";
       animation.colorList = Array.from(colorSet);
-      animation.reactivate();
+      animation.active = true;
     }
   }
 }
@@ -707,6 +748,35 @@ function homeButtonListener(animation, homeButton, welcomeModal, canvasMenu) {
 
 /***/ }),
 
+/***/ "./src/scripts/navigation/persist.js":
+/*!*******************************************!*\
+  !*** ./src/scripts/navigation/persist.js ***!
+  \*******************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "persistButtonListener": () => (/* binding */ persistButtonListener)
+/* harmony export */ });
+/* harmony import */ var _solid_color_solid_background__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../solid_color/solid_background */ "./src/scripts/solid_color/solid_background.js");
+
+function persistButtonListener(animation, persistButton) {
+  persistButton.addEventListener('click', togglePersistingFireworks);
+  var persistIcon = document.getElementById('persisting');
+
+  function togglePersistingFireworks() {
+    if (animation.clearing) {
+      animation.clearing = false;
+      persistIcon.style.color = '#E2BB2B';
+    } else {
+      animation.clearing = true;
+      persistIcon.style.color = 'white';
+    }
+  }
+}
+
+/***/ }),
+
 /***/ "./src/scripts/navigation/start_stop.js":
 /*!**********************************************!*\
   !*** ./src/scripts/navigation/start_stop.js ***!
@@ -717,14 +787,12 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "StopAndPauseButtonListeners": () => (/* binding */ StopAndPauseButtonListeners)
 /* harmony export */ });
-function StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton) {
+function StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton) {
   startButton.style.display = "none";
   pauseButton.style.display = "block";
   stopButton.style.display = "block";
-  colorButton.style.display = 'block';
   pauseButton.addEventListener('click', clickPause);
   stopButton.addEventListener('click', clickStop);
-  animation.launchFireworks();
   animation.render();
 
   function clickStop() {
@@ -738,24 +806,24 @@ function StopAndPauseButtonListeners(animation, startButton, pauseButton, stopBu
 
     function clickStart() {
       startButton.removeEventListener('click', clickStart);
-      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton);
+      animation.launchFireworks();
+      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton);
     }
   }
 
   function clickPause() {
     animation.active = false;
-    animation.launching = false;
     pauseButton.removeEventListener('click', clickPause);
     stopButton.removeEventListener('click', clickStop);
     pauseButton.style.display = "none";
     stopButton.style.display = "none";
-    colorButton.style.display = 'none';
     startButton.style.display = "block";
     startButton.addEventListener('click', clickResume);
 
     function clickResume() {
       startButton.removeEventListener('click', clickResume);
-      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton);
+      animation.active = true;
+      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton);
     }
   }
 }
@@ -911,23 +979,7 @@ var Firework = function Firework(props) {
   });
 };
 
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Firework); // constructor(props) {
-//         this.next = null
-//         this.prev = null
-//         this.pos = props.pos;
-//         this.vel = props.vel;
-//         this.acc = 31/32;
-//         this.grav = props.vel/10
-//         this.time = 0;
-//         this.color = props.color;        
-//         this.particles = {}
-//         subVectors(props.vel, randInt(6)+18 ).forEach((velVec, i) => {
-//             this.particles[i] = {
-//                 vel: velVec,
-//                 pos: this.pos,
-//             }
-//         })    
-//     }
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (Firework);
 
 /***/ }),
 
@@ -1082,8 +1134,8 @@ var Projectile = /*#__PURE__*/function () {
     this.trailLast = null;
     this.smokeFirst = null;
     this.smokeLast = null;
-    this.trailLength = 2;
-    this.smokeLength = 16;
+    this.trailLength = props.trailLength;
+    this.smokeLength = props.smokeLength;
   }
 
   _createClass(Projectile, [{
@@ -1105,7 +1157,12 @@ var Projectile = /*#__PURE__*/function () {
         smoke = smoke.next;
       }
 
-      ; //Trail
+      ; //Spearhead of projectile
+
+      ctx.fillStyle = this.color;
+      ctx.beginPath();
+      ctx.arc(this.pos[0], this.pos[1], this.rad, 0, 2 * Math.PI);
+      ctx.fill(); //Trail
 
       var trail = this.trailFirst;
 
@@ -1117,17 +1174,11 @@ var Projectile = /*#__PURE__*/function () {
 
         var _i = this.rad * (0.5 + 0.5 * (this.trailLength - trail.count) / this.trailLength);
 
-        ctx.fillStyle = this.color;
         ctx.beginPath();
         ctx.arc(_x, _y, _i, 0, 2 * Math.PI);
         ctx.fill();
         trail = trail.next;
-      } //Spearhead of projectile
-
-
-      ctx.beginPath();
-      ctx.arc(this.pos[0], this.pos[1], this.rad, 0, 2 * Math.PI);
-      ctx.fill();
+      }
     }
   }, {
     key: "move",
@@ -1255,7 +1306,9 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -1270,7 +1323,9 @@ var SolidAnimation = /*#__PURE__*/function (_Animation) {
               acc: _this2.fac3d * _this2.acc,
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
-              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList)
+              color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -1392,13 +1447,15 @@ var COLORS = {
   orange: ['#F28E63', '#F9AE9B', '#B74F2B', '#9c805b', '#956548'],
   white: ['#C0C0C0', '#FFFAFA', '#FFFAFA'],
   black: ['black', '#696969']
-};
+}; //establishes and array with all colors
+
 function establishColorList() {
   return Object.keys(COLORS);
 }
 function selectRandomColor(colors) {
   var colorKey = colors[randInt(colors.length)];
-  return COLORS[colorKey][randInt(COLORS[colorKey].length)];
+  var colorIdx = randInt(COLORS[colorKey].length);
+  return COLORS[colorKey][colorIdx];
 }
 function getInputValue(str) {
   return parseFloat(document.getElementById(str).value);

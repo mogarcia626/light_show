@@ -1,5 +1,6 @@
 import { colorButtonListener } from './navigation/color_menu'
 import { homeButtonListener } from './navigation/home'
+import { persistButtonListener } from './navigation/persist'
 import { StopAndPauseButtonListeners } from './navigation/start_stop'
 
 function welcomeModal() { return document.getElementById("welcome-modal") }
@@ -12,6 +13,8 @@ function colorButton() { return document.getElementById('open-color-modal') }
 function pauseButton() { return document.getElementById('pause') }
 function stopButton() { return document.getElementById('stop') }
 function startButton() { return document.getElementById('start') }
+function persistButton() { return document.getElementById('persisting-effects') }
+function resetButton() { return document.getElementById('reset-canvas') }
 
 // _____HOME MENU_________________________________________________________
 export function addHomeListener(animation) {
@@ -48,6 +51,25 @@ export function addStopAndPauseListeners(animation) {
         startButton(),
         pauseButton(),
         stopButton(),
-        colorButton(),
     )
+}
+
+// _____ Persisting Fireworks _________________________________________________________
+export function addPersistListener(animation) {
+    persistButtonListener(
+        animation,
+        persistButton(),
+    )
+}
+
+
+// _____ Reset Canvas _________________________________________________________
+export function addResetListener(animation) {
+    resetButton().addEventListener('click', resetBackgroundCanvas)
+    
+    function resetBackgroundCanvas() {
+        const canvas = animation.canvas; 
+        const ctx = canvas.getContext('2d')
+        ctx.clearRect(0, 0, canvas.width, canvas.height)
+    }
 }

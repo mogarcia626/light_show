@@ -1,4 +1,4 @@
-import {subVectors, FPS, addVectors, randInt, multiplyVector} from '../utils';
+import {subVectors, addVectors, randInt, multiplyVector} from '../utils';
 import Firework from './firework';
 
 class Peony extends Firework {
@@ -51,10 +51,10 @@ class Peony extends Firework {
                 particle = layer[`${i}`];            
                 particle.pos = addVectors(particle.pos, particle.vel);    
                 particle.vel = particle.vel.map(v => v*31/32)
-                    particle.pos = addVectors(particle.pos, [0, this.vel/10])
+                particle.pos = addVectors(particle.pos, [0, this.vel/10])
             }); 
         })
-        this.time += FPS;
+        this.time++;
     }  
 }
 

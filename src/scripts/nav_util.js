@@ -1,67 +1,53 @@
-import { COLORS } from './utils'
-    
-export function returnToHome(bg) {
-    const homeButton = document.getElementById('open-welcome-modal');
-    homeButton.addEventListener('click', function() { 
-        bg.closed = true    
-        document.getElementById("welcome-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none";    
-    }) 
+import { colorButtonListener } from './navigation/color_menu'
+import { homeButtonListener } from './navigation/home'
+import { StopAndPauseButtonListeners } from './navigation/start_stop'
+
+function welcomeModal() { return document.getElementById("welcome-modal") }
+function colorsModal() { return document.getElementById("colors-modal") }
+
+function canvasMenu() { return document.getElementById('canvas-menu') }
+
+function homeButton() { return document.getElementById('open-welcome-modal') }
+function colorButton() { return document.getElementById('open-color-modal') }
+function pauseButton() { return document.getElementById('pause') }
+function stopButton() { return document.getElementById('stop') }
+function startButton() { return document.getElementById('start') }
+
+// _____HOME MENU_________________________________________________________
+export function addHomeListener(animation) {
+   homeButtonListener(
+       animation, 
+       homeButton(),
+       welcomeModal(),
+       canvasMenu()
+    )
 }
 
-export function openColorMenu(bg) {
-    
-    const colorButton = document.getElementById('open-color-modal');
-    colorButton.addEventListener('click', function() {        
-        bg.active = false      
-        document.getElementById("colors-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none"; 
+// _____COLOR MENU_________________________________________________________
+export function addColorListener(animation) {
+    colorButtonListener(
+        animation,
+        colorButton(),
+        colorsModal(),
+        canvasMenu()
+    )
+}
+export function resetColorMenu() {
+    document.getElementById('all').checked = true
+    document.getElementById('none').checked = false
+    const colorBoxes = document.getElementsByClassName(`color-check`);
+    for (let color of colorBoxes) {
+        color.checked = true
+    }
+}
 
-        let colorSet = new Set(bg.colorList)        
-        const colorCheckBoxes = document.getElementsByClassName(`color-check`);
-
-        const allButton = document.getElementById('all')
-        allButton.addEventListener('change', () => {
-            if (allButton.checked) {
-                colorSet = new Set(Object.keys(COLORS))
-                bg.colorList = Object.keys(COLORS)
-                noneButton.checked = false;
-                for (let i = 0; i < colorCheckBoxes.length; i++) {
-                    colorCheckBoxes[i].checked = true;                
-                }
-            }
-        })
-
-        const noneButton = document.getElementById('none')
-        noneButton.addEventListener('change', () => {
-            if (noneButton.checked) {
-                colorSet.clear()
-                bg.colorList = [];
-                allButton.checked = false;
-                for (let i = 0; i < colorCheckBoxes.length; i++) {
-                    colorCheckBoxes[i].checked = false;                
-                }
-            }
-        })
-        
-        for (let i = 0; i < colorCheckBoxes.length; i++) {
-            colorCheckBoxes[i].addEventListener('change', function() {
-                if (this.checked) {
-                    noneButton.checked = false
-                    colorSet.add(this.value);
-                    bg.colorList = Array.from(colorSet)
-                } else {
-                    allButton.checked = false
-                    colorSet.delete(this.value);
-                    bg.colorList = Array.from(colorSet)
-                }
-            }); 
-        }
-        
-        document.getElementById('close-color-modal').addEventListener('click', () =>{
-            document.getElementById("colors-modal").style.display="none";
-            document.getElementById("canvas-menu").style.display="flex";
-            bg.active = true;
-        })
-    }) 
+// _____ Stop / Start _________________________________________________________
+export function addStopAndPauseListeners(animation) {
+    StopAndPauseButtonListeners(
+        animation,
+        startButton(),
+        pauseButton(),
+        stopButton(),
+        colorButton(),
+    )
 }

@@ -1,0 +1,63 @@
+.footer-section {
+    display: flex;
+    flex-direction: column;
+    color: lightgray;
+    font-size: 0.9em;
+    z-index: 15;
+    position: fixed;
+    bottom: 0;
+    padding: 0 3%;
+}
+
+.footer-section-title {
+    padding-bottom: 4px;
+    font-weight: bold;
+}
+
+#technologies {
+    left: 0;
+}
+
+#my-links {
+    right: 0;
+}
+
+.footer-section ul {
+    margin-bottom: 1.5em;
+}
+
+.footer-section a {
+    display: grid;
+    grid-template-columns: 20px 1fr;
+    grid-gap: 8px;
+    color: lightgray;
+    text-decoration: none;
+    cursor: pointer;
+    font-size: 0.9em;    
+    padding: .15em 0;
+}
+.footer-section a:hover {
+    font-weight: 600;
+    padding-right: 0;
+    color: white;
+}
+
+.footer-section li {
+    width: 7.5em;
+}
+
+#link-button {
+    fill: white;
+}
+
+.project-link {
+    width: 18px;
+    border-radius: 4px;
+}
+
+#gh-repo {
+    display: flex;
+    align-items: center;
+    padding: 1em 0;
+    font-size: 1.1em;
+}

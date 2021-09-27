@@ -1,4 +1,4 @@
-import {subVectors, FPS, addVectors, randInt, multiplyVector} from '../utils';
+import {subVectors, addVectors, randInt, multiplyVector} from '../utils';
 import Firework from './firework';
 
 class Chrysanthemum extends Firework {
@@ -50,7 +50,7 @@ class Chrysanthemum extends Firework {
                 }); 
             })
         this.origin = addVectors(this.origin, [0, this.grav])
-        this.time += FPS;
+        this.time++;
     }
 }
 

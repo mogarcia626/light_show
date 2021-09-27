@@ -32,7 +32,7 @@ var Animation = /*#__PURE__*/function () {
     _classCallCheck(this, Animation);
 
     this.canvas = canvas;
-    this.colorList = null;
+    this.colorList = _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
     this.active = true;
     this.launching = true;
     this.first = null;
@@ -43,15 +43,17 @@ var Animation = /*#__PURE__*/function () {
   _createClass(Animation, [{
     key: "activate",
     value: function activate() {
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addHomeListener)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.colorButtonListener)(this);
-      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.stopButtonListener)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.resetColorMenu)();
       this.fireworkOnClick();
-      _utils__WEBPACK_IMPORTED_MODULE_1__.establishColorList();
+      this.reactivate();
     }
   }, {
-    key: "addEventListeners",
-    value: function addEventListeners() {}
+    key: "reactivate",
+    value: function reactivate() {
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addHomeListener)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addColorListener)(this);
+      (0,_nav_util__WEBPACK_IMPORTED_MODULE_3__.addStopAndPauseListeners)(this);
+    }
   }, {
     key: "fireworkOnClick",
     value: function fireworkOnClick() {
@@ -62,9 +64,11 @@ var Animation = /*#__PURE__*/function () {
       function launch(e) {
         var w = e.pageX - bounds.left,
             h = e.pageY - bounds.top;
+        console.log('click');
+        console.log([w, h]);
         var clickFW = new _projectiles_projectile__WEBPACK_IMPORTED_MODULE_0__.default({
           pos: [w, h],
-          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(.8) - 0.4, h * that.fac3d * that.vel],
+          vel: [_utils__WEBPACK_IMPORTED_MODULE_1__.rand(.8) - 0.4, h * that.fac3d * that.vel * (_utils__WEBPACK_IMPORTED_MODULE_1__.rand(0.5) + 0.5)],
           acc: that.fac3d * that.acc,
           grav: that.fac3d * that.grav,
           rad: that.fac3d * h * that.rad,
@@ -477,17 +481,18 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "addHomeListener": () => (/* binding */ addHomeListener),
 /* harmony export */   "addColorListener": () => (/* binding */ addColorListener),
-/* harmony export */   "stopButtonListener": () => (/* binding */ stopButtonListener),
-/* harmony export */   "startListener": () => (/* binding */ startListener),
-/* harmony export */   "resumeListener": () => (/* binding */ resumeListener)
+/* harmony export */   "resetColorMenu": () => (/* binding */ resetColorMenu),
+/* harmony export */   "addStopAndPauseListeners": () => (/* binding */ addStopAndPauseListeners)
 /* harmony export */ });
-/* harmony import */ var _navigation_color_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navigation/color_menu */ "./src/scripts/navigation/color_menu");
+/* harmony import */ var _navigation_color_menu__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./navigation/color_menu */ "./src/scripts/navigation/color_menu.js");
 /* harmony import */ var _navigation_home__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./navigation/home */ "./src/scripts/navigation/home.js");
+/* harmony import */ var _navigation_start_stop__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./navigation/start_stop */ "./src/scripts/navigation/start_stop.js");
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 
 
 
@@ -531,21 +536,67 @@ function addHomeListener(animation) {
 
 function addColorListener(animation) {
   (0,_navigation_color_menu__WEBPACK_IMPORTED_MODULE_0__.colorButtonListener)(animation, colorButton(), colorsModal(), canvasMenu());
-  var colorButton = document.getElementById('open-color-modal');
+}
+function resetColorMenu() {
+  document.getElementById('all').checked = true;
+  document.getElementById('none').checked = false;
+  var colorBoxes = document.getElementsByClassName("color-check");
+
+  var _iterator = _createForOfIteratorHelper(colorBoxes),
+      _step;
+
+  try {
+    for (_iterator.s(); !(_step = _iterator.n()).done;) {
+      var color = _step.value;
+      color.checked = true;
+    }
+  } catch (err) {
+    _iterator.e(err);
+  } finally {
+    _iterator.f();
+  }
+} // _____ Stop / Start _________________________________________________________
+
+function addStopAndPauseListeners(animation) {
+  (0,_navigation_start_stop__WEBPACK_IMPORTED_MODULE_2__.StopAndPauseButtonListeners)(animation, startButton(), pauseButton(), stopButton(), colorButton());
+}
+
+/***/ }),
+
+/***/ "./src/scripts/navigation/color_menu.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/navigation/color_menu.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "colorButtonListener": () => (/* binding */ colorButtonListener)
+/* harmony export */ });
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ../utils */ "./src/scripts/utils.js");
+function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+
+function colorButtonListener(animation, colorButton, colorsModal, canvasMenu) {
   colorButton.addEventListener('click', openColorMenu);
 
   function openColorMenu() {
-    bg.launching = false;
-    document.getElementById("colors-modal").style.display = "block"; // document.getElementById('canvas-menu').style.display="none"; 
-
-    var colorSet = new Set(bg.colorList);
+    animation.launching = false;
+    colorsModal.style.display = "block";
+    var newCanvasMenu = canvasMenu.cloneNode(true);
+    canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
+    var colorSet = new Set(animation.colorList);
     var colorCheckBoxes = document.getElementsByClassName("color-check");
     var allButton = document.getElementById('all');
     allButton.addEventListener('change', checkAllColors);
 
     function checkAllColors() {
       if (allButton.checked) {
-        colorSet = new Set(Object.keys(COLORS));
+        colorSet = new Set(Object.keys(_utils__WEBPACK_IMPORTED_MODULE_0__.COLORS));
         noneButton.checked = false;
 
         for (var i = 0; i < colorCheckBoxes.length; i++) {
@@ -560,7 +611,7 @@ function addColorListener(animation) {
     function checkNoneColors() {
       if (noneButton.checked) {
         colorSet.clear();
-        bg.colorList = [];
+        animation.colorList = [];
         allButton.checked = false;
 
         for (var i = 0; i < colorCheckBoxes.length; i++) {
@@ -616,88 +667,12 @@ function addColorListener(animation) {
         _iterator2.f();
       }
 
-      document.getElementById("colors-modal").style.display = "none";
-      document.getElementById("canvas-menu").style.display = "flex";
-      bg.colorList = Array.from(colorSet);
-      bg.launchFireworks();
+      colorsModal.style.display = "none";
+      animation.colorList = Array.from(colorSet);
+      animation.reactivate();
     }
   }
-} // _____ Stop / Start _________________________________________________________
-
-function stopButtonListener(animation) {
-  var startButton = document.getElementById("start");
-  startButton.style.display = "none";
-  var pauseButton = document.getElementById('pause');
-  pauseButton.style.display = "block";
-  pauseButton.addEventListener('click', clickPause);
-  var stopButton = document.getElementById('stop');
-  stopButton.style.display = "block";
-  stopButton.addEventListener('click', clickStop);
-  animation.launchFireworks();
-  animation.render();
-
-  function clickStop() {
-    animation.launching = false;
-    stopButton.removeEventListener('click', clickStop);
-    stopButton.style.display = "none";
-    pauseButton.removeEventListener('click', clickPause);
-    pauseButton.style.display = "none";
-    startButton.style.display = "block";
-    startListener(animation);
-  }
-
-  function clickPause() {
-    animation.active = false;
-    pauseButton.removeEventListener('click', clickPause);
-    pauseButton.style.display = "none";
-    stopButton.removeEventListener('click', clickStop);
-    stopButton.style.display = "none";
-    startButton.style.display = "block";
-    resumeListener(animation);
-  }
 }
-function startListener(animation) {
-  var startButton = document.getElementById('start');
-  startButton.addEventListener('click', clickStart);
-
-  function clickStart() {
-    startButton.removeEventListener('click', clickStart);
-    stopButtonListener(animation);
-  }
-}
-function resumeListener(animation) {
-  var startButton = document.getElementById('start');
-  startButton.addEventListener('click', clickResume);
-
-  function clickResume() {
-    startButton.removeEventListener('click', clickResume);
-    animation.active = true;
-  }
-} // _____ Pause / Play _________________________________________________________
-// export function play(bg) {
-//     const playButton = document.getElementById("play")
-//     playButton.style.display="none";
-//     const pauseButton = document.getElementById('pause');
-//     pauseButton.style.display="block";
-//     pauseButton.addEventListener('click', clickPause)
-//     bg.render()
-//     function clickPause() {
-//         bg.active = false
-//         pauseButton.removeEventListener('click', clickPause)
-//         pauseButton.style.display="none";
-//         playButton.style.display="block";
-//         pause(bg)
-//     }
-// }
-// export function pause(bg) {
-//     const playButton = document.getElementById('play');
-//     playButton.addEventListener('click', clickPlay)
-//     function clickPlay() {
-//         bg.active = true
-//         playButton.removeEventListener('click', clickPlay)
-//         play(bg)
-//     }
-// }
 
 /***/ }),
 
@@ -717,6 +692,8 @@ function homeButtonListener(animation, homeButton, welcomeModal, canvasMenu) {
   function returnToHome() {
     animation.launching = false;
     welcomeModal.style.display = "block";
+    var newCanvas = animation.canvas.cloneNode(true);
+    animation.canvas.parentNode.replaceChild(newCanvas, animation.canvas);
     var newCanvasMenu = canvasMenu.cloneNode(true);
     canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
     canvasMenu.style.display = "none";
@@ -727,6 +704,61 @@ function homeButtonListener(animation, homeButton, welcomeModal, canvasMenu) {
 // stopButton.removeEventListener('click', clickStop)
 // startButton.removeEventListener('click', clickStart)
 // startButton.removeEventListener('click', clickResume)
+
+/***/ }),
+
+/***/ "./src/scripts/navigation/start_stop.js":
+/*!**********************************************!*\
+  !*** ./src/scripts/navigation/start_stop.js ***!
+  \**********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "StopAndPauseButtonListeners": () => (/* binding */ StopAndPauseButtonListeners)
+/* harmony export */ });
+function StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton) {
+  startButton.style.display = "none";
+  pauseButton.style.display = "block";
+  stopButton.style.display = "block";
+  colorButton.style.display = 'block';
+  pauseButton.addEventListener('click', clickPause);
+  stopButton.addEventListener('click', clickStop);
+  animation.launchFireworks();
+  animation.render();
+
+  function clickStop() {
+    animation.launching = false;
+    stopButton.removeEventListener('click', clickStop);
+    pauseButton.removeEventListener('click', clickPause);
+    stopButton.style.display = "none";
+    pauseButton.style.display = "none";
+    startButton.style.display = "block";
+    startButton.addEventListener('click', clickStart);
+
+    function clickStart() {
+      startButton.removeEventListener('click', clickStart);
+      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton);
+    }
+  }
+
+  function clickPause() {
+    animation.active = false;
+    animation.launching = false;
+    pauseButton.removeEventListener('click', clickPause);
+    stopButton.removeEventListener('click', clickStop);
+    pauseButton.style.display = "none";
+    stopButton.style.display = "none";
+    colorButton.style.display = 'none';
+    startButton.style.display = "block";
+    startButton.addEventListener('click', clickResume);
+
+    function clickResume() {
+      startButton.removeEventListener('click', clickResume);
+      StopAndPauseButtonListeners(animation, startButton, pauseButton, stopButton, colorButton);
+    }
+  }
+}
 
 /***/ }),
 
@@ -1413,94 +1445,6 @@ function removeNode(node) {
 __webpack_require__.r(__webpack_exports__);
 // extracted by mini-css-extract-plugin
 
-
-/***/ }),
-
-/***/ "./src/scripts/navigation/color_menu":
-/*!*******************************************!*\
-  !*** ./src/scripts/navigation/color_menu ***!
-  \*******************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "colorButtonListener": () => (/* binding */ colorButtonListener)
-/* harmony export */ });
-Object(function webpackMissingModule() { var e = new Error("Cannot find module './utils'"); e.code = 'MODULE_NOT_FOUND'; throw e; }());
-
-
-function colorButtonListener(
-    animation,
-    colorButton,
-    colorsModal,
-    canvasMenu ) {
-
-    colorButton.addEventListener('click', openColorMenu)
-    
-    function openColorMenu() {        
-        animation.launching = false      
-        colorsModal.style.display="block";
-        const newCanvasMenu = canvasMenu.cloneNode(true);
-        canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
-
-        let colorSet = new Set(animation.colorList)        
-        const colorCheckBoxes = document.getElementsByClassName(`color-check`);
-
-        const allButton = document.getElementById('all')
-        allButton.addEventListener('change', checkAllColors)        
-        function checkAllColors() {
-            if (allButton.checked) {
-                colorSet = new Set(Object.keys(Object(function webpackMissingModule() { var e = new Error("Cannot find module './utils'"); e.code = 'MODULE_NOT_FOUND'; throw e; }())))
-                noneButton.checked = false;
-                for (let i = 0; i < colorCheckBoxes.length; i++) {
-                    colorCheckBoxes[i].checked = true;                
-                }
-            }
-        }
-
-        const noneButton = document.getElementById('none')
-        noneButton.addEventListener('change', checkNoneColors)
-        function checkNoneColors() {
-            if (noneButton.checked) {
-                colorSet.clear()
-                animation.colorList = [];
-                allButton.checked = false;
-                for (let i = 0; i < colorCheckBoxes.length; i++) {
-                    colorCheckBoxes[i].checked = false;                
-                }
-            }
-        }
-        
-        for (let colorBox of colorCheckBoxes) {
-            colorBox.addEventListener('change', checkColor)         
-        }
-        function checkColor() {
-                if (this.checked) {
-                    noneButton.checked = false
-                    colorSet.add(this.value);
-                } else {
-                    allButton.checked = false
-                    colorSet.delete(this.value);
-                }
-            }; 
-        
-        const closeColorsButton = document.getElementById('close-color-modal');
-        closeColorsButton.addEventListener('click', closeColorMenu)
-        
-        function closeColorMenu() {
-            allButton.removeEventListener('change', checkAllColors) 
-            noneButton.removeEventListener('change', checkNoneColors)
-            closeColorsButton.removeEventListener('click', closeColorMenu)
-            for (let colorBox of colorCheckBoxes) {
-                colorBox.removeEventListener('change', checkColor)         
-            }
-            document.getElementById("colors-modal").style.display="none";
-            document.getElementById("canvas-menu").style.display="flex";
-            animation.colorList = Array.from(colorSet)
-            animation.launchFireworks();
-        }
-    }
-}
 
 /***/ })
 

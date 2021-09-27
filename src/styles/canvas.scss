@@ -45,10 +45,14 @@
     transform: translate(-50%, 0);
     justify-content: space-between;
     z-index: 10;
-    width: 35%;
-    padding: 0.5em 2em;
+    width: max-content;
+    padding: 0.5em 0.3em;
     background: #2B2727;
     border-radius: 8px;
+}
+
+#canvas-menu > div {
+    padding: 0 2em;
 }
 
 #play {

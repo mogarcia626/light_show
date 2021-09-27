@@ -1,12 +1,17 @@
 import Projectile from "./projectiles/projectile";
 import * as Util from './utils';
 import { randomFirework } from "./firework_utils";
-import { colorButtonListener, addHomeListener, stopButtonListener } from "./nav_util";
+import { 
+    addColorListener,
+    addHomeListener,
+    addStopAndPauseListeners,
+    resetColorMenu
+} from "./nav_util";
 
 export default class Animation {
     constructor(canvas) {
         this.canvas = canvas
-        this.colorList = null
+        this.colorList = Util.establishColorList()
         this.active = true
         this.launching = true
         this.first = null
@@ -14,15 +19,16 @@ export default class Animation {
         this.clearing = true
     }
 
-    activate() {        
-        addHomeListener(this)
-        colorButtonListener(this)
-        stopButtonListener(this)
+    activate() {  
+        resetColorMenu()
         this.fireworkOnClick()
-        Util.establishColorList()
+        this.reactivate()
     }
 
-    addEventListeners() {
+    reactivate() {           
+        addHomeListener(this)
+        addColorListener(this)
+        addStopAndPauseListeners(this)
     }
 
     fireworkOnClick() {
@@ -32,10 +38,11 @@ export default class Animation {
         
         function launch(e) {
             let [w,h] = [e.pageX-bounds.left, e.pageY-bounds.top]
-
+            console.log('click')
+            console.log([w,h])
             let clickFW = new Projectile( {
                 pos: [w, h], 
-                vel: [ Util.rand(.8)-0.4, h*that.fac3d*that.vel ], 
+                vel: [ Util.rand(.8)-0.4, h*that.fac3d*that.vel*(Util.rand(0.5)+0.5) ], 
                 acc: that.fac3d * that.acc,
                 grav: that.fac3d * that.grav,
                 rad: that.fac3d * h * that.rad,

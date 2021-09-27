@@ -1,11 +1,11 @@
- import BayAnimation from './bay_area/bay_animation';
+import BayAnimation from './bay_area/bay_animation';
 import { drawBayAreaBackground } from './bay_area/bay_background';
- import SolidAnimation from './solid_color/solid_animation';
+import SolidAnimation from './solid_color/solid_animation';
 import drawSolidBackground from './solid_color/solid_background';
  
- function CanvasDisplay(background, color = null) {
-     const w = Math.min(0.7*window.innerWidth, 1200);
-     const h = Math.min(0.7*window.innerWidth*2/3, 0.7*window.innerHeight);
+function CanvasDisplay(background, color = null) {
+    const w = Math.min(0.7*window.innerWidth, 1200);
+    const h = Math.min(0.7*window.innerWidth*2/3, 0.7*window.innerHeight);
 
     const canvas = document.getElementById('animation-canvas');
     canvas.width = w;

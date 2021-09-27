@@ -1,4 +1,4 @@
-import { COLORS } from './utils'
+import { COLORS } from '../utils'
 
 export function colorButtonListener(
     animation,
@@ -65,10 +65,9 @@ export function colorButtonListener(
             for (let colorBox of colorCheckBoxes) {
                 colorBox.removeEventListener('change', checkColor)         
             }
-            document.getElementById("colors-modal").style.display="none";
-            document.getElementById("canvas-menu").style.display="flex";
+            colorsModal.style.display="none";
             animation.colorList = Array.from(colorSet)
-            animation.launchFireworks();
+            animation.reactivate();
         }
     }
 }

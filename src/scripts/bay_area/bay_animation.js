@@ -31,6 +31,8 @@ export default class BayAnimation extends Animation{
                         grav: this.fac3d * this.grav,
                         rad: this.fac3d * ph * this.rad,
                         color: selectRandomColor(this.colorList),
+                        smokeLength: this.clearing ? null : 0,
+                        trailLength: this.clearing ? null : 0,
                     })
 
                     !this.first ? this.first = newFW : joinNodes(this.last, newFW);
@@ -48,6 +50,8 @@ export default class BayAnimation extends Animation{
                         grav: this.fac3d * this.grav,
                         rad: this.fac3d * ph * this.rad,
                         color: selectRandomColor(this.colorList),
+                        trailLength: this.trailLength,
+                        smokeLength: this.smokeLength,
                     })
 
                     !this.first ? this.first = newFW : joinNodes(this.last, newFW);
@@ -65,6 +69,8 @@ export default class BayAnimation extends Animation{
                         grav: this.fac3d * this.grav,
                         rad: this.fac3d * ph * this.rad,
                         color: selectRandomColor(this.colorList),
+                        trailLength: this.trailLength,
+                        smokeLength: this.smokeLength,
                     })
 
                     !this.first ? this.first = newFW : joinNodes(this.last, newFW);
@@ -82,6 +88,8 @@ export default class BayAnimation extends Animation{
                         grav: this.fac3d * this.grav,
                         rad: this.fac3d * ph * this.rad,
                         color: selectRandomColor(this.colorList),
+                        trailLength: this.trailLength,
+                        smokeLength: this.smokeLength,
                     })
 
                     !this.first ? this.first = newFW : joinNodes(this.last, newFW);

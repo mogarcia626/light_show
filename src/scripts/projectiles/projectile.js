@@ -17,8 +17,8 @@ import { Node, rand, getInputValue } from '../utils';
         this.trailLast = null
         this.smokeFirst = null
         this.smokeLast = null
-        this.trailLength = 2
-        this.smokeLength = 16
+        this.trailLength = props.trailLength
+        this.smokeLength = props.smokeLength
     } 
 
     draw(ctx) {
@@ -34,22 +34,22 @@ import { Node, rand, getInputValue } from '../utils';
             ctx.fill();
             smoke = smoke.next
         };
+        //Spearhead of projectile
+        ctx.fillStyle = this.color;
+        ctx.beginPath();
+        ctx.arc(this.pos[0], this.pos[1], this.rad, 0, 2 * Math.PI);
+        ctx.fill();
         //Trail
         let trail = this.trailFirst
         while (trail) {
             trail.count++
             let [x, y] = [trail.pos[0], trail.pos[1]]
             let i = this.rad * (0.5 + 0.5*(this.trailLength-trail.count)/this.trailLength )
-            ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(x, y, i, 0, 2 * Math.PI);
             ctx.fill(); 
             trail = trail.next
         }
-        //Spearhead of projectile
-        ctx.beginPath();
-        ctx.arc(this.pos[0], this.pos[1], this.rad, 0, 2 * Math.PI);
-        ctx.fill();
     }
 
     move() {        

@@ -5,7 +5,9 @@ import {
     addColorListener,
     addHomeListener,
     addStopAndPauseListeners,
-    resetColorMenu
+    resetColorMenu,
+    addPersistListener,
+    addResetListener,
 } from "./nav_util";
 
 export default class Animation {
@@ -16,12 +18,15 @@ export default class Animation {
         this.launching = true
         this.first = null
         this.last = null
-        this.clearing = true
+        this.clearing = true;
+        this.trailLength = 4; //2
+        this.smokeLength = 0;//16
     }
 
     activate() {  
         resetColorMenu()
         this.fireworkOnClick()
+        this.launchFireworks()
         this.reactivate()
     }
 
@@ -29,17 +34,18 @@ export default class Animation {
         addHomeListener(this)
         addColorListener(this)
         addStopAndPauseListeners(this)
+        addPersistListener(this)
+        addResetListener(this)
     }
 
     fireworkOnClick() {
         const that = this
         const bounds = that.canvas.getBoundingClientRect()
         this.canvas.addEventListener('click', launch)
-        
+
         function launch(e) {
             let [w,h] = [e.pageX-bounds.left, e.pageY-bounds.top]
-            console.log('click')
-            console.log([w,h])
+
             let clickFW = new Projectile( {
                 pos: [w, h], 
                 vel: [ Util.rand(.8)-0.4, h*that.fac3d*that.vel*(Util.rand(0.5)+0.5) ], 
@@ -47,6 +53,8 @@ export default class Animation {
                 grav: that.fac3d * that.grav,
                 rad: that.fac3d * h * that.rad,
                 color: Util.selectRandomColor(that.colorList),
+                trailLength: that.trailLength,
+                smokeLength: that.smokeLength,
             })
             
             !that.first ? that.first = clickFW : Util.joinNodes(that.last, clickFW);

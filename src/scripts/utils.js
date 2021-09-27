@@ -48,13 +48,15 @@ export const COLORS = {
     black: ['black', '#696969']
 }
 
+//establishes and array with all colors
 export function establishColorList() {
     return Object.keys(COLORS)
 }
 
 export function selectRandomColor(colors) {
     const colorKey = colors[randInt(colors.length)]
-    return COLORS[colorKey][randInt(COLORS[colorKey].length)]
+    const colorIdx = randInt(COLORS[colorKey].length)
+    return COLORS[colorKey][colorIdx]
 }
 
 export function getInputValue(str) {

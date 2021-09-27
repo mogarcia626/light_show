@@ -1,17 +1,17 @@
 import { Node, rand, getInputValue } from '../utils';
 
     class Projectile {
-    constructor(x, y, fac3d, color) {
+    constructor(props) {
         this.next = null
         this.prev = null
         
-        this.pos = [x, y];
-        this.vel = [rand(.8)-0.4, y * fac3d * getInputValue('velocity')]
-        this.acc = fac3d * getInputValue('acceleration')
-        this.grav = fac3d * getInputValue('gravity')
+        this.pos = props.pos;
+        this.vel = props.vel
+        this.acc = props.acc
+        this.grav = props.grav
 
-        this.radius = fac3d * y * getInputValue('radius')
-        this.color = color;
+        this.rad = props.rad
+        this.color = props.color;
 
         this.trailFirst = null;
         this.trailLast = null
@@ -27,7 +27,7 @@ import { Node, rand, getInputValue } from '../utils';
         while (smoke) {
             smoke.count++
             let [x, y] = [smoke.pos[0], smoke.pos[1]]
-            let i = 0.5 * this.radius * (this.smokeLength - smoke.count) / this.smokeLength
+            let i = 0.5 * this.rad * (this.smokeLength - smoke.count) / this.smokeLength
             ctx.fillStyle = 'grey'
             ctx.beginPath();
             ctx.arc(x, y, i, 0, 2 * Math.PI);
@@ -39,7 +39,7 @@ import { Node, rand, getInputValue } from '../utils';
         while (trail) {
             trail.count++
             let [x, y] = [trail.pos[0], trail.pos[1]]
-            let i = this.radius * (0.5 + 0.5*(this.trailLength-trail.count)/this.trailLength )
+            let i = this.rad * (0.5 + 0.5*(this.trailLength-trail.count)/this.trailLength )
             ctx.fillStyle = this.color;
             ctx.beginPath();
             ctx.arc(x, y, i, 0, 2 * Math.PI);
@@ -48,7 +48,7 @@ import { Node, rand, getInputValue } from '../utils';
         }
         //Spearhead of projectile
         ctx.beginPath();
-        ctx.arc(this.pos[0], this.pos[1], this.radius, 0, 2 * Math.PI);
+        ctx.arc(this.pos[0], this.pos[1], this.rad, 0, 2 * Math.PI);
         ctx.fill();
     }
 

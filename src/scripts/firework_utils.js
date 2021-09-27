@@ -16,16 +16,16 @@ export function randomFirework(projectile, fac3d) {
         case 0:
             return new Peony({
                 pos: projectile.pos,
-                vel: ((rand(0.5))+1.5)*fac3d,
+                vel: ((rand(0.75))+1.25)*fac3d*projectile.pos[1],
                 color: projectile.color,
-                radius: Math.max(0, projectile.radius*0.4*fac3d),
+                radius: projectile.rad*0.5,
             })
         case 1:
         return new Chrysanthemum({
             pos: projectile.pos,
-            vel: ((rand(0.5))+1.5)*fac3d,
+            vel: ((rand(0.75))+1.25)*fac3d*projectile.pos[1],
             color: projectile.color,
-            radius: Math.max(0, projectile.radius*fac3d),
+            radius: Math.max(0, projectile.rad*fac3d),
         })
         default:
             break;

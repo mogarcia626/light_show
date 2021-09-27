@@ -1,23 +1,35 @@
-import { COLORS } from './utils'
+import { colorButtonListener } from './navigation/color_menu'
+import { homeButtonListener } from './navigation/home'
+
+function welcomeModal() { return document.getElementById("welcome-modal") }
+function colorsModal() { return document.getElementById("colors-modal") }
+
+function canvasMenu() { return document.getElementById('canvas-menu') }
+
+function homeButton() { return document.getElementById('open-welcome-modal') }
+function colorButton() { return document.getElementById('open-color-modal') }
+function pauseButton() { return document.getElementById('pause') }
+function stopButton() { return document.getElementById('stop') }
+function startButton() { return document.getElementById('start') }
 
 // _____HOME MENU_________________________________________________________
-export function homeButtonListener(bg) {
-    const homeButton = document.getElementById('open-welcome-modal');
-    homeButton.addEventListener('click', returnToHome)
-    
-    function returnToHome() {    
-        bg.closed = true    
-        document.getElementById("welcome-modal").style.display="block";
-        document.getElementById('canvas-menu').style.display="none";
-        homeButton.removeEventListener('click', returnToHome)
-        document.getElementById("play").removeEventListener('click', clickPlay)
-        document.getElementById("pause").removeEventListener('click', clickPause)
-    }
+export function addHomeListener(animation) {
+   homeButtonListener(
+       animation, 
+       homeButton(),
+       welcomeModal(),
+       canvasMenu()
+    )
 }
 
 // _____COLOR MENU_________________________________________________________
-export function colorButtonListener(bg) {
-    
+export function addColorListener(animation) {
+    colorButtonListener(
+        animation,
+        colorButton(),
+        colorsModal(),
+        canvasMenu()
+    )
     const colorButton = document.getElementById('open-color-modal');
     colorButton.addEventListener('click', openColorMenu)
     
@@ -67,13 +79,13 @@ export function colorButtonListener(bg) {
                 }
             }; 
         
-        const resumeButton = document.getElementById('close-color-modal');
-        resumeButton.addEventListener('click', closeColorMenu)
+        const closeColorsButton = document.getElementById('close-color-modal');
+        closeColorsButton.addEventListener('click', closeColorMenu)
         
         function closeColorMenu() {
             allButton.removeEventListener('change', checkAllColors) 
             noneButton.removeEventListener('change', checkNoneColors)
-            resumeButton.removeEventListener('click', closeColorMenu)
+            closeColorsButton.removeEventListener('click', closeColorMenu)
             for (let colorBox of colorCheckBoxes) {
                 colorBox.removeEventListener('change', checkColor)         
             }
@@ -85,34 +97,95 @@ export function colorButtonListener(bg) {
     }
 }
 
-export function play(bg) {
-    const playButton = document.getElementById("play")
-    playButton.style.display="none";
+
+// _____ Stop / Start _________________________________________________________
+export function stopButtonListener(animation) {
+    const startButton = document.getElementById("start")
+    startButton.style.display="none";
 
     const pauseButton = document.getElementById('pause');
     pauseButton.style.display="block";
     pauseButton.addEventListener('click', clickPause)
-    
-    bg.render()
 
-    function clickPause() {
-        bg.active = false
+    const stopButton = document.getElementById('stop');
+    stopButton.style.display="block";
+    stopButton.addEventListener('click', clickStop)
+    
+    animation.launchFireworks()
+    animation.render()
+
+    function clickStop() {
+        animation.launching = false
+
+        stopButton.removeEventListener('click', clickStop)
+        stopButton.style.display="none";  
+
         pauseButton.removeEventListener('click', clickPause)
         pauseButton.style.display="none";
-        playButton.style.display="block";
-        pause(bg)
+
+        startButton.style.display="block";
+        startListener(animation)
+    }
+
+     function clickPause() {
+        animation.active = false
+        pauseButton.removeEventListener('click', clickPause)
+        pauseButton.style.display="none";
+        stopButton.removeEventListener('click', clickStop)
+        stopButton.style.display="none";
+        startButton.style.display="block";
+        resumeListener(animation)
     }
 }
 
-export function pause(bg) {
-    const playButton = document.getElementById('play');
-    playButton.addEventListener('click', clickPlay)
+export function startListener(animation) {
+    const startButton = document.getElementById('start');
+    startButton.addEventListener('click', clickStart)
     
-    function clickPlay() {
-        bg.active = true
-        playButton.removeEventListener('click', clickPlay)
-        play(bg)
+    function clickStart() {
+        startButton.removeEventListener('click', clickStart)
+        stopButtonListener(animation)
     }
 }
 
+export function resumeListener(animation) {
+    const startButton = document.getElementById('start');
+    startButton.addEventListener('click', clickResume)
+    
+    function clickResume() {
+        startButton.removeEventListener('click', clickResume)
+        animation.active = true
+    }
+}
 
+// _____ Pause / Play _________________________________________________________
+
+// export function play(bg) {
+//     const playButton = document.getElementById("play")
+//     playButton.style.display="none";
+
+//     const pauseButton = document.getElementById('pause');
+//     pauseButton.style.display="block";
+//     pauseButton.addEventListener('click', clickPause)
+    
+//     bg.render()
+
+//     function clickPause() {
+//         bg.active = false
+//         pauseButton.removeEventListener('click', clickPause)
+//         pauseButton.style.display="none";
+//         playButton.style.display="block";
+//         pause(bg)
+//     }
+// }
+
+// export function pause(bg) {
+//     const playButton = document.getElementById('play');
+//     playButton.addEventListener('click', clickPlay)
+    
+//     function clickPlay() {
+//         bg.active = true
+//         playButton.removeEventListener('click', clickPlay)
+//         play(bg)
+//     }
+// }

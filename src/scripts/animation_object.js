@@ -1,30 +1,28 @@
 import Projectile from "./projectiles/projectile";
 import * as Util from './utils';
 import { randomFirework } from "./firework_utils";
-import { colorButtonListener, homeButtonListener, play } from "./nav_util";
+import { colorButtonListener, addHomeListener, stopButtonListener } from "./nav_util";
 
 export default class Animation {
     constructor(canvas) {
         this.canvas = canvas
-        this.colorList = Util.establishColorList()
+        this.colorList = null
         this.active = true
         this.launching = true
         this.first = null
         this.last = null
         this.clearing = true
-        this.fac3d = Util.getInputValue('fac3d')
     }
 
-    activate() {
-        this.launchFireworks();
-        this.addEventListeners();
+    activate() {        
+        addHomeListener(this)
+        colorButtonListener(this)
+        stopButtonListener(this)
+        this.fireworkOnClick()
+        Util.establishColorList()
     }
 
     addEventListeners() {
-        play(this)
-        homeButtonListener(this)
-        colorButtonListener(this)
-        this.fireworkOnClick()
     }
 
     fireworkOnClick() {
@@ -34,9 +32,15 @@ export default class Animation {
         
         function launch(e) {
             let [w,h] = [e.pageX-bounds.left, e.pageY-bounds.top]
-            let color = Util.selectRandomColor(that.colorList)
 
-            let clickFW = new Projectile(w, h, that.fac3d, color)
+            let clickFW = new Projectile( {
+                pos: [w, h], 
+                vel: [ Util.rand(.8)-0.4, h*that.fac3d*that.vel ], 
+                acc: that.fac3d * that.acc,
+                grav: that.fac3d * that.grav,
+                rad: that.fac3d * h * that.rad,
+                color: Util.selectRandomColor(that.colorList),
+            })
             
             !that.first ? that.first = clickFW : Util.joinNodes(that.last, clickFW);
             that.last = clickFW
@@ -53,20 +57,20 @@ export default class Animation {
                 firework.move()
                 switch (firework.getName()) {
                     case 'Projectile':
-                        if (firework.vel[1] > 0.15 ) {
-                            const newFW = randomFirework(firework, this.fac3d*firework.pos[1]);
+                        if (firework.vel[1] > 0.2 ) {
+                            const newFW = randomFirework(firework, this.fac3d);
                             if (this.first===firework) this.first = newFW
                             Util.replaceNode(firework, newFW)
                         } 
                         break;
                     case 'Peony':
-                        if (firework.time > 105) {
+                        if (firework.time > 75) {
                             if (this.first === firework) this.first = firework.next
                             Util.removeNode(firework)
                         }
                         break;
                     case 'Chrysanthemum':
-                        if (firework.time > 60) {
+                        if (firework.time > 75) {
                             if (this.first === firework) this.first = firework.next
                             Util.removeNode(firework)
                         }

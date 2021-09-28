@@ -40,7 +40,7 @@ var Animation = /*#__PURE__*/function () {
     this.clearing = true;
     this.trailLength = 4; //2
 
-    this.smokeLength = 0; //16
+    this.smokeLength = 16; //16
   }
 
   _createClass(Animation, [{
@@ -763,12 +763,20 @@ __webpack_require__.r(__webpack_exports__);
 function persistButtonListener(animation, persistButton) {
   persistButton.addEventListener('click', togglePersistingFireworks);
   var persistIcon = document.getElementById('persisting');
+  var _ref = [animation.trailLength, animation.smokeLength],
+      trail = _ref[0],
+      smoke = _ref[1];
 
   function togglePersistingFireworks() {
     if (animation.clearing) {
       animation.clearing = false;
+      animation.trailLength = 0;
+      animation.smokeLength = 0;
       persistIcon.style.color = '#E2BB2B';
     } else {
+      var _ref2 = [trail, smoke];
+      animation.trailLength = _ref2[0];
+      animation.smokeLength = _ref2[1];
       animation.clearing = true;
       persistIcon.style.color = 'white';
     }

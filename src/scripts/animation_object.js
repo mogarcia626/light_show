@@ -20,7 +20,7 @@ export default class Animation {
         this.last = null
         this.clearing = true;
         this.trailLength = 4; //2
-        this.smokeLength = 0;//16
+        this.smokeLength = 16;//16
     }
 
     activate() {  

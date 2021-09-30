@@ -224,8 +224,8 @@ var BayAnimation = /*#__PURE__*/function (_Animation) {
               grav: _this2.fac3d * _this2.grav,
               rad: _this2.fac3d * ph * _this2.rad,
               color: (0,_utils__WEBPACK_IMPORTED_MODULE_1__.selectRandomColor)(_this2.colorList),
-              smokeLength: _this2.clearing ? null : 0,
-              trailLength: _this2.clearing ? null : 0
+              trailLength: _this2.trailLength,
+              smokeLength: _this2.smokeLength
             });
             !_this2.first ? _this2.first = newFW : (0,_utils__WEBPACK_IMPORTED_MODULE_1__.joinNodes)(_this2.last, newFW);
             _this2.last = newFW;
@@ -621,11 +621,11 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 
-function colorButtonListener(animation, colorButton, colorsModal, canvasMenu) {
+function colorButtonListener(animation, colorButton, colorsModal) {
   colorButton.addEventListener('click', openColorMenu);
 
   function openColorMenu() {
-    animation.launching = false;
+    // animation.launching = false
     animation.active = false;
     colorsModal.style.display = "block"; // const newCanvasMenu = canvasMenu.cloneNode(true);
     // canvasMenu.parentNode.replaceChild(newCanvasMenu, canvasMenu);
@@ -710,7 +710,10 @@ function colorButtonListener(animation, colorButton, colorsModal, canvasMenu) {
 
       colorsModal.style.display = "none";
       animation.colorList = Array.from(colorSet);
-      animation.active = true;
+      animation.active = true; // animation.launching = true;
+      // animation.launcheFireworks()
+
+      animation.render();
     }
   }
 }

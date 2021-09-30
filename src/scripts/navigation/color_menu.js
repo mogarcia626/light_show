@@ -3,13 +3,12 @@ import { COLORS } from '../utils'
 export function colorButtonListener(
     animation,
     colorButton,
-    colorsModal,
-    canvasMenu ) {
+    colorsModal,) {
 
     colorButton.addEventListener('click', openColorMenu)
     
     function openColorMenu() {        
-        animation.launching = false
+        // animation.launching = false
         animation.active = false   
         colorsModal.style.display="block";
         // const newCanvasMenu = canvasMenu.cloneNode(true);
@@ -69,6 +68,9 @@ export function colorButtonListener(
             colorsModal.style.display="none";
             animation.colorList = Array.from(colorSet)
             animation.active = true;
+            // animation.launching = true;
+            // animation.launcheFireworks()
+            animation.render()
         }
     }
 }
